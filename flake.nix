@@ -4,8 +4,13 @@
   outputs = { self, nixpkgs }: {
 
     packages.x86_64-linux = let
-      callPackage = nixpkgs.legacyPackages.x86_64-linux.callPackage;
-      hsCallPackage = nixpkgs.legacyPackages.x86_64-linux.haskellPackages.callPackage;
+      pkgs = import "${nixpkgs}" {
+        system = "x86_64-linux";
+        config.allowUnfree = true;
+      };
+
+      callPackage = pkgs.callPackage;
+      hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
@@ -23,8 +28,13 @@
     };
 
     packages.aarch64-linux = let
-      callPackage = nixpkgs.legacyPackages.aarch64-linux.callPackage;
-      hsCallPackage = nixpkgs.legacyPackages.x86_64-linux.haskellPackages.callPackage;
+      pkgs = import "${nixpkgs}" {
+        system = "aarch64-linux";
+        config.allowUnfree = true;
+      };
+
+      callPackage = pkgs.callPackage;
+      hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
@@ -38,8 +48,13 @@
     };
 
     packages.i686-linux = let
-      callPackage = nixpkgs.legacyPackages.i686-linux.callPackage;
-      hsCallPackage = nixpkgs.legacyPackages.x86_64-linux.haskellPackages.callPackage;
+      pkgs = import "${nixpkgs}" {
+        system = "i686-linux";
+        config.allowUnfree = true;
+      };
+
+      callPackage = pkgs.callPackage;
+      hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
