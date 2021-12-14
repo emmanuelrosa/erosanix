@@ -7,6 +7,7 @@
       callPackage = nixpkgs.legacyPackages.x86_64-linux.callPackage;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
+        nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
     };
 
     packages.aarch64-linux = let
