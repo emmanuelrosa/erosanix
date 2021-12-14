@@ -18,8 +18,7 @@ in {
 
       package = mkOption {
         type = types.package;
-        default = pkgs.nur.repos.emmanuelrosa.electrum-personal-server;
-        defaultText = "pkgs.electrum-personal-server";
+        default = null;
         description = "The package providing the Electrum Personal Server.";
       };
     };
