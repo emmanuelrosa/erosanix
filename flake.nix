@@ -55,5 +55,6 @@
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
+    nixosModules.btrbk = import ./modules/btrbk.nix;
   };
 }
