@@ -11,6 +11,7 @@
 
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
+      mkWindowsApp = callPackage ./pkgs/mkWindowsApp.nix { makeBinPath = pkgs.lib.makeBinPath; };
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
@@ -25,6 +26,10 @@
         sparrow = callPackage ./pkgs/sparrow.nix {};
         muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
         tastyworks = callPackage ./pkgs/tastyworks.nix {};
+        notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
+          inherit mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
+        };
     };
 
     packages.aarch64-linux = let
