@@ -13,15 +13,9 @@
 , imagemagick
 , gnugrep
 , libv4l
-, gmp
-, xorg
-, gtk2
-, cairo
-, glib
-, freetype
 , tor
-, gnutar
 , zip
+, zlib
 }:
 
 let 
@@ -113,7 +107,7 @@ let
   sparrow-modules = stdenv.mkDerivation {
     pname = "sparrow-modules";
     inherit version src;
-    nativeBuildInputs = [ makeWrapper gnugrep openjdk17 autoPatchelfHook libv4l stdenv.cc.cc.lib gmp freetype ];
+    nativeBuildInputs = [ makeWrapper gnugrep openjdk17 autoPatchelfHook libv4l stdenv.cc.cc.lib zlib ];
 
     buildPhase = ''
       # Extract Sparrow's JIMAGE and generate a list of them.
