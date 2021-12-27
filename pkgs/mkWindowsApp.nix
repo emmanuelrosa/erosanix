@@ -22,7 +22,6 @@ let
     ARGS="$@"
     export WINEDLLOVERRIDES=winemenubuilder.exe=d
     CACHE_DIR="$HOME/.cache/mkWindowsApp"
-    TMP_DIR=$(mktemp -d --suffix=.mkwindowsApp)
 
     WIN_LAYER_HASH=$(printf "%s %s" $(wine --version) ${wineArch} | sha256sum | sed -r 's/(.{64}).*/\1/')
     WIN_LAYER_DIR="$CACHE_DIR/$WIN_LAYER_HASH"
@@ -32,7 +31,6 @@ let
     APP_LAYER_DIR="$CACHE_DIR/$APP_LAYER_HASH"
     APP_LAYER_REF="$CACHE_DIR/$APP_LAYER_HASH.referrers"
 
-    export WINEPREFIX="$TMP_DIR/wineprefix"
     export WINEARCH="${wineArch}"
 
     # mk_windows_layer: Builds the WINEPREFIX which serves as the lowest overlayfs layer
@@ -85,6 +83,7 @@ let
       mkdir -p "$wineprefix"
 
       ($callback $winearch $tmp_dir);
+      rm -fR "$tmp_dir"
     }
 
     # mk_layers: Builds the overlayfs "layers".
@@ -117,6 +116,7 @@ let
       cat $ref_file > $temp_ref
       echo $MY_PATH >> $temp_ref
       cat $temp_ref | uniq | sort > $ref_file;
+      rm -fR "$temp_ref"
     }
 
     run_app_or_shell () {
