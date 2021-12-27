@@ -44,6 +44,9 @@ in mkWindowsApp rec {
 
   installScript = ''
     wine start /unix ${src} /S
+    wineserver -w
+    rm -f "$WINEPREFIX/drive_c/Program Files/Notepad++/uninstall.exe"
+    rm -fR "$WINEPREFIX/drive_c/Program Files/Notepad++/updater"
   '';
 
   runScript = ''
