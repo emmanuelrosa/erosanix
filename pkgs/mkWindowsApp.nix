@@ -23,7 +23,7 @@ let
     CACHE_DIR="$HOME/.cache/mkWindowsApp"
     TMP_DIR=$(mktemp -d --suffix=.mkwindowsApp)
 
-    WIN_LAYER_HASH=$(wine --version | sha256sum | sed -r 's/(.{64}).*/\1/')
+    WIN_LAYER_HASH=$(printf "%s %s" $(wine --version) ${wineArch} | sha256sum | sed -r 's/(.{64}).*/\1/')
     WIN_LAYER_DIR="$CACHE_DIR/$WIN_LAYER_HASH"
     WIN_LAYER_REF="$CACHE_DIR/$WIN_LAYER_HASH.referrers"
 
