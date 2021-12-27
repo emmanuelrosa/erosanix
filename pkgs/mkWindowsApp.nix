@@ -20,6 +20,7 @@ let
     PATH="$PATH:${makeBinPath [ wine winetricks gnused fuse-overlayfs ]}"
     MY_PATH="@MY_PATH@"
     ARGS="$@"
+    export WINEDLLOVERRIDES=winemenubuilder.exe=d
     CACHE_DIR="$HOME/.cache/mkWindowsApp"
     TMP_DIR=$(mktemp -d --suffix=.mkwindowsApp)
 
