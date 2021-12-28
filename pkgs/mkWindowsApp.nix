@@ -1,5 +1,5 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
-{ stdenv, makeBinPath, writeShellScript, winetricks, gnused, fuse-overlayfs }:
+{ stdenv, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs }:
 { wine
 , wineArch ? "win32"
 , runScript
@@ -17,7 +17,7 @@ let
       "-V";
 
   launcher = writeShellScript "wine-launcher" ''
-    PATH="$PATH:${makeBinPath [ wine winetricks gnused fuse-overlayfs ]}"
+    PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused fuse-overlayfs ]}"
     MY_PATH="@MY_PATH@"
     ARGS="$@"
     export WINEDLLOVERRIDES=winemenubuilder.exe=d

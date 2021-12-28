@@ -26,10 +26,16 @@
         sparrow = callPackage ./pkgs/sparrow.nix {};
         muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
         tastyworks = callPackage ./pkgs/tastyworks.nix {};
+
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           inherit mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           wineArch = "win64";
+        };
+
+        sierrachart = callPackage ./pkgs/sierrachart.nix { 
+          inherit mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
