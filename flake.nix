@@ -30,6 +30,8 @@
           inherit mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
         };
+
+        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
     };
 
     packages.aarch64-linux = let
@@ -71,6 +73,7 @@
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
         muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
+        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
     };
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
