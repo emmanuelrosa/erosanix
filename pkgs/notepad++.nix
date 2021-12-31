@@ -2,12 +2,27 @@
 , lib
 , mkWindowsApp
 , wine
+, wineArch
 , fetchurl
 , imagemagick
 , makeDesktopItem
 , copyDesktopItems
 }:
 let
+  version = "8.1.9.3";
+
+  srcs = {
+    win64 = fetchurl {
+      url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${version}/npp.${version}.Installer.x64.exe";
+      sha256 = "22b33029e7db77ad25ac28c64882aed572faf585c4be13084a1ec80ed14fdb52";
+    };
+
+    win32 = fetchurl {
+      url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${version}/npp.${version}.Installer.exe";
+      sha256 = "0zbsxmxn7z4g73lfzwxnici5xdxb96lsylhji4fvx3zbilfznmyp";
+    };
+  };
+
   icons = stdenv.mkDerivation {
     name = "notepad-plus-plus-icons";
 
@@ -28,19 +43,14 @@ let
     '';
   };
 in mkWindowsApp rec {
-  inherit wine;
+  inherit version wine wineArch;
 
   pname = "notepad++";
-  version = "8.1.9.3";
+ 
+  src = srcs."${wineArch}";
+
   nativeBuildInputs = [ copyDesktopItems ];
-
-  src = fetchurl {
-    url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${version}/npp.${version}.Installer.x64.exe";
-    sha256 = "22b33029e7db77ad25ac28c64882aed572faf585c4be13084a1ec80ed14fdb52";
-  };
-
   dontUnpack = true;
-  wineArch = "win64";
 
   installScript = ''
     wine start /unix ${src} /S
@@ -90,6 +100,6 @@ in mkWindowsApp rec {
     homepage = "https://notepad-plus-plus.org/";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ emmanuelrosa ];
-    platforms = [ "x86_64-linux" ];
+    platforms = [ "x86_64-linux" "i386-linux" ];
   };
 }
