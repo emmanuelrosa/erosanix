@@ -3,13 +3,14 @@
 }:
 stdenv.mkDerivation rec {
   pname = "mkwindows-tools";
-  version = "0.0.1";
+  version = "0.0.2";
   src = ./.;
 
   installPhase = ''
     mkdir -p $out/bin
 
     install -D gc.bash $out/bin/mkwindows-tools-gc
+    install -D dedup.bash $out/bin/mkwindows-tools-dedup
   '';
 
   meta = with lib; {
