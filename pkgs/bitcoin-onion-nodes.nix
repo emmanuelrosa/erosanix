@@ -6,13 +6,13 @@ let
   description = "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.";
 in stdenv.mkDerivation rec {
   name = "bitcoin-onion-nodes-${version}.txt";
-  version = "2.0";
+  version = "2.2";
 
   src = fetchFromGitHub {
     owner = "emmanuelrosa";
     repo = "bitcoin-onion-nodes";
     rev = version;
-    sha256 = "sha256-fSdfFiODya5cjzzJwg6DAylKQISnYn9KXgc10+FX/xc=";
+    sha256 = "sha256-DX20iRrNVA6t3xB0jVtuJHni2Q6z+TOPo85gBxC3cNc=";
   };
 
   ignoreFile = writeText "ignore.txt" ''
