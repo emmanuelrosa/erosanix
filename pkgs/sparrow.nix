@@ -57,6 +57,7 @@ let
       --add-reads com.sparrowwallet.merged.module=com.fasterxml.jackson.databind
       --add-reads com.sparrowwallet.merged.module=com.fasterxml.jackson.annotation
       --add-reads com.sparrowwallet.merged.module=com.fasterxml.jackson.core
+      --add-reads com.sparrowwallet.merged.module=co.nstant.in.cbor
       -m com.sparrowwallet.sparrow
     )
 
