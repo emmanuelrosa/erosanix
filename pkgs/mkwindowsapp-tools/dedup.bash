@@ -12,7 +12,7 @@ done
 prev_hash=""
 prev_path=""
 
-echo "Looking for files to deduplicate..."
+echo "Deduplicating..."
 for line in $(cat "$hashes" | sort)
 do
   cur_hash=$(echo $line | cut -d ":" -f 1)  
@@ -23,13 +23,16 @@ do
     fname=$(basename "$cur_path")
     pushd $(dirname "$cur_path")
     mv "$fname" "$fname.old"
-    ln -v "$prev_path" "$fname"
+    ln  "$prev_path" "$fname"
 
     if [ ! -e "$fname" ]
     then
-      echo "OOPS: Failed to hardlink $cur_path"
-        mv "$fname.old" "$fname" 
+      echo "OOPS: Failed to hardlink $cur_path. Reverting..."
+      mv "$fname.old" "$fname" 
+    else
+        rm -f "$fname.old"
     fi
+
     popd
   fi
 
@@ -38,3 +41,4 @@ do
 done
 
 rm "$hashes"
+echo "Deduplication finished."
