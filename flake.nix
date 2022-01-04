@@ -38,6 +38,11 @@
           wine = pkgs.wineWowPackages.full; 
         };
 
+        amazon-kindle = callPackage ./pkgs/amazon-kindle.nix { 
+          inherit mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
+        };
+
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
     };
 
