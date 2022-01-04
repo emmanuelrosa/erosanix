@@ -40,8 +40,6 @@ in mkWindowsApp rec {
 
   dontUnpack = true;
   wineArch = "win64";
-  tricks = [ "corefonts" ];
-
   nativeBuildInputs = [ unzip copyDesktopItems ];
 
   installScript = ''
