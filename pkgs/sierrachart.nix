@@ -42,14 +42,14 @@ in mkWindowsApp rec {
   wineArch = "win64";
   nativeBuildInputs = [ unzip copyDesktopItems ];
 
-  installScript = ''
+  winAppInstall = ''
     d="$WINEPREFIX/drive_c/SierraChart"
     mkdir -p "$d"
     unzip ${src} -d "$d"
     rm -fR "$d/NPP"
   '';
 
-  runScript = ''
+  winAppRun = ''
    data_dir="$HOME/.local/share/sierrachart"
    sc_dir="$WINEPREFIX/drive_c/SierraChart" 
    files_to_persist=( "Data" "Sierra4.config" "Accounts4.config" "KeyboardShortcuts4.config" "TradeActivityLogs" "TradePositions.data" "AccountBalance.data" "TradeOrdersList.data" "SymbolSettings" "DefaultStudySettings" "AlertSounds")

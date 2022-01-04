@@ -2,11 +2,9 @@
 { stdenv, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs }:
 { wine
 , wineArch ? "win32"
-, runScript
+, winAppRun
 , tricks ? [ ]
-, installScript ? ""
-, setupScript ? ""
-, teardownScript ? ""
+, winAppInstall ? ""
 , name ? "${attrs.pname}-${attrs.version}"
 , ... } @ attrs:
 let
@@ -58,7 +56,7 @@ let
       echo "Building an app layer at $WINEPREFIX..."
       fuse-overlayfs -o lowerdir=$WIN_LAYER_DIR,upperdir=$upper_dir,workdir=$work_dir $WINEPREFIX
       winetricks ${tricksStmt}
-      ${installScript}
+      ${winAppInstall}
       wineserver -w
       fusermount -u "$WINEPREFIX"
       mkdir -p "$APP_LAYER_DIR"
@@ -125,7 +123,6 @@ let
       export WINEARCH="$1"
       export WINEPREFIX="$2/wineprefix"
       fuse-overlayfs -o lowerdir=$WIN_LAYER_DIR:$APP_LAYER_DIR,upperdir=$upper_dir,workdir=$work_dir $WINEPREFIX
-      ${setupScript}
 
       if [ ! "$REPL" == "" ];
       then
@@ -135,14 +132,12 @@ let
         popd
       else
         echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
-        ${runScript}
+        ${winAppRun}
         wineserver -w
       fi
 
       # Teardown WINEPREFIX and garbage-collect layers. 
       fusermount -u $WINEPREFIX
-      ${teardownScript}
-
       echo "App exited.";
     }
 

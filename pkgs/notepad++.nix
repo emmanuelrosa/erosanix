@@ -52,14 +52,14 @@ in mkWindowsApp rec {
   nativeBuildInputs = [ copyDesktopItems ];
   dontUnpack = true;
 
-  installScript = ''
+  winAppInstall = ''
     wine start /unix ${src} /S
     wineserver -w
     rm -f "$WINEPREFIX/drive_c/Program Files/Notepad++/uninstall.exe"
     rm -fR "$WINEPREFIX/drive_c/Program Files/Notepad++/updater"
   '';
 
-  runScript = ''
+  winAppRun = ''
    rm -fR "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++"
    mkdir -p "$HOME/.config/Notepad++"
    ln -s -v "$HOME/.config/Notepad++" "$WINEPREFIX/drive_c/users/emmanuel/Application Data/"
