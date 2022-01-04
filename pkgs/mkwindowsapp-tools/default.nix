@@ -3,7 +3,7 @@
 }:
 stdenv.mkDerivation rec {
   pname = "mkwindows-tools";
-  version = "0.0.2";
+  version = "0.0.3";
   src = ./.;
 
   installPhase = ''
