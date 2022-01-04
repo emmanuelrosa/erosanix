@@ -78,7 +78,7 @@ in mkWindowsApp rec {
    ln -sv "$data_dir/Graphics/Buttons" "$sc_dir/Graphics/"
 
    # Run Sierra Chart
-   wine start /unix "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
+   wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
     wineserver -w
 
    echo "Persisting any new data files..."
