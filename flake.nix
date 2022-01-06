@@ -11,7 +11,7 @@
 
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
-      mkWindowsApp = callPackage ./pkgs/mkWindowsApp.nix { makeBinPath = pkgs.lib.makeBinPath; };
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
@@ -43,7 +43,7 @@
           wine = pkgs.wineWowPackages.full; 
         };
 
-        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
+        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
     };
 
     packages.aarch64-linux = let
@@ -74,7 +74,7 @@
 
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
-      mkWindowsApp = callPackage ./pkgs/mkWindowsApp.nix { makeBinPath = pkgs.lib.makeBinPath; };
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
@@ -86,7 +86,7 @@
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
         muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
-        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools {};
+        mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           inherit mkWindowsApp;

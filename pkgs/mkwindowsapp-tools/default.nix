@@ -1,16 +1,21 @@
 { stdenv
 , lib
+, wrapProgram
+, gnugrep
 }:
 stdenv.mkDerivation rec {
   pname = "mkwindows-tools";
-  version = "0.0.3";
+  version = "1.0.0";
   src = ./.;
 
   installPhase = ''
     mkdir -p $out/bin
 
     install -D gc.bash $out/bin/mkwindows-tools-gc
-    install -D dedup.bash $out/bin/mkwindows-tools-dedup
+  '';
+
+  postInstall = ''
+    wrapProgram $out/bin/mkwindows-tools-gc --prefix PATH : ${lib.makeBinPath [ gnugrep ]}
   '';
 
   meta = with lib; {
