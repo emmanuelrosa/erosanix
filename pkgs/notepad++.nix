@@ -62,7 +62,7 @@ in mkWindowsApp rec {
   winAppRun = ''
    rm -fR "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++"
    mkdir -p "$HOME/.config/Notepad++"
-   ln -s -v "$HOME/.config/Notepad++" "$WINEPREFIX/drive_c/users/emmanuel/Application Data/"
+   ln -s -v "$HOME/.config/Notepad++" "$WINEPREFIX/drive_c/users/$USER/Application Data/"
 
    wine start /unix "$WINEPREFIX/drive_c/Program Files/Notepad++/notepad++.exe" "$ARGS"
   '';
