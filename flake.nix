@@ -3,6 +3,26 @@
 
   outputs = { self, nixpkgs }: {
 
+    lib.x86_64-linux = let
+      pkgs = import "${nixpkgs}" {
+        system = "x86_64-linux";
+      };
+
+      callPackage = pkgs.callPackage;
+    in {
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+    };
+
+    lib.i686-linux = let
+      pkgs = import "${nixpkgs}" {
+        system = "i686-linux";
+      };
+
+      callPackage = pkgs.callPackage;
+    in {
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+    };
+
     packages.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
         system = "x86_64-linux";
@@ -10,8 +30,8 @@
       };
 
       callPackage = pkgs.callPackage;
+      lib = self.lib.x86_64-linux;
       hsCallPackage = pkgs.haskellPackages.callPackage;
-      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
@@ -28,18 +48,18 @@
         tastyworks = callPackage ./pkgs/tastyworks.nix {};
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          inherit mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           wineArch = "win64";
         };
 
         sierrachart = callPackage ./pkgs/sierrachart.nix { 
-          inherit mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
         };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle.nix { 
-          inherit mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
         };
 
@@ -74,7 +94,7 @@
 
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
-      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+      lib = self.lib.i686-linux;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
@@ -89,7 +109,7 @@
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          inherit mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wine; 
           wineArch = "win32";
         };
