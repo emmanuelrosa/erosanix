@@ -5,29 +5,12 @@
 , fetchurl
 , requireFile
 , makeDesktopItem
+, makeDesktopIcon
 , copyDesktopItems
+, copyDesktopIcons
 , imagemagick }:
 let
   homepage = "https://www.amazon.com/Amazon-Digital-Services-LLC-Download/dp/B00UB76290/";
-  icons = stdenv.mkDerivation {
-    name = "amazon-kindle-icons";
-
-    src = fetchurl {
-      url = "https://r7.hiclipart.com/path/440/869/236/kindle-fire-iphone-kindle-store-amazon-kindle-7382d0d39a5d99e1ac56652e55c6b644.png";
-      sha256 = "sha256-ao3UdXkhcp9tpB506dFR1cWgYUOLkEcX3DP5JyvVEzw=";
-    };
-
-    dontUnpack = true;
-    nativeBuildInputs = [ imagemagick ];
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert $src -resize $size $out/hicolor/$size/apps/amazon-kindle.png
-      done;
-    '';
-  };
 in mkWindowsApp rec {
   inherit wine;
 
@@ -49,7 +32,7 @@ in mkWindowsApp rec {
 
   dontUnpack = true;
   wineArch = "win64";
-  nativeBuildInputs = [ copyDesktopItems ];
+  nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   winAppInstall = ''
     wine ${src} /S
@@ -76,8 +59,6 @@ in mkWindowsApp rec {
     runHook preInstall
 
     ln -s $out/bin/.launcher $out/bin/amazon-kindle
-    mkdir -p $out/bin $out/share/icons
-    ln -s ${icons}/hicolor $out/share/icons
 
     runHook postInstall
   '';
@@ -91,6 +72,15 @@ in mkWindowsApp rec {
       categories = "Office;Viewer;";
     })
   ];
+
+  desktopIcon = makeDesktopIcon {
+    name = "amazon-kindle";
+
+    src = fetchurl {
+      url = "https://r7.hiclipart.com/path/440/869/236/kindle-fire-iphone-kindle-store-amazon-kindle-7382d0d39a5d99e1ac56652e55c6b644.png";
+      sha256 = "sha256-ao3UdXkhcp9tpB506dFR1cWgYUOLkEcX3DP5JyvVEzw=";
+    };
+  };
 
   meta = with lib; {
     inherit homepage;

@@ -3,7 +3,9 @@
 , makeWrapper
 , fetchurl
 , makeDesktopItem
+, makeDesktopIcon
 , copyDesktopItems
+, copyDesktopIcons
 , autoPatchelfHook
 , openjdk17
 , gtk3
@@ -29,7 +31,6 @@ let
 
   launcher = writeScript "sparrow" ''
     #! ${bash}/bin/bash
-
     params=(
       --module-path @out@/lib:@jdkModules@/modules
       --add-opens javafx.graphics/com.sun.javafx.css=org.controlsfx.controls
@@ -88,20 +89,6 @@ let
       mkdir -p $out
       cp manifest.txt $out/
       cp -r modules/ $out/
-    '';
-  };
-
-  sparrow-icons = stdenv.mkDerivation {
-    pname = "sparrow-icons";
-    inherit version src;
-    nativeBuildInputs = [ imagemagick ];
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert lib/Sparrow.png -resize $size $out/hicolor/$size/apps/sparrow.png
-      done;
     '';
   };
 
@@ -174,7 +161,7 @@ let
   };
 in stdenv.mkDerivation rec {
   inherit pname version src;
-  nativeBuildInputs = [ makeWrapper copyDesktopItems ];
+  nativeBuildInputs = [ makeWrapper copyDesktopItems copyDesktopIcons ];
 
   desktopItems = [
     (makeDesktopItem {
@@ -187,6 +174,13 @@ in stdenv.mkDerivation rec {
     })
   ];
 
+  desktopIcon = makeDesktopIcon {
+    inherit src;
+
+    name = "sparrow";
+    pathWithinSrc = "lib/Sparrow.png";
+  };
+
   installPhase = ''
     runHook preInstall
 
@@ -196,8 +190,6 @@ in stdenv.mkDerivation rec {
     substituteAllInPlace $out/bin/sparrow
     substituteInPlace $out/bin/sparrow --subst-var-by jdkModules ${jdk-modules}
 
-    mkdir -p $out/share/icons
-    ln -s ${sparrow-icons}/hicolor $out/share/icons
     runHook postInstall
   '';
 

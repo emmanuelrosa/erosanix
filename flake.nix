@@ -6,11 +6,14 @@
     lib.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
         system = "x86_64-linux";
+        config.allowUnfree = true;
       };
 
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+      copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
+      makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
     };
 
     lib.i686-linux = let
@@ -21,6 +24,8 @@
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+      copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
+      makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
     };
 
     packages.x86_64-linux = let
@@ -43,24 +48,39 @@
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
-        sparrow = callPackage ./pkgs/sparrow.nix {};
+
+        sparrow = callPackage ./pkgs/sparrow.nix { 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
         muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
-        tastyworks = callPackage ./pkgs/tastyworks.nix {};
+
+        tastyworks = callPackage ./pkgs/tastyworks.nix {
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           wineArch = "win64";
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         sierrachart = callPackage ./pkgs/sierrachart.nix { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle.nix { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
@@ -112,6 +132,8 @@
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wine; 
           wineArch = "win32";
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
     };
 

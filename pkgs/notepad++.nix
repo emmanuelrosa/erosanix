@@ -6,7 +6,9 @@
 , fetchurl
 , imagemagick
 , makeDesktopItem
+, makeDesktopIcon
 , copyDesktopItems
+, copyDesktopIcons
 }:
 let
   version = "8.1.9.3";
@@ -22,26 +24,6 @@ let
       sha256 = "0zbsxmxn7z4g73lfzwxnici5xdxb96lsylhji4fvx3zbilfznmyp";
     };
   };
-
-  icons = stdenv.mkDerivation {
-    name = "notepad-plus-plus-icons";
-
-    src = fetchurl {
-      url = "https://notepad-plus-plus.org/favicon.ico";
-      sha256 = "1av2m6m665ccfngnzqnbsnv2aky907p2c6ggvfxrwbp70szgj9vi";
-    };
-
-    nativeBuildInputs = [ imagemagick ];
-    dontUnpack = true;
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert $src\[2\] -resize $size $out/hicolor/$size/apps/notepad++.png
-      done;
-    '';
-  };
 in mkWindowsApp rec {
   inherit version wine wineArch;
 
@@ -49,7 +31,7 @@ in mkWindowsApp rec {
  
   src = srcs."${wineArch}";
 
-  nativeBuildInputs = [ copyDesktopItems ];
+  nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
   dontUnpack = true;
 
   winAppInstall = ''
@@ -71,8 +53,6 @@ in mkWindowsApp rec {
     runHook preInstall
 
     ln -s $out/bin/.launcher $out/bin/notepad++
-    mkdir -p $out/share/icons
-    ln -s ${icons}/hicolor $out/share/icons
     
     runHook postInstall
   '';
@@ -94,6 +74,16 @@ in mkWindowsApp rec {
       categories = "Utility;TextEditor;";
     })
   ];
+
+  desktopIcon = makeDesktopIcon {
+    name = "notepad++";
+    icoIndex = 2;
+
+    src = fetchurl {
+      url = "https://notepad-plus-plus.org/favicon.ico";
+      sha256 = "1av2m6m665ccfngnzqnbsnv2aky907p2c6ggvfxrwbp70szgj9vi";
+    };
+  };
 
   meta = with lib; {
     description = "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.";

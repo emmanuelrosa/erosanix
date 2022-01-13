@@ -4,30 +4,12 @@
 , wine
 , fetchurl
 , makeDesktopItem
+, makeDesktopIcon
 , copyDesktopItems
+, copyDesktopIcons
 , unzip
 , imagemagick }:
-let
-  icons = stdenv.mkDerivation {
-    name = "sierrachart-icons";
-
-    src = fetchurl {
-      url = "https://www.sierrachart.com/favicon/favicon-192x192.png";
-      sha256 = "06wdklj01i0h6c6b09288k3qzvpq1zvjk7fsjc26an20yp2lf21f";
-    };
-
-    dontUnpack = true;
-    nativeBuildInputs = [ imagemagick ];
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert $src -resize $size $out/hicolor/$size/apps/sierrachart.png
-      done;
-    '';
-  };
-in mkWindowsApp rec {
+mkWindowsApp rec {
   inherit wine;
 
   pname = "sierrachart";
@@ -40,7 +22,7 @@ in mkWindowsApp rec {
 
   dontUnpack = true;
   wineArch = "win64";
-  nativeBuildInputs = [ unzip copyDesktopItems ];
+  nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
   winAppInstall = ''
     d="$WINEPREFIX/drive_c/SierraChart"
@@ -95,8 +77,6 @@ in mkWindowsApp rec {
     runHook preInstall
 
     ln -s $out/bin/.launcher $out/bin/sierrachart
-    mkdir -p $out/bin $out/share/icons
-    ln -s ${icons}/hicolor $out/share/icons
 
     runHook postInstall
   '';
@@ -111,6 +91,15 @@ in mkWindowsApp rec {
       categories = "Network;Finance;";
     })
   ];
+
+  desktopIcon = makeDesktopIcon {
+    name = "sierrachart";
+
+    src = fetchurl {
+      url = "https://www.sierrachart.com/favicon/favicon-192x192.png";
+      sha256 = "06wdklj01i0h6c6b09288k3qzvpq1zvjk7fsjc26an20yp2lf21f";
+    };
+  };
 
   meta = with lib; {
     description = "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.";

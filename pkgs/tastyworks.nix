@@ -3,7 +3,9 @@
 , makeWrapper
 , fetchurl
 , makeDesktopItem
+, makeDesktopIcon
 , copyDesktopItems
+, copyDesktopIcons
 , autoPatchelfHook
 , openjdk17
 , gtk3
@@ -68,20 +70,6 @@ let
     XDG_DATA_DIRS=${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}:${gtk3}/share/gsettings-schemas/${gtk3.name}:$XDG_DATA_DIRS ${openjdk17}/bin/java ''${params[@]} com.dough.desktop.launcher.DesktopLauncher $@
 '';
 
-  icons = stdenv.mkDerivation {
-    pname = "tastyworks-icons";
-    inherit version src;
-    nativeBuildInputs = [ imagemagick ];
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert opt/tastyworks/lib/tastyworks.png -resize $size $out/hicolor/$size/apps/tastyworks.png
-      done;
-    '';
-  };
-
   tastyworks-libs = stdenv.mkDerivation {
     pname = "tastyworks-libs";
     inherit version src;
@@ -94,7 +82,7 @@ let
   };
 in stdenv.mkDerivation rec {
   inherit pname version src;
-  nativeBuildInputs = [ makeWrapper copyDesktopItems ];
+  nativeBuildInputs = [ makeWrapper copyDesktopItems copyDesktopIcons ];
 
   desktopItems = [
     (makeDesktopItem {
@@ -107,6 +95,13 @@ in stdenv.mkDerivation rec {
     })
   ];
 
+  desktopIcon = makeDesktopIcon {
+    inherit src;
+
+    name = "tastyworks";
+    pathWithinSrc = "opt/tastyworks/lib/tastyworks.png";
+  };
+
   installPhase = ''
     runHook preInstall
 
@@ -115,8 +110,6 @@ in stdenv.mkDerivation rec {
     install -D -m 777 ${launcher} $out/bin/tastyworks
     substituteAllInPlace $out/bin/tastyworks
 
-    mkdir -p $out/share/icons
-    ln -s ${icons}/hicolor $out/share/icons
     runHook postInstall
   '';
 
