@@ -1,17 +1,19 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
-{ stdenv, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs }:
+{ stdenv, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs
+, libnotify }:
 { wine
 , wineArch ? "win32"
 , winAppRun
 , winAppInstall ? ""
 , name ? "${attrs.pname}-${attrs.version}"
+, enableInstallNotification ? true
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
-    PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused fuse-overlayfs ]}"
+    PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused fuse-overlayfs libnotify ]}"
     MY_PATH="@MY_PATH@"
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
@@ -25,8 +27,10 @@ let
 
     mk_app_layer () {
       echo "Building an app layer at $WINEPREFIX..."
+      ${if enableInstallNotification then "notify-send -i drive-harddisk 'Installing ${attrs.pname}...'" else ""}
       ${winAppInstall}
       wineserver -w
+      ${if enableInstallNotification then "notify-send -i content-loading '${attrs.pname} is now installed. Running...'" else ""}
     }
 
     run_app () {
