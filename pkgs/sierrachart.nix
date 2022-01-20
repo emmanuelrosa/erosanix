@@ -13,15 +13,16 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "sierrachart";
-  version = "2345";
+  version = "2347";
 
   src = fetchurl {
     url = "https://www.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
-    sha256 = "1wh6aa0qqrp55d76h0gz06agrps0jambc48b95vqwzjdlqvkpmmp";
+    sha256 = "1nzhnhl55p9qhrz8baig28k90rhnb2dgn27nchm2cf9388lk7cb2";
   };
 
   dontUnpack = true;
   wineArch = "win64";
+  enableInstallNotification = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
   winAppInstall = ''
