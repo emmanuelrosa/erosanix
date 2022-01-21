@@ -19,6 +19,19 @@ let
     WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
 
+    show_notification () {
+      local fallback_icon=$1
+      local msg=$2
+      local icon=$(find -L $(dirname $(dirname $MY_PATH))/share/icons -name *.png | tail -n 1)
+
+      if [ ! -f $icon ]
+      then
+        icon=$fallback_icon
+      fi
+
+      ${if enableInstallNotification then "notify-send -i $icon \"$msg\"" else "echo 'Notifications are disabled. Ignoring.'"}
+    }
+
     mk_windows_layer () {
       echo "Building a Windows $WINEARCH layer at $WINEPREFIX..."
       wine boot --init
@@ -27,10 +40,10 @@ let
 
     mk_app_layer () {
       echo "Building an app layer at $WINEPREFIX..."
-      ${if enableInstallNotification then "notify-send -i drive-harddisk 'Installing ${attrs.pname}...'" else ""}
+      show_notification "drive-harddisk" "Installing ${attrs.pname}..."
       ${winAppInstall}
       wineserver -w
-      ${if enableInstallNotification then "notify-send -i content-loading '${attrs.pname} is now installed. Running...'" else ""}
+      show_notification "content-loading" "${attrs.pname} is now installed. Running..."
     }
 
     run_app () {
