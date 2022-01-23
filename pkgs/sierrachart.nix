@@ -25,6 +25,20 @@ mkWindowsApp rec {
   enableInstallNotification = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
+  fileMap = { "$HOME/.local/share/sierrachart/Data" = "drive_c/SierraChart/Data"; 
+              "$HOME/.local/share/sierrachart/Graphics/Buttons" = "drive_c/SierraChart/Graphics/Buttons";
+              "$HOME/.local/share/sierrachart/Sierra4.config" = "drive_c/SierraChart/Sierra4.config"; 
+              "$HOME/.local/share/sierrachart/Accounts4.config" = "drive_c/SierraChart/Accounts4.config"; 
+              "$HOME/.local/share/sierrachart/KeyboardShortcuts4.config" = "drive_c/SierraChart/KeyboardShortcuts4.config"; 
+              "$HOME/.local/share/sierrachart/TradeActivityLogs" = "drive_c/SierraChart/TradeActivityLogs"; 
+              "$HOME/.local/share/sierrachart/TradePositions.data" = "drive_c/SierraChart/TradePositions.data"; 
+              "$HOME/.local/share/sierrachart/AccountBalance.data" = "drive_c/SierraChart/AccountBalance.data"; 
+              "$HOME/.local/share/sierrachart/TradeOrdersList.data" = "drive_c/SierraChart/TradeOrdersList.data"; 
+              "$HOME/.local/share/sierrachart/SymbolSettings" = "drive_c/SierraChart/SymbolSettings"; 
+              "$HOME/.local/share/sierrachart/DefaultStudySettings" = "drive_c/SierraChart/DefaultStudySettings"; 
+              "$HOME/.local/share/sierrachart/AlertSounds" = "drive_c/SierraChart/AlertSounds"; 
+  };
+
   winAppInstall = ''
     d="$WINEPREFIX/drive_c/SierraChart"
     mkdir -p "$d"
@@ -33,45 +47,7 @@ mkWindowsApp rec {
   '';
 
   winAppRun = ''
-   data_dir="$HOME/.local/share/sierrachart"
-   sc_dir="$WINEPREFIX/drive_c/SierraChart" 
-   files_to_persist=( "Data" "Sierra4.config" "Accounts4.config" "KeyboardShortcuts4.config" "TradeActivityLogs" "TradePositions.data" "AccountBalance.data" "TradeOrdersList.data" "SymbolSettings" "DefaultStudySettings" "AlertSounds")
-
-   if [ ! -d "$data_dir" ]
-   then
-     mkdir -p "$data_dir"
-     mkdir -p "$data_dir/Graphics"
-   fi
-
-   echo "Persisting data files..."
-   for file in "''${files_to_persist[@]}"
-   do
-     mv -nv "$sc_dir/$file" "$data_dir/" 
-
-     if [ -e "$data_dir/$file" ]
-     then
-       rm -fRv "$sc_dir/$file"
-       ln -sv "$data_dir/$file" "$sc_dir/"
-     fi
-   done
-
-   mv -nv "$sc_dir/Graphics/Buttons" "$data_dir/Graphics/"
-   ln -sv "$data_dir/Graphics/Buttons" "$sc_dir/Graphics/"
-
-   # Run Sierra Chart
    wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
-    wineserver -w
-
-   echo "Persisting any new data files..."
-   for file in "''${files_to_persist[@]}"
-   do
-     if [ -h "$sc_dir/$file" ]
-     then
-       rm -fR "$sc_dir/$file"
-     fi
-
-     mv -nv "$sc_dir/$file" "$data_dir/"
-   done
   '';
 
   installPhase = ''

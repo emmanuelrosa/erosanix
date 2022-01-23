@@ -20,7 +20,7 @@ These layers are stored not in the Nix store, but rather in `$HOME/.cache/mkWind
 
 ### Since Wine Bottles are temporary, what happens to files created when a Windows application is running? 
  
- Any files not saved outside of the Wine Bottle are discarded as well. Therefore, package maintainers must account for where important files are stored, such as configuration files, to ensure they are stored outside of the Wine Bottle; Symbolic links can be used for this. In addition, users must ensure to use the Z:\ drive when saving important information. 
+-Any files not saved outside of the Wine Bottle are discarded as well. Therefore, package maintainers must account for where important files are stored, such as configuration files, to ensure they are stored outside of the Wine Bottle; See the section [How to persist settings](#how-to-persist-settings). In addition, users must ensure to use the Z:\ drive when saving important information. 
  
 ### Do the layers need to be garbage-collected?
 
@@ -52,5 +52,23 @@ Let's use Notepad++ as an example:
 ### How can I package a Windows application with `mkWindowsApp`?
 
 I recommend studying the example [sumatrapdf-nix](https://github.com/emmanuelrosa/sumatrapdf-nix). It's a Nix Flake which uses `mkWindowsApp` to package SumatraPDF.
+
+## How to persist settings
+
+Early releases of `mkWindowsApp` required package maintainers to handle the persistance of files which need to be retained across multiple executions. Usually, these are configuration files, or the entire user registry (user.reg). However, newer releases of `mkWindowsApp` provide the attribute `fileMap` which lets package maintainers easily set up what files to link into the $WINEPREFIX. Here's an example of how to use the attribute:
+
+```
+mkWindowsApp rec {
+  ...
+  fileMap = { "$HOME/.config/Notepad++" = "drive_c/users/$USER/Application Data/Notepad++"; 
+  };
+```
+
+Using the example above, here's an explanation of what will happen when users run the launcher script:
+
+ 1. Before running Notepad++, `mkWindowsApp` will look for $HOME/.config/Notepad++, and if it exists, it will create a symlink to it at $WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++. Alternatively, if $WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++ exists but $HOME/.config/Notepad++ doesn't, then the file/directory will be copied out from the $WINEPREFIX into the "source" path, and then symlinked as described earlier.
+ 2. After Notepad++ terminates, `mkWindowsApp` will cycle through the same list of mappings and copy any of the files/directories which did not exist when the application was launched, to the "source" path. This effectively persists such files so that they can be symlinked the next time the application is launched. 
+
+For a real-world example see [sumatrapdf-nix](https://github.com/emmanuelrosa/sumatrapdf-nix).
 
 [^1]: The script is based on [wrapWine](https://github.com/lucasew/nixcfg/blob/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix).

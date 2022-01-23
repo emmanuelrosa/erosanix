@@ -33,6 +33,7 @@ in mkWindowsApp rec {
 
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
   dontUnpack = true;
+  fileMap = { "$HOME/.config/Notepad++" = "drive_c/users/$USER/Application Data/Notepad++"; };
 
   winAppInstall = ''
     wine start /unix ${src} /S
@@ -42,10 +43,6 @@ in mkWindowsApp rec {
   '';
 
   winAppRun = ''
-   rm -fR "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++"
-   mkdir -p "$HOME/.config/Notepad++"
-   ln -s -v "$HOME/.config/Notepad++" "$WINEPREFIX/drive_c/users/$USER/Application Data/"
-
    wine start /unix "$WINEPREFIX/drive_c/Program Files/Notepad++/notepad++.exe" "$ARGS"
   '';
 

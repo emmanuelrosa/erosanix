@@ -34,24 +34,17 @@ in mkWindowsApp rec {
   wineArch = "win64";
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
+  fileMap = { "$HOME/.cache/amazon-kindle" = "drive_c/users/$USER"; 
+              "$HOME/.config/amazon-kindle/user.reg" = "user.reg";
+  };
+
   winAppInstall = ''
     wine ${src} /S
+    wineserver -w
+    mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Local/Amazon/Kindle/crashdump"
   '';
 
   winAppRun = '' 
-    cache_dir="$HOME/.cache/amazon-kindle"
-    config_dir="$HOME/.config/amazon-kindle"
-
-    mkdir -p "$cache_dir"
-    rm -fR "$WINEPREFIX/drive_c/users/$USER"
-    ln -s -v "$cache_dir" "$WINEPREFIX/drive_c/users/$USER"
-    mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Local/Amazon/Kindle/crashdump"
-
-    mkdir -p "$config_dir"
-    cp -n "$WINEPREFIX/user.reg" "$config_dir/"
-    rm "$WINEPREFIX/user.reg"
-    ln -s "$config_dir/user.reg" "$WINEPREFIX/user.reg" 
-
     wine "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/Kindle/Kindle.exe"
   '';
 

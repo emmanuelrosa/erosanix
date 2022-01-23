@@ -7,9 +7,14 @@
 , winAppInstall ? ""
 , name ? "${attrs.pname}-${attrs.version}"
 , enableInstallNotification ? true
+, fileMap ? {}
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
+  
+  withFileMap = f: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs f fileMap));
+  fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
+  persistFilesScript = withFileMap (dest: src: ''persist_file "${src}" "${dest}"'');
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
@@ -32,6 +37,37 @@ let
       ${if enableInstallNotification then "notify-send -i $icon \"$msg\"" else "echo 'Notifications are disabled. Ignoring.'"}
     }
 
+    map_file () {
+      local s=$1
+      local d="$WINEPREFIX/$2"
+
+      echo "Mapping $s to $d"
+
+       if [ -e "$d" ]
+       then
+         mkdir -v -p "$(dirname $s)"
+         cp -v -r -n "$d" "$s"
+       fi
+
+       if [ -e "$s" ]
+       then
+         rm -v -f -R "$d"
+         mkdir -v -p $(dirname "$d")
+         ln -s -v "$s" "$d"
+       fi
+    }
+
+    persist_file () {
+      local s="$WINEPREFIX/$1"
+      local d="$2"
+
+      echo "Persisting $s to $d"
+
+       if [ -f "$s" ] || [ -d "$s" ]
+       then
+         cp -v -r -n "$s" "$d"
+       fi
+    }
     mk_windows_layer () {
       echo "Building a Windows $WINEARCH layer at $WINEPREFIX..."
       wine boot --init
@@ -48,8 +84,10 @@ let
 
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
+      ${fileMappingScript}
       ${winAppRun}
       wineserver -w
+      ${persistFilesScript}
     }
 
     wa_init ${wineArch}
@@ -93,7 +131,7 @@ let
     echo "App exited.";
     wa_remove_bottle $bottle
   '';
-in stdenv.mkDerivation (attrs // {
+in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" ]) // {
 
   preInstall = ''
     mkdir -p $out/bin
