@@ -45,14 +45,18 @@ let
 
        if [ -e "$d" ]
        then
-         mkdir -v -p "$(dirname $s)"
+         local base_dir=$(dirname "$s")
+
+         mkdir -v -p "$base_dir"
          cp -v -r -n "$d" "$s"
        fi
 
        if [ -e "$s" ]
        then
+         local base_dir=$(dirname "$d")
+
          rm -v -f -R "$d"
-         mkdir -v -p $(dirname "$d")
+         mkdir -v -p "$base_dir"
          ln -s -v "$s" "$d"
        fi
     }
