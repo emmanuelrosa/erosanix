@@ -8,6 +8,7 @@
 , name ? "${attrs.pname}-${attrs.version}"
 , enableInstallNotification ? true
 , fileMap ? {}
+, persistRegistry ? false # Disabled by default for now because it's experimental.
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
@@ -23,6 +24,7 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    REGISTRY_PATH="$HOME/.config/mkWindowsApp/${attrs.pname}/registry.reg"
 
     show_notification () {
       local fallback_icon=$1
@@ -35,6 +37,18 @@ let
       fi
 
       ${if enableInstallNotification then "notify-send -i $icon \"$msg\"" else "echo 'Notifications are disabled. Ignoring.'"}
+    }
+
+    load_registry () {
+      if [ -f "$REGISTRY_PATH" ]
+      then 
+        ${if persistRegistry then "regedit \"$REGISTRY_PATH\"" else "echo 'Not loading the persisted registry.'"}
+      fi
+    }
+
+    save_registry () {
+      mkdir -p "$(dirname $REGISTRY_PATH)"
+      ${if persistRegistry then "regedit /E \"$REGISTRY_PATH\"" else "echo 'Not persisting the registry.'"}
     }
 
     map_file () {
@@ -89,7 +103,11 @@ let
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       ${fileMappingScript}
+      load_registry
+      wineserver -w
       ${winAppRun}
+      wineserver -w
+      save_registry
       wineserver -w
       ${persistFilesScript}
     }

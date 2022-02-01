@@ -32,10 +32,10 @@ in mkWindowsApp rec {
 
   dontUnpack = true;
   wineArch = "win64";
+  persistRegistry = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   fileMap = { "$HOME/.cache/amazon-kindle" = "drive_c/users/$USER"; 
-              "$HOME/.config/amazon-kindle/user.reg" = "user.reg";
   };
 
   winAppInstall = ''
