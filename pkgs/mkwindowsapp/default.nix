@@ -13,7 +13,14 @@
 let
   libwindowsapp = ./libwindowsapp.bash;
   
-  withFileMap = f: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs f fileMap));
+  withFileMap = let
+    defaultExtraFileMap = { "$HOME/.config/mkWindowsApp/${attrs.pname}/user.reg" = "user.reg"; 
+                            "$HOME/.config/mkWindowsApp/${attrs.pname}/system.reg" = "system.reg";
+    };
+
+    extraFileMap = if persistRegistry then defaultExtraFileMap else {};
+  in f: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs f (fileMap // extraFileMap)));
+
   fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
   persistFilesScript = withFileMap (dest: src: ''persist_file "${src}" "${dest}"'');
 
@@ -24,7 +31,6 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-    REGISTRY_PATH="$HOME/.config/mkWindowsApp/${attrs.pname}/registry.reg"
 
     show_notification () {
       local fallback_icon=$1
@@ -37,18 +43,6 @@ let
       fi
 
       ${if enableInstallNotification then "notify-send -i $icon \"$msg\"" else "echo 'Notifications are disabled. Ignoring.'"}
-    }
-
-    load_registry () {
-      if [ -f "$REGISTRY_PATH" ]
-      then 
-        ${if persistRegistry then "regedit \"$REGISTRY_PATH\"" else "echo 'Not loading the persisted registry.'"}
-      fi
-    }
-
-    save_registry () {
-      mkdir -p "$(dirname $REGISTRY_PATH)"
-      ${if persistRegistry then "regedit /E \"$REGISTRY_PATH\"" else "echo 'Not persisting the registry.'"}
     }
 
     map_file () {
@@ -86,6 +80,7 @@ let
          cp -v -r -n "$s" "$d"
        fi
     }
+
     mk_windows_layer () {
       echo "Building a Windows $WINEARCH layer at $WINEPREFIX..."
       wine boot --init
@@ -103,11 +98,7 @@ let
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       ${fileMappingScript}
-      load_registry
-      wineserver -w
       ${winAppRun}
-      wineserver -w
-      save_registry
       wineserver -w
       ${persistFilesScript}
     }
