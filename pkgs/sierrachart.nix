@@ -44,6 +44,11 @@ mkWindowsApp rec {
     mkdir -p "$d"
     unzip ${src} -d "$d"
     rm -fR "$d/NPP"
+
+    # Replace Notepad++ with a copy of winebrowser
+    # so that TXT files are opened with xdg-open
+    mkdir -p "$d/NPP"
+    cp "$WINEPREFIX/drive_c/windows/system32/winebrowser.exe" "$d/NPP/notepad++.exe"
   '';
 
   winAppRun = ''
