@@ -83,6 +83,11 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        vim-desktop = callPackage ./pkgs/vim-desktop.nix {
+          makeDesktopIcon = lib.makeDesktopIcon;
+          copyDesktopIcons = lib.copyDesktopIcons;
+        };
+
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
     };
 
@@ -134,6 +139,11 @@
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
+        vim-desktop = callPackage ./pkgs/vim-desktop.nix {
+          makeDesktopIcon = lib.makeDesktopIcon;
+          copyDesktopIcons = lib.copyDesktopIcons;
         };
     };
 
