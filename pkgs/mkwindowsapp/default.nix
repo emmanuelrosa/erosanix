@@ -55,8 +55,17 @@ let
        then
          local base_dir=$(dirname "$s")
 
-         mkdir -v -p "$base_dir"
-         cp -v -r -n "$d" "$s"
+         mkdir -p "$base_dir"
+
+         if [ -f "$d" ]
+         then
+           cp -v -n "$d" "$s"
+         fi
+
+         if [ -d "$d" ]
+         then
+           cp -v -r -n "$d" "$base_dir"
+         fi
        fi
 
        if [ -e "$s" ]
@@ -64,7 +73,7 @@ let
          local base_dir=$(dirname "$d")
 
          rm -v -f -R "$d"
-         mkdir -v -p "$base_dir"
+         mkdir -p "$base_dir"
          ln -s -v "$s" "$d"
        fi
     }
@@ -72,13 +81,20 @@ let
     persist_file () {
       local s="$WINEPREFIX/$1"
       local d="$2"
+      local base_dir=$(dirname "$d")
 
       echo "Persisting $s to $d"
+      mkdir -p "$base_dir"
 
-       if [ -f "$s" ] || [ -d "$s" ]
-       then
-         cp -v -r -n "$s" "$d"
-       fi
+      if [ -f "$s" ]
+      then
+        cp -v -n "$s" "$d"
+      fi
+
+      if [ -d "$s" ]
+      then
+        cp -v -r -n "$s" "$base_dir"
+      fi
     }
 
     mk_windows_layer () {
