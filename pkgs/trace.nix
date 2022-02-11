@@ -8,7 +8,7 @@ in stdenv.mkDerivation rec {
 
   src = fetchurl {
     url = https://get.fontspace.co/download/family/194l/f3bb2d1221f04e149a022c65a84b5563/trace-font.zip;
-    sha256 = "1nxfzhndnw8pm4qzibhma1m7knmgf6bvzcn75scknysh9vd5w42y";
+    sha256 = "sha256-p8OPkSJonkeaoOG4R2g8oqSErsglriQXJ5a8A5psLlM=";
   };
 
   nativeBuildInputs = [ unzip ];
