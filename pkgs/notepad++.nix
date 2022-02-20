@@ -33,13 +33,20 @@ in mkWindowsApp rec {
 
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
   dontUnpack = true;
-  fileMap = { "$HOME/.config/Notepad++" = "drive_c/users/$USER/AppData/Roaming/Notepad++"; };
+  fileMap = { "$HOME/.config/Notepad++" = "drive_c/users/$USER/Application Data/Notepad++"; };
 
   winAppInstall = ''
     wine start /unix ${src} /S
     wineserver -w
     rm -f "$WINEPREFIX/drive_c/Program Files/Notepad++/uninstall.exe"
     rm -fR "$WINEPREFIX/drive_c/Program Files/Notepad++/updater"
+
+    # Workaround for a Notepad++ config directory that won't sit still :)
+    # Use symlinks to enforce a single config directory
+    mkdir -p "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++"
+    rm -fR "$WINEPREFIX/drive_c/users/$USER/AppData/Roaming/Notepad++"
+    mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Roaming"
+    ln -s "$WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++" "$WINEPREFIX/drive_c/users/$USER/AppData/Roaming/Notepad++"
   '';
 
   winAppRun = ''
