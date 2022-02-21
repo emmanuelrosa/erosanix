@@ -8,11 +8,13 @@
 , copyDesktopItems
 , copyDesktopIcons
 , unzip
-, imagemagick }:
+, imagemagick
+, instanceName ? "default" # This should be alphanumeric, no spaces
+}:
 mkWindowsApp rec {
   inherit wine;
 
-  pname = "sierrachart";
+  pname = "sierrachart-${instanceName}";
   version = "2359";
 
   src = fetchurl {
@@ -25,18 +27,18 @@ mkWindowsApp rec {
   enableInstallNotification = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
-  fileMap = { "$HOME/.local/share/sierrachart/Data" = "drive_c/SierraChart/Data"; 
-              "$HOME/.local/share/sierrachart/Graphics/Buttons" = "drive_c/SierraChart/Graphics/Buttons";
-              "$HOME/.local/share/sierrachart/Sierra4.config" = "drive_c/SierraChart/Sierra4.config"; 
-              "$HOME/.local/share/sierrachart/Accounts4.config" = "drive_c/SierraChart/Accounts4.config"; 
-              "$HOME/.local/share/sierrachart/KeyboardShortcuts4.config" = "drive_c/SierraChart/KeyboardShortcuts4.config"; 
-              "$HOME/.local/share/sierrachart/TradeActivityLogs" = "drive_c/SierraChart/TradeActivityLogs"; 
-              "$HOME/.local/share/sierrachart/TradePositions.data" = "drive_c/SierraChart/TradePositions.data"; 
-              "$HOME/.local/share/sierrachart/AccountBalance.data" = "drive_c/SierraChart/AccountBalance.data"; 
-              "$HOME/.local/share/sierrachart/TradeOrdersList.data" = "drive_c/SierraChart/TradeOrdersList.data"; 
-              "$HOME/.local/share/sierrachart/SymbolSettings" = "drive_c/SierraChart/SymbolSettings"; 
-              "$HOME/.local/share/sierrachart/DefaultStudySettings" = "drive_c/SierraChart/DefaultStudySettings"; 
-              "$HOME/.local/share/sierrachart/AlertSounds" = "drive_c/SierraChart/AlertSounds"; 
+  fileMap = { "$HOME/.local/share/${pname}/Data" = "drive_c/SierraChart/Data"; 
+              "$HOME/.local/share/${pname}/Graphics/Buttons" = "drive_c/SierraChart/Graphics/Buttons";
+              "$HOME/.local/share/${pname}/Sierra4.config" = "drive_c/SierraChart/Sierra4.config"; 
+              "$HOME/.local/share/${pname}/Accounts4.config" = "drive_c/SierraChart/Accounts4.config"; 
+              "$HOME/.local/share/${pname}/KeyboardShortcuts4.config" = "drive_c/SierraChart/KeyboardShortcuts4.config"; 
+              "$HOME/.local/share/${pname}/TradeActivityLogs" = "drive_c/SierraChart/TradeActivityLogs"; 
+              "$HOME/.local/share/${pname}/TradePositions.data" = "drive_c/SierraChart/TradePositions.data"; 
+              "$HOME/.local/share/${pname}/AccountBalance.data" = "drive_c/SierraChart/AccountBalance.data"; 
+              "$HOME/.local/share/${pname}/TradeOrdersList.data" = "drive_c/SierraChart/TradeOrdersList.data"; 
+              "$HOME/.local/share/${pname}/SymbolSettings" = "drive_c/SierraChart/SymbolSettings"; 
+              "$HOME/.local/share/${pname}/DefaultStudySettings" = "drive_c/SierraChart/DefaultStudySettings"; 
+              "$HOME/.local/share/${pname}/AlertSounds" = "drive_c/SierraChart/AlertSounds"; 
   };
 
   winAppInstall = ''
@@ -49,6 +51,14 @@ mkWindowsApp rec {
     # so that TXT files are opened with xdg-open
     mkdir -p "$d/NPP"
     cp "$WINEPREFIX/drive_c/windows/system32/winebrowser.exe" "$d/NPP/notepad++.exe"
+
+    # Prior to supporting multiple instances, user data was stored at ~/.local/share/sierrachart
+    # But now the user data for the default instance is stored at ~/.local/share/sierrachart-default
+    # This situation is handled below in a backwards-compatible way. 
+    if [ -d "$HOME/.local/share/sierrachart" ] && [ "${instanceName}" == "default" ] && [ ! -h "$HOME/.local/share/sierrachart-default" ]
+    then
+      ln -s "$HOME/.local/share/sierrachart" "$HOME/.local/share/sierrachart-default" 
+    fi
   '';
 
   winAppRun = ''
@@ -58,7 +68,7 @@ mkWindowsApp rec {
   installPhase = ''
     runHook preInstall
 
-    ln -s $out/bin/.launcher $out/bin/sierrachart
+    ln -s $out/bin/.launcher $out/bin/${pname}
 
     runHook postInstall
   '';
@@ -67,8 +77,8 @@ mkWindowsApp rec {
     (makeDesktopItem {
       name = pname;
       exec = pname;
-      icon = pname;
-      desktopName = "Sierra Chart";
+      icon = "sierrachart";
+      desktopName = "Sierra Chart (${instanceName})";
       genericName = "Trading and charting software";
       categories = "Network;Finance;";
     })
