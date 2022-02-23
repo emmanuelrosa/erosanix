@@ -42,6 +42,7 @@ mkWindowsApp rec {
               "$HOME/.local/share/${pname}/Username.txt" = "drive_c/SierraChart/Username.txt";
               "$HOME/.local/share/${pname}/InternalOrderID2.data" = "drive_c/SierraChart/InternalOrderID2.data";
               "$HOME/.local/share/${pname}/TradeAccountData" = "drive_c/SierraChart/TradeAccountData";
+              "$HOME/.local/share/${pname}/Backups" = "drive_c/SierraChart/Backups";
   };
 
   winAppInstall = ''
