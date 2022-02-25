@@ -1,6 +1,8 @@
 {
   description = "Emmanuel's NixOS/Nix Flakes repository.";
 
+  inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
+
   outputs = { self, nixpkgs }: {
 
     lib.x86_64-linux = let
