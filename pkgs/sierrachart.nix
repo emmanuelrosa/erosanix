@@ -15,11 +15,11 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "sierrachart-${instanceName}";
-  version = "2362";
+  version = "2363";
 
   src = fetchurl {
     url = "https://www.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
-    sha256 = "1nw07h1h89smfvw3zhm9aak0503nqq565ggdib34pjifhxdkrm3i";
+    sha256 = "168lk9rmd4gvy1csj9byjx5djcdm9r6h0rk484k7ixn8bjz6c9b8";
   };
 
   dontUnpack = true;
