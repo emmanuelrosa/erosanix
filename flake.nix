@@ -16,6 +16,10 @@
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
+
+      nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
+        nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
+      };
     };
 
     lib.i686-linux = let
