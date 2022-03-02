@@ -5,26 +5,35 @@
 pkg: 
 let
   wrapper = writeShellScript "nvidia-offload" ''
-    exec -a ${nvidia-offload}/bin/nvidia-offload "@EXECUTABLE@" "$@"
+    ${nvidia-offload}/bin/nvidia-offload "@EXECUTABLE@" "$@"
   '';
 in stdenv.mkDerivation {
   pname = "nvidia-offload-wrapper";
-  version = "1.0.0";
+  version = "1.0.1";
   src = pkg;
   dontUnpack = true;
 
   installPhase = ''
-    for f in $(find ${pkg}/bin)
+    for f in $(find -L $src/bin)
     do 
-      if [[ ! "$f" =~ "." ]] && [[ -f "$f" ]]
+      if [[ ! "$(basename $f)" =~ ^\. ]] && [[ ! -d "$f" ]] && [[ -x "$f" ]]
       then 
         local executable=$out/bin/$(basename "$f")
-        echo "Wrapping $executable"
         install -D ${wrapper} "$executable"
         substituteInPlace "$executable" --subst-var-by EXECUTABLE "$f"
       fi
     done
 
-    ln -s $src/share $out/share
+    if [[ ! -d $out ]]
+    then
+      echo "ERROR: No executables to wrap were found at $src/bin" 1>&2 
+      exit 1
+    fi
+
+    # Symlink the share directory so that .desktop files and such continue to work.
+    if [[ -d $src/share ]]
+    then
+      ln -s $src/share $out/share
+    fi
   '';
 }
