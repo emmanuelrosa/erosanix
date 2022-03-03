@@ -86,7 +86,7 @@ mkWindowsApp rec {
       icon = "sierrachart";
       desktopName = "Sierra Chart (${instanceName})";
       genericName = "Trading and charting software";
-      categories = "Network;Finance;";
+      categories = ["Office" "Finance"];
     })
   ];
 

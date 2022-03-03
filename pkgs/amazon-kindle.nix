@@ -62,7 +62,7 @@ in mkWindowsApp rec {
       exec = pname;
       icon = pname;
       desktopName = "Amazon Kindle";
-      categories = "Office;Viewer;";
+      categories = ["Office" "Viewer"];
     })
   ];
 

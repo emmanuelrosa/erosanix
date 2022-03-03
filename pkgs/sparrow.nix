@@ -165,12 +165,12 @@ in stdenv.mkDerivation rec {
 
   desktopItems = [
     (makeDesktopItem {
-      name = "Sparrow Bitcoin Wallet";
+      name = "Sparrow";
       exec = pname;
       icon = pname;
       desktopName = "Sparrow Bitcoin Wallet";
       genericName = "Bitcoin Wallet";
-      categories = "Network;Finance;";
+      categories = ["Office" "Finance"];
     })
   ];
 

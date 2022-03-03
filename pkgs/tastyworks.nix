@@ -86,12 +86,12 @@ in stdenv.mkDerivation rec {
 
   desktopItems = [
     (makeDesktopItem {
-      name = "tastyworks";
+      name = pname;
       exec = pname;
       icon = pname;
       desktopName = "TastyWorks";
-      genericName = "Trading Terminal;";
-      categories = "Finance;";
+      genericName = "Trading Terminal";
+      categories = ["Office" "Finance"];
     })
   ];
 

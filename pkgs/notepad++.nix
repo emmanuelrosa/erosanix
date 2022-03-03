@@ -65,17 +65,17 @@ in mkWindowsApp rec {
     textTypes = builtins.map (s: "text/" + s) [ "plain" "html" "rust" "vbscript" "x-cmake" "x-changelog" "x-cobol" "x-common-lisp" "x-csharp" "x-c++src" "x-csrc" "x-erlang" "x-fortran" "x-haskell" "x-java" "x-log" "x-makefile" "x-objcsrc" "x-python" "x-readme" "x-scheme" "x-install" ];
 
     appTypes = builtins.map (s: "application/" + s) [ "json" "x-msi" "xml" "x-perl" ];
-    mimeType = builtins.concatStringsSep ";" (builtins.concatLists [ textTypes appTypes ]);
+    mimeTypes = builtins.concatLists [ textTypes appTypes ];
   in [
     (makeDesktopItem {
-      inherit mimeType;
+      inherit mimeTypes;
 
       name = "Notepad++";
       exec = pname;
       icon = pname;
       desktopName = "Notepad++";
       genericName = "Text Editor";
-      categories = "Utility;TextEditor;";
+      categories = ["Utility" "TextEditor"];
     })
   ];
 
