@@ -82,12 +82,12 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        amazon-kindle = callPackage ./pkgs/amazon-kindle.nix { 
+        amazon-kindle = pkgs.lib.trivial.warn "The amazon-kindle package highly unpredictable. I don't recommend using it at this time." (callPackage ./pkgs/amazon-kindle.nix { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
-        };
+        });
 
         vim-desktop = callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
