@@ -11,6 +11,7 @@
 , imagemagick }:
 let
   homepage = "https://www.amazon.com/Amazon-Digital-Services-LLC-Download/dp/B00UB76290/";
+  disableAutoUpdate = ./disable-auto-update.reg;
 in mkWindowsApp rec {
   inherit wine;
 
@@ -35,7 +36,8 @@ in mkWindowsApp rec {
   persistRegistry = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
-  fileMap = { "$HOME/.cache/amazon-kindle" = "drive_c/users/$USER"; 
+  fileMap = { "$HOME/.cache/amazon-kindle/Local Settings" = "drive_c/users/$USER/Local Settings";
+              "$HOME/.cache/amazon-kindle/AppData" = "drive_c/users/$USER/AppData";
   };
 
   winAppInstall = ''
@@ -45,6 +47,7 @@ in mkWindowsApp rec {
   '';
 
   winAppRun = '' 
+    regedit ${disableAutoUpdate}
     wine "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/Kindle/Kindle.exe"
   '';
 
