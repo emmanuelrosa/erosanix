@@ -38,6 +38,7 @@ in mkWindowsApp rec {
 
   fileMap = { "$HOME/.cache/amazon-kindle/Local Settings" = "drive_c/users/$USER/Local Settings";
               "$HOME/.cache/amazon-kindle/AppData" = "drive_c/users/$USER/AppData";
+              "$HOME/My Kindle Content" = "drive_c/users/$USER/Documents/My Kindle Content";
   };
 
   winAppInstall = ''
