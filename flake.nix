@@ -75,7 +75,7 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        sierrachart = callPackage ./pkgs/sierrachart.nix { 
+        sierrachart = callPackage ./pkgs/sierrachart { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
