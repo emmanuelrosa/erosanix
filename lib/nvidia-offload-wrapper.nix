@@ -8,8 +8,8 @@ let
     ${nvidia-offload}/bin/nvidia-offload "@EXECUTABLE@" "$@"
   '';
 in stdenv.mkDerivation {
-  pname = "nvidia-offload-wrapper";
-  version = "1.0.1";
+  name = "${pkg.name}-nvidia-wrapped";
+  version = "1.1.0";
   src = pkg;
   dontUnpack = true;
 
