@@ -24,6 +24,7 @@ mkWindowsApp rec {
 
   dontUnpack = true;
   wineArch = "win64";
+  persistRegistry = true;
   enableInstallNotification = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
