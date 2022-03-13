@@ -46,6 +46,7 @@ mkWindowsApp rec {
               "$HOME/.local/share/${pname}/Backups" = "drive_c/SierraChart/Backups";
               "$HOME/.local/share/${pname}/Images" = "drive_c/SierraChart/Images";
               "$HOME/.local/share/${pname}/SavedTradeActivity" = "drive_c/SierraChart/SavedTradeActivity";
+              "$HOME/.local/share/${pname}/ACS_Source" = "drive_c/SierraChart/ACS_Source";
   };
 
   winAppInstall = ''
