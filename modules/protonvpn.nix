@@ -34,18 +34,20 @@ in {
         description = "The method used to store the authentication credentials. Note that you need the OpenVPN credentials, not the ProtonMail credentials, which you can get here: `https://account.protonmail.com/u/0/vpn/open-vpn-ike-v2`. This option can be set to either a path to a file containing two lines; username and password. For example, /run/secrets/protonvpn. This method is useful if you want to store the credentials in `/root` or deploy them into `/run/secrets` with `agenix` or `nixops`. Alternatively, the value of this option could be a set containing the credentials, which would expose them in the Nix store.";
         example = ''{ username = "john"; password = "galt" }'';
         type = types.either types.path (types.submodule {
-          username = mkOption {
-            type = types.str;
-            default = null;
-            example = "dagny";
-            description = "The user name to use for ProtonVPN authentication.";
-          };
+          options = {
+            username = mkOption {
+              type = types.str;
+              default = null;
+              example = "dagny";
+              description = "The user name to use for ProtonVPN authentication.";
+            };
 
-          password = mkOption {
-            type = types.str;
-            default = null;
-            example = "ilovejohn";
-            description = "The password to use for ProtonVPN authentication.";
+            password = mkOption {
+              type = types.str;
+              default = null;
+              example = "ilovejohn";
+              description = "The password to use for ProtonVPN authentication.";
+            };
           };
         });
       };
