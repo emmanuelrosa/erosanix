@@ -14,10 +14,10 @@
 , bash
 , imagemagick
 , gnugrep
-, libv4l
 , tor
 , zip
 , zlib
+, openimajgrabber
 }:
 
 let 
@@ -95,7 +95,7 @@ let
   sparrow-modules = stdenv.mkDerivation {
     pname = "sparrow-modules";
     inherit version src;
-    nativeBuildInputs = [ makeWrapper gnugrep openjdk17 autoPatchelfHook libv4l stdenv.cc.cc.lib zlib ];
+    nativeBuildInputs = [ makeWrapper gnugrep openjdk17 autoPatchelfHook stdenv.cc.cc.lib zlib ];
 
     buildPhase = ''
       # Extract Sparrow's JIMAGE and generate a list of them.
@@ -127,6 +127,7 @@ let
       rm -fR com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_armel
       rm -fR com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_armhf
       rm -fR com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x86
+      rm com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x64/OpenIMAJGrabber.so
       rm -fR com.nativelibs4java.bridj/org/bridj/lib/linux_arm32_armel
       rm -fR com.nativelibs4java.bridj/org/bridj/lib/linux_armel
       rm -fR com.nativelibs4java.bridj/org/bridj/lib/linux_armhf
@@ -157,6 +158,7 @@ let
       mkdir -p $out
       cp manifest.txt $out/
       cp -r modules/ $out/
+      ln -s ${openimajgrabber}/lib/OpenIMAJGrabber.so $out/modules/com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x64/OpenIMAJGrabber.so
     '';
   };
 in stdenv.mkDerivation rec {
