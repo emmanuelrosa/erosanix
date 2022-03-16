@@ -54,6 +54,7 @@
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
+        openimajgrabber = callPackage ./pkgs/openimajgrabber.nix {};
 
         sparrow = callPackage ./pkgs/sparrow.nix { 
           copyDesktopIcons = lib.copyDesktopIcons;
