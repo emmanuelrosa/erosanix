@@ -46,6 +46,7 @@ in mkWindowsApp rec {
     wine ${src} /S
     wineserver -w
     mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Local/Amazon/Kindle/crashdump"
+    mkdir -p "$WINEPREFIX/drive_c/KindleContent"
   '';
 
   winAppRun = '' 
