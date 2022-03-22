@@ -98,6 +98,7 @@
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
+        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
     };
 
     packages.aarch64-linux = let
@@ -118,6 +119,7 @@
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
+        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
     };
 
     packages.i686-linux = let
@@ -154,6 +156,8 @@
           makeDesktopIcon = lib.makeDesktopIcon;
           copyDesktopIcons = lib.copyDesktopIcons;
         };
+
+        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
     };
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
