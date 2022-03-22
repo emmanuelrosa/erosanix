@@ -1,12 +1,15 @@
 { stdenv
 , lib 
 , fetchFromGitHub
+, makeWrapper
 , matrix-commander
 }:
 
 stdenv.mkDerivation rec {
   pname = "matrix-sendmail";
   version = "43591e1b75b159e2afc5b65b1db7e654d65588a4";
+
+  nativeBuildInputs = [ makeWrapper ];
 
   src = fetchFromGitHub {
     owner = "emmanuelrosa";
@@ -20,6 +23,7 @@ stdenv.mkDerivation rec {
     install -D sendmail $out/bin/sendmail
     install -D matrix-sendmail-prep $out/lib/matrix-sendmail/libexec/matrix-sendmail-prep
     install -D matrix-sendmail-deliver $out/lib/matrix-sendmail/libexec/matrix-sendmail-deliver
+    wrapProgram $out/lib/matrix-sendmail/libexec/matrix-sendmail-deliver --prefix PATH : ${lib.makeBinPath [ matrix-commander ]}
   '';
 
   meta = with lib; {

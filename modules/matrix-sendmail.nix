@@ -42,7 +42,7 @@ in {
       package = mkOption {
         type = types.package;
         default = null;
-        description = "The package providing the matrix-sendmail package.";
+        description = "The package providing the matrix-sendmail.";
       };
     };
   };
@@ -51,7 +51,7 @@ in {
     environment.systemPackages = [ cfg.package ];
 
     environment.etc."matrix-sendmail/config.env" = {
-      mode = "0440";
+      mode = "555";
       text = ''
         MSM_SPOOL_DIR=${cfg.spoolDir}
         MSM_LIB_DIR=${cfg.libDir}
@@ -64,6 +64,7 @@ in {
       "d /${cfg.spoolDir} 755 root root -"
       "d /${cfg.spoolDir}/system 770 ${cfg.user} ${cfg.group} -"
       "d /${cfg.spoolDir}/user 1777 root root -"
+      "d /${cfg.libDir} 770 ${cfg.user} ${cfg.group} -"
     ];
 
     systemd.services.matrix-sendmail = {
