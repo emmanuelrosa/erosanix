@@ -87,6 +87,6 @@ in mkWindowsApp rec {
     homepage = "https://notepad-plus-plus.org/";
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ emmanuelrosa ];
-    platforms = [ "x86_64-linux" "i386-linux" ];
+    platforms = [ "x86_64-linux" "i686-linux" ];
   };
 }
