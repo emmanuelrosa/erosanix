@@ -7,7 +7,7 @@
 
 stdenv.mkDerivation rec {
   pname = "matrix-sendmail";
-  version = "43591e1b75b159e2afc5b65b1db7e654d65588a4";
+  version = "27de5ea8d67df9b69c38884e67e3905cc9e847c0";
 
   nativeBuildInputs = [ makeWrapper ];
 
