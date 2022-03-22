@@ -94,5 +94,14 @@ in {
         OnUnitActiveSec="${cfg.deliveryInterval}";
       };
     };
+
+    users.users."${cfg.user}" = {
+      group = cfg.group;
+      description = "matrix-sendmail delivery user";
+      home = cfg.spoolDir;
+      isSystemUser = true;
+    };
+
+    users.groups."${cfg.group}" = { };
   };
 }
