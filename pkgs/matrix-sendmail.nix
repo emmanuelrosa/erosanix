@@ -3,11 +3,13 @@
 , fetchFromGitHub
 , makeWrapper
 , matrix-commander
+, gnused
+, gnugrep
 }:
 
 stdenv.mkDerivation rec {
   pname = "matrix-sendmail";
-  version = "50ccf7f1627545e807841fa5bb8e9cfddeb98b97";
+  version = "51aa508af706a7784eff8443e572edf9338540de";
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -15,7 +17,7 @@ stdenv.mkDerivation rec {
     owner = "emmanuelrosa";
     repo = "matrix-sendmail";
     rev = version;
-    sha256 = "sha256-T8K/8/3DrtdftnrRvCPHGSfeXEVoE+o+S5qZFq+aPUc=";
+    sha256 = "sha256-deTLxxPLHMrnIyg1zdw9gv5IezMFi1cKatlUWDB+Nfw=";
   };
 
   installPhase = ''
@@ -23,7 +25,9 @@ stdenv.mkDerivation rec {
     install -D sendmail $out/bin/sendmail
     install -D matrix-sendmail-prep $out/lib/matrix-sendmail/libexec/matrix-sendmail-prep
     install -D matrix-sendmail-deliver $out/lib/matrix-sendmail/libexec/matrix-sendmail-deliver
+
     wrapProgram $out/lib/matrix-sendmail/libexec/matrix-sendmail-deliver --prefix PATH : ${lib.makeBinPath [ matrix-commander ]}
+    wrapProgram $out/bin/sendmail --prefix PATH : ${lib.makeBinPath [ gnused gnugrep ]}
   '';
 
   meta = with lib; {
