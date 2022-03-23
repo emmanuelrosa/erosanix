@@ -80,6 +80,7 @@ in {
       };
 
       serviceConfig = {
+        Type = "oneshot";
         User = cfg.user;
         Group = cfg.group;
 
