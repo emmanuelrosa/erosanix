@@ -164,5 +164,6 @@
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
     nixosModules.btrbk = import ./modules/btrbk.nix;
     nixosModules.matrix-sendmail = import ./modules/matrix-sendmail.nix;
+    nixosModules.electrs = import ./modules/electrs.nix;
   };
 }
