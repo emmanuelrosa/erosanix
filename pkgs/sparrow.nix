@@ -141,9 +141,7 @@ let
       ls | xargs -d " " -- echo > ../manifest.txt
       find . | grep "\.so$" | xargs -- chmod ugo+x
       popd
-    '';
 
-    postBuild = ''
       # Set execute bit for executables within the modules.
       chmod ugo+x modules/com.sparrowwallet.sparrow/native/linux/x64/hwi
 
