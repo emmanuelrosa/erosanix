@@ -20,7 +20,7 @@
 , openimajgrabber
 }:
 
-let 
+let
   pname = "sparrow";
   version = "1.6.3";
 
@@ -63,7 +63,7 @@ let
     )
 
     XDG_DATA_DIRS=${gsettings-desktop-schemas}/share/gsettings-schemas/${gsettings-desktop-schemas.name}:${gtk3}/share/gsettings-schemas/${gtk3.name}:$XDG_DATA_DIRS ${openjdk17}/bin/java ''${params[@]} $@
-'';
+  '';
 
   torWrapper = writeScript "tor-wrapper" ''
     #! ${bash}/bin/bash
@@ -159,7 +159,8 @@ let
       ln -s ${openimajgrabber}/lib/OpenIMAJGrabber.so $out/modules/com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x64/OpenIMAJGrabber.so
     '';
   };
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   inherit pname version src;
   nativeBuildInputs = [ makeWrapper copyDesktopItems copyDesktopIcons ];
 
@@ -170,7 +171,7 @@ in stdenv.mkDerivation rec {
       icon = pname;
       desktopName = "Sparrow Bitcoin Wallet";
       genericName = "Bitcoin Wallet";
-      categories = ["Office" "Finance"];
+      categories = [ "Office" "Finance" ];
     })
   ];
 
