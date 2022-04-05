@@ -43,7 +43,7 @@
       callPackage = pkgs.callPackage;
       lib = self.lib.x86_64-linux;
       hsCallPackage = pkgs.haskellPackages.callPackage;
-      in rec {
+      in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
@@ -57,8 +57,7 @@
         openimajgrabber = callPackage ./pkgs/openimajgrabber.nix {};
 
         sparrow = callPackage ./pkgs/sparrow.nix { 
-          inherit openimajgrabber;
-
+          openimajgrabber = self.packages.x86_64-linux.openimajgrabber;
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
