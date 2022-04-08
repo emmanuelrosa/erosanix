@@ -119,6 +119,7 @@ in {
       package = mkOption {
         type = types.package;
         default = pkgs.electrs;
+        defaultText = lib.literalExpression "pkgs.electrs";
         description = "The package providing electrs.";
       };
     };
