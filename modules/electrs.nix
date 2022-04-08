@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, pkgs, lib, ... }:
 
 with lib;
 
@@ -118,7 +118,7 @@ in {
 
       package = mkOption {
         type = types.package;
-        default = null;
+        default = pkgs.electrs;
         description = "The package providing electrs.";
       };
     };
