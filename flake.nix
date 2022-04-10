@@ -164,5 +164,6 @@
     nixosModules.btrbk = import ./modules/btrbk.nix;
     nixosModules.matrix-sendmail = import ./modules/matrix-sendmail.nix;
     nixosModules.electrs = import ./modules/electrs.nix;
+    nixosModules.fzf = import ./modules/fzf.nix;
   };
 }
