@@ -77,11 +77,22 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        sierrachart = pkgs.lib.trivial.warn "The sierrachart package will soon remove support for the ACS_Source directory. Studies will need to be packaged with Nix. If you're using advanced custom studies, PM me on Matrix so I can send you migration information: @emmanuelrosa:matrix.org" callPackage ./pkgs/sierrachart { 
+        sierrachart = callPackage ./pkgs/sierrachart { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
+        sierrachart-example-study = pkgs.pkgsCross.mingwW64.callPackage ./pkgs/sierrachart/example-study.nix { 
+          mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads;
+          sierrachart = self.packages.x86_64-linux.sierrachart;
+        };
+
+        # This is to demonstrate how to install an instance of Sierra Chart using a Nix package to install a study.
+        sierrachart-with-example-study = self.packages.x86_64-linux.sierrachart.override { 
+          instanceName = "example-study";
+          studies = [ self.packages.x86_64-linux.sierrachart-example-study ]; 
         };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
