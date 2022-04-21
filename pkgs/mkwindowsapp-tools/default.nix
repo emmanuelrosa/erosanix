@@ -24,5 +24,6 @@ stdenv.mkDerivation rec {
     license = licenses.mit;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" "i686-linux" ];
+    mainProgram = "mkwindows-tools-gc";
   };
 }

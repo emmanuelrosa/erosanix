@@ -24,7 +24,7 @@ These layers are stored not in the Nix store, but rather in `$HOME/.cache/mkWind
  
 ### Do the layers need to be garbage-collected?
 
-Yes, the package `mkwindowsapp-tools` has a garbage collector which should be run after `nix-collect-garbage`.
+Yes, the package `mkwindowsapp-tools` has a garbage collector which should be run after `nix-collect-garbage`. You can run it as follows: `nix run github:emmanuelrosa/erosanix#mkwindows-tools`
 
 ### How does the garbage collector know what can be deleted? 
 
