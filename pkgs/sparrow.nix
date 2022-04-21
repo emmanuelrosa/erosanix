@@ -12,10 +12,8 @@
 , gsettings-desktop-schemas
 , writeScript
 , bash
-, imagemagick
 , gnugrep
 , tor
-, zip
 , zlib
 , openimajgrabber
 }:
@@ -149,7 +147,7 @@ let
       # with one from Nixpkgs.
       cp ${torWrapper} ./tor
       tar -cJf tor.tar.xz tor
-      cp tor.tar.xz modules/netlayer.jpms/native/linux/x64/tor.tar.xz 
+      cp tor.tar.xz modules/netlayer.jpms/native/linux/x64/tor.tar.xz
     '';
 
     installPhase = ''
@@ -157,6 +155,24 @@ let
       cp manifest.txt $out/
       cp -r modules/ $out/
       ln -s ${openimajgrabber}/lib/OpenIMAJGrabber.so $out/modules/com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x64/OpenIMAJGrabber.so
+    '';
+  };
+
+  # To use the udev rules for connected hardware wallets,
+  # add "pkgs.sparrow" to "services.udev.packages" and add user accounts to the user group "plugdev".
+  udev-rules = stdenv.mkDerivation {
+    name = "sparrow-udev";
+
+    src = let version = "2.0.2"; in
+      fetchurl {
+        url = "https://github.com/bitcoin-core/HWI/releases/download/${version}/hwi-${version}.tar.gz";
+        sha256 = "sha256-di1fRsMbwpHcBFNTCVivfxpwhUoUKLA3YTnJxKq/jHM=";
+      };
+
+    installPhase = ''
+      mkdir -p $out/etc/udev/rules.d
+      cp -a hwilib/udev/* $out/etc/udev/rules.d
+      rm $out/etc/udev/rules.d/README.md
     '';
   };
 in
@@ -191,6 +207,9 @@ stdenv.mkDerivation rec {
     substituteAllInPlace $out/bin/sparrow
     substituteInPlace $out/bin/sparrow --subst-var-by jdkModules ${jdk-modules}
 
+    mkdir -p $out/etc/udev
+    ln -s ${udev-rules}/etc/udev/rules.d $out/etc/udev/rules.d
+
     runHook postInstall
   '';
 
@@ -198,7 +217,7 @@ stdenv.mkDerivation rec {
     description = "A modern desktop Bitcoin wallet application supporting most hardware wallets and built on common standards such as PSBT, with an emphasis on transparency and usability.";
     homepage = "https://sparrowwallet.com";
     license = licenses.asl20;
-    maintainers = with maintainers; [ emmanuelrosa ];
+    maintainers = with maintainers; [ emmanuelrosa _1000101 ];
     platforms = [ "x86_64-linux" ];
   };
 }
