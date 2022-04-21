@@ -48,7 +48,7 @@
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
         century-gothic = callPackage ./pkgs/century-gothic {};
         wingdings = callPackage ./pkgs/wingdings.nix {};
-        trace = callPackage ./pkgs/trace.nix {};
+        trace-font = callPackage ./pkgs/trace-font.nix {};
         battery-icons = callPackage ./pkgs/battery-icons.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
