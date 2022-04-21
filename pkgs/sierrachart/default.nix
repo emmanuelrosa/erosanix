@@ -10,6 +10,9 @@
 , unzip
 , imagemagick
 , instanceName ? "default" # This should be alphanumeric, no spaces
+, studies ? []
+, xmessage
+, symlinkJoin
 }:
 mkWindowsApp rec {
   inherit wine;
@@ -60,6 +63,8 @@ mkWindowsApp rec {
     mkdir -p "$d/NPP"
     cp "$WINEPREFIX/drive_c/windows/system32/winebrowser.exe" "$d/NPP/notepad++.exe"
 
+    ${lib.optionalString (studies != []) installStudyDeps}
+
     # Prior to supporting multiple instances, user data was stored at ~/.local/share/sierrachart
     # But now the user data for the default instance is stored at ~/.local/share/sierrachart-default
     # This situation is handled below in a backwards-compatible way. 
@@ -69,14 +74,69 @@ mkWindowsApp rec {
     fi
   '';
 
+  joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ studies ]; };
+
+  installStudyDeps = ''
+    # Create symlinks to Sierra Chart studies dependencies
+    pushd "$WINEPREFIX/drive_c/windows/system32/"
+
+    for dll in $(find ${joinedStudies}/system32 -name "*.dll") 
+    do
+      ln -vs $dll "$(basename $dll)"
+    done
+
+    popd
+  '';
+
+  installStudies = ''
+    # Create symlinks to Sierra Chart studies
+    pushd "$HOME/.local/share/${pname}/Data"
+
+    for study in $(find ${joinedStudies}/lib -name "*.dll") 
+    do
+      ln -vs $study "$(basename $study)"
+    done
+
+    popd
+  '';
+
+  uninstallStudies = ''
+    # Remove symlinks to Sierra Chart studies
+    pushd "$HOME/.local/share/${pname}/Data"
+
+    for study in $(find ${joinedStudies}/lib -name "*.dll") 
+    do
+      rm -v "$(basename $study)"
+    done
+
+    popd
+  '';
+
   winAppRun = ''
-   wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
+    ${lib.optionalString (studies != []) installStudies}
+    wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
+    wineserver -w
+    ${lib.optionalString (studies != []) uninstallStudies}
+  '';
+
+  buildPhase = ''
+    unzip ${src} "ACS_Source/*"
   '';
 
   installPhase = ''
     runHook preInstall
 
     ln -s $out/bin/.launcher $out/bin/${pname}
+
+    # Copy Sierra Chart ACSIL, except for example code.
+    mkdir -p $out/include/sierrachart
+    cp -a ACS_Source/*.h $out/include
+    cp ACS_Source/SCStudyFunctions.cpp $out/include
+
+    # Copy Sierra Chart ACSIL example code.
+    mkdir -p $out/share/sierrachart/examples
+    cp -a ACS_Source/*.cpp $out/share/sierrachart/examples
+    rm $out/share/sierrachart/examples/SCStudyFunctions.cpp
 
     runHook postInstall
   '';

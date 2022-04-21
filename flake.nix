@@ -84,6 +84,17 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        sierrachart-example-study = pkgs.pkgsCross.mingwW64.callPackage ./pkgs/sierrachart/example-study.nix { 
+          mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads;
+          sierrachart = self.packages.x86_64-linux.sierrachart;
+        };
+
+        # This is to demonstrate how to install an instance of Sierra Chart using a Nix package to install a study.
+        sierrachart-with-example-study = self.packages.x86_64-linux.sierrachart.override { 
+          instanceName = "example-study";
+          studies = [ self.packages.x86_64-linux.sierrachart-example-study ]; 
+        };
+
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
