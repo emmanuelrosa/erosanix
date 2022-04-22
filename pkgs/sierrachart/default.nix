@@ -8,10 +8,8 @@
 , copyDesktopItems
 , copyDesktopIcons
 , unzip
-, imagemagick
 , instanceName ? "default" # This should be alphanumeric, no spaces
 , studies ? []
-, xmessage
 , symlinkJoin
 }:
 mkWindowsApp rec {
