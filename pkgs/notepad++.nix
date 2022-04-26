@@ -88,5 +88,6 @@ in mkWindowsApp rec {
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" "i686-linux" ];
+    mainProgram = "notepad++";
   };
 }
