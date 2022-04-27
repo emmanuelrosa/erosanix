@@ -3,7 +3,7 @@
 let
   description = "Century Gothic font.";
 in stdenv.mkDerivation rec {
-  name = "century-gothic-${version}";
+  name = "century-gothic-font-${version}";
   version = "2016-09-17";
 
   src = ./century-gothic.zip;

@@ -3,7 +3,7 @@
 let
   description = "A font containing nothing but batteries.";
 in stdenv.mkDerivation rec {
-  name = "battery-icons-${version}";
+  name = "battery-icons-font-${version}";
   version = "2020-01-26";
 
   src = fetchurl {

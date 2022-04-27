@@ -3,7 +3,7 @@
 let
   description = "Wingdings font.";
 in stdenv.mkDerivation rec {
-  name = "wingdings-${version}";
+  name = "wingdings-font-${version}";
   version = "2015-11-10";
 
   src = fetchurl {
