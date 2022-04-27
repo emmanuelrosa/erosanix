@@ -46,10 +46,6 @@
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
-        century-gothic = callPackage ./pkgs/century-gothic {};
-        wingdings = callPackage ./pkgs/wingdings.nix {};
-        trace-font = callPackage ./pkgs/trace-font.nix {};
-        battery-icons = callPackage ./pkgs/battery-icons.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
@@ -109,7 +105,7 @@
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
         matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    };
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
 
     packages.aarch64-linux = let
       pkgs = import "${nixpkgs}" {
@@ -121,16 +117,12 @@
       hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
-        century-gothic = callPackage ./pkgs/century-gothic {};
-        wingdings = callPackage ./pkgs/wingdings.nix {};
-        trace-font = callPackage ./pkgs/trace-font.nix {};
-        battery-icons = callPackage ./pkgs/battery-icons.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
         bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
         matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    };
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
 
     packages.i686-linux = let
       pkgs = import "${nixpkgs}" {
@@ -143,10 +135,6 @@
       lib = self.lib.i686-linux;
       in {
         electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
-        century-gothic = callPackage ./pkgs/century-gothic {};
-        wingdings = callPackage ./pkgs/wingdings.nix {};
-        trace-font = callPackage ./pkgs/trace-font.nix {};
-        battery-icons = callPackage ./pkgs/battery-icons.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
         pdf2png = callPackage ./pkgs/pdf2png.nix {};
         rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
@@ -168,7 +156,7 @@
         };
 
         matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    };
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
