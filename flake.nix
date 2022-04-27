@@ -44,12 +44,8 @@
       lib = self.lib.x86_64-linux;
       hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
-        electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
-        pdf2png = callPackage ./pkgs/pdf2png.nix {};
-        rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
-        bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
         openimajgrabber = callPackage ./pkgs/openimajgrabber.nix {};
 
         sparrow = callPackage ./pkgs/sparrow.nix { 
@@ -57,8 +53,6 @@
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
-
-        muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
 
         tastyworks = callPackage ./pkgs/tastyworks.nix {
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -104,8 +98,7 @@
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
-        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
       pkgs = import "${nixpkgs}" {
@@ -116,13 +109,8 @@
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
-        electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
-        pdf2png = callPackage ./pkgs/pdf2png.nix {};
-        rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
-        bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
-        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.i686-linux = let
       pkgs = import "${nixpkgs}" {
@@ -134,12 +122,7 @@
       hsCallPackage = pkgs.haskellPackages.callPackage;
       lib = self.lib.i686-linux;
       in {
-        electrum-personal-server = callPackage ./pkgs/electrum-personal-server.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
-        pdf2png = callPackage ./pkgs/pdf2png.nix {};
-        rofi-menu = callPackage ./pkgs/rofi-menu.nix {};
-        bitcoin-onion-nodes = callPackage ./pkgs/bitcoin-onion-nodes.nix {};
-        muun-recovery-tool = callPackage ./pkgs/muun-recovery-tool.nix {};
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
@@ -155,8 +138,7 @@
           copyDesktopIcons = lib.copyDesktopIcons;
         };
 
-        matrix-sendmail = callPackage ./pkgs/matrix-sendmail.nix { };
-    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./fontpkgs.nix));
+    } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
