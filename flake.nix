@@ -25,6 +25,7 @@
     lib.i686-linux = let
       pkgs = import "${nixpkgs}" {
         system = "i686-linux";
+        config.allowUnfree = true;
       };
 
       callPackage = pkgs.callPackage;
@@ -98,6 +99,14 @@
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
+
+        foobar2000 = callPackage ./pkgs/foobar2000.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wine; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -136,6 +145,13 @@
         vim-desktop = callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
           copyDesktopIcons = lib.copyDesktopIcons;
+        };
+
+        foobar2000 = callPackage ./pkgs/foobar2000.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wine; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
