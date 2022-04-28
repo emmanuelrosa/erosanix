@@ -16,6 +16,7 @@
 , tor
 , zlib
 , openimajgrabber
+, hwi
 }:
 
 let
@@ -135,13 +136,11 @@ let
       rm -fR com.sparrowwallet.merged.module/linux-aarch64
       rm -fR com.sparrowwallet.merged.module/linux-arm
       rm -fR com.sparrowwallet.merged.module/linux-x86
+      rm com.sparrowwallet.sparrow/native/linux/x64/hwi
 
       ls | xargs -d " " -- echo > ../manifest.txt
       find . | grep "\.so$" | xargs -- chmod ugo+x
       popd
-
-      # Set execute bit for executables within the modules.
-      chmod ugo+x modules/com.sparrowwallet.sparrow/native/linux/x64/hwi
 
       # Replace the embedded Tor binary (which is in a Tar archive)
       # with one from Nixpkgs.
@@ -155,6 +154,7 @@ let
       cp manifest.txt $out/
       cp -r modules/ $out/
       ln -s ${openimajgrabber}/lib/OpenIMAJGrabber.so $out/modules/com.github.sarxos.webcam.capture/com/github/sarxos/webcam/ds/buildin/lib/linux_x64/OpenIMAJGrabber.so
+      ln -s ${hwi}/bin/hwi $out/modules/com.sparrowwallet.sparrow/native/linux/x64/hwi
     '';
   };
 
