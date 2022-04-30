@@ -1,6 +1,9 @@
 # erosanix
-My main NixOS/Nix Flakes repository.
+My main NixOS/Nix Flakes repository includes misc. packages, NixOS modules, and Nix functions. This repo also functions as a Nix User Repository (NUR), and replaces my old NUR `emmanuelrosa`.
 
-This repository replaces my Nix User Repository (NUR) https://github.com/emmanuelrosa/nur-packages. But note that this repo is a Nix Flake, and does not contain backwards-compatability with Nix < 2.4 nor with Nix >= 2.4 with flakes disabled.
+## Features
 
-To see the contents of this Flake, run `nix flake show https://github.com/emmanuelrosa/erosanix`
+* `mkWindowsApp` - A derivation for packaging Wine-compatible Windows programs. There are also various packaged programs, such as Notepad++ and Sierra Chart.
+* Bitcoin packages - Various Bitcoin tools are packaged, such as the Muun wallet recovery tool
+* `nvidia-offload-wrapper` - A function to wrap programs so that they use Nvidia offload rendering.
+* `makeDesktopIcon` - A function to generate desktop icons. A companion to makeDesktopItem.
