@@ -2,8 +2,12 @@
   description = "Emmanuel's NixOS/Nix Flakes repository.";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
+  inputs.flake-compat = {
+    url = "github:edolstra/flake-compat";
+    flake = false;
+  };
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs, flake-compat }: {
 
     lib.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
