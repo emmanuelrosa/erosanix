@@ -4,7 +4,6 @@
 , wine
 , wineArch
 , fetchurl
-, imagemagick
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
