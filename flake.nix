@@ -97,6 +97,14 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        send-to-kindle = callPackage ./pkgs/send-to-kindle.nix { 
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+          zenity = pkgs.gnome.zenity;
+        };
+
         vim-desktop = callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
           copyDesktopIcons = lib.copyDesktopIcons;
