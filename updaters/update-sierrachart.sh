@@ -20,7 +20,7 @@ else
   updated_nix_src=$(mktemp)
   curl $url > $src
   sha256=$(nix-prefetch-url --name $name --type sha256 "file://$src")
-  awk -f $script_path/update-sierrachart.awk -v hash="$sha256" -v version="$upstream_version" $repo_path/pkgs/sierrachart/default.nix > $updated_nix_src
+  awk -f $script_path/update-derivation.awk -v hash="$sha256" -v version="$upstream_version" $repo_path/pkgs/sierrachart/default.nix > $updated_nix_src
   cat $updated_nix_src > $repo_path/pkgs/sierrachart/default.nix
   rm $src
   rm $updated_nix_src
