@@ -13,14 +13,14 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "foobar2000";
-  version = "1.6.10";
+  version = "1.6.10"; #:version:
   wineArch = "win32";
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
     url = "https://www.foobar2000.org/files/foobar2000_v${version}.exe";
-    sha256 = "02yk82gzddl8rcmr4i5p3nvdcz08c6qkdmk8a1fl4j4yd4piriyk";
+    sha256 = "02yk82gzddl8rcmr4i5p3nvdcz08c6qkdmk8a1fl4j4yd4piriyk"; #:hash:
   };
 
   fileMap = { "$HOME/.local/share/foobar2000" = "drive_c/users/$USER/AppData/Roaming/foobar2000"; };
