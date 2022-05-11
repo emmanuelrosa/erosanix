@@ -80,10 +80,18 @@ let
     derivationUpdater = defaultDerivationUpdater; 
   };
 
+  all = let
+    scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "exec ${script}") updaters));
+  in pkgs.writeScriptBin "update-all.bash" ''
+    #!${pkgs.bash}/bin/bash
+
+    ${scripts}
+  '';
+
   updaters = let 
     configs = builtins.mapAttrs (name: derivationPath: importUpdater derivationPath) {
       sierrachart = ./updaters/sierrachart.nix;
       foobar2000 = ./updaters/foobar2000.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
-in updaters
+in updaters // all
