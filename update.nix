@@ -40,7 +40,7 @@ let
       fi
     '';
     comparatorScript = if comparator == "version" then versionComparator else hashComparator;
-  in pkgs.writeScriptBin "update.bash" ''
+  in if (! builtins.pathExists derivation) then throw "The path ${derivation} doesn't exist!" else pkgs.writeScriptBin "update.bash" ''
     #!${pkgs.bash}/bin/bash
 
     export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused ]}
