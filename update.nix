@@ -27,7 +27,10 @@ let
       get_local_hash
       get_remote_hash
 
-      if [[ "$local_hash" -eq "$remote_hash" ]]
+      echo "local hash: $local_hash"
+      echo "remote hash: $remote_hash"
+
+      if [[ "$local_hash" == "$remote_hash" ]]
       then
         echo "No update found for $derivation."
       else
@@ -99,6 +102,7 @@ let
     configs = builtins.mapAttrs (name: derivationPath: importUpdater derivationPath) {
       sierrachart = ./updaters/sierrachart.nix;
       foobar2000 = ./updaters/foobar2000.nix;
+      send-to-kindle = ./updaters/send-to-kindle.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
 in updaters // all

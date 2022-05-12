@@ -13,11 +13,11 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "send-to-kindle";
-  version = "1.1.1.253";
+  version = "1.1.1.253"; #:version:
 
   src = fetchurl {
     url = "https://s3.amazonaws.com/sendtokindle/SendToKindleForPC-installer.exe";
-    sha256 = "1w5ixrnkvjg507yymq24kqn1qy1bpr9m25143v4g2mihkdk7789q";
+    sha256 = "1w5ixrnkvjg507yymq24kqn1qy1bpr9m25143v4g2mihkdk7789q"; #:hash
   };
 
   dontUnpack = true;
