@@ -59,11 +59,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        tastyworks = pkgs.lib.trivial.warn "The erosanix tastyworks package is deprecated. Expect it to be removed soon." (callPackage ./pkgs/tastyworks.nix {
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
-        });
-
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
