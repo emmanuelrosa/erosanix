@@ -4,12 +4,12 @@ let
   description = "A font containing nothing but batteries.";
 in stdenv.mkDerivation rec {
   name = "battery-icons-font-${version}";
-  version = "2020-01-26";
+  version = "2020-01-26"; #:version:
 
   src = fetchurl {
     url = "https://dl.dafont.com/dl/?f=battery_icons";
     name = "battery-icons.zip";
-    sha256 = "18w4fp9xhvs34dv92ay918wl81ffjw3wcva84m6gpm1jcfqww292";
+    sha256 = "18w4fp9xhvs34dv92ay918wl81ffjw3wcva84m6gpm1jcfqww292"; #:hash:
   };
 
   nativeBuildInputs = [ unzip ];

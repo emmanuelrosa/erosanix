@@ -103,6 +103,7 @@ let
       sierrachart = ./updaters/sierrachart.nix;
       foobar2000 = ./updaters/foobar2000.nix;
       send-to-kindle = ./updaters/send-to-kindle.nix;
+      battery-icons-font = ./updaters/battery-icons-font.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
 in updaters // all
