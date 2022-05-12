@@ -4,11 +4,11 @@ let
   description = "Trace font";
 in stdenv.mkDerivation rec {
   pname = "trace-font";
-  version = "2020-03-25";
+  version = "2020-03-25"; #:version:
 
   src = fetchurl {
     url = "https://get.fontspace.co/download/font/lxy0/Y2VmNGUzYTIzMzlkNDUxZWFkZjVjOTgyOTRmYjlmMzUuVFRG/Trace-lxy0.ttf";
-    sha256 = "sha256-CFN8u1qrL+4qfsvDjIcuZIs1mFU/G6VaDbY/bsM+QH4=";
+    sha256 = "0zj07v1nwgxn1mdaa6rzanc3b2v45s3qrhybgqmfwbxbbaxpqlq8"; #:hash:
   };
 
   dontUnpack = true;
