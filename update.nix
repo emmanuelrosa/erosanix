@@ -52,6 +52,7 @@ let
       remote_hash=$(nix-prefetch-url --type sha256 "$url")
     }
 
+    echo "Starting the updater for $derivation"
     ${localInfoGrabber}
     ${remoteInfoGrabber}
 
@@ -87,7 +88,7 @@ let
   };
 
   all = let
-    scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "exec ${script}") updaters));
+    scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") updaters));
   in pkgs.writeScript "update-all.bash" ''
     #!${pkgs.bash}/bin/bash
 
