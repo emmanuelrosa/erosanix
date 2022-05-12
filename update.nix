@@ -40,7 +40,7 @@ let
       fi
     '';
     comparatorScript = if comparator == "version" then versionComparator else hashComparator;
-  in if (! builtins.pathExists derivation) then throw "The path ${derivation} doesn't exist!" else pkgs.writeScriptBin "update.bash" ''
+  in if (! builtins.pathExists derivation) then throw "The path ${derivation} doesn't exist!" else pkgs.writeScript "update.bash" ''
     #!${pkgs.bash}/bin/bash
 
     export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused ]}
@@ -88,7 +88,7 @@ let
 
   all = let
     scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "exec ${script}") updaters));
-  in pkgs.writeScriptBin "update-all.bash" ''
+  in pkgs.writeScript "update-all.bash" ''
     #!${pkgs.bash}/bin/bash
 
     ${scripts}
