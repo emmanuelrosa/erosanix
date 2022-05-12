@@ -45,6 +45,12 @@ let
 
     export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused ]}
     derivation="${derivation}"
+    url=""
+
+    function get_remote_hash () {
+      get_url
+      remote_hash=$(nix-prefetch-url --type sha256 "$url")
+    }
 
     ${localInfoGrabber}
     ${remoteInfoGrabber}
@@ -69,7 +75,7 @@ let
       !/#:version:/  && !/#:hash:/ { print $0 }
     '';
   in '' 
-    local updated_nix_src=$(mktemp)
+    updated_nix_src=$(mktemp)
     ${pkgs.gawk}/bin/awk -f ${updateDerivation} -v version=$version -v hash=$hash $derivation > $updated_nix_src
     cat $updated_nix_src > $derivation
     rm $updated_nix_src
