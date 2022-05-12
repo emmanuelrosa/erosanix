@@ -7,23 +7,15 @@ in stdenv.mkDerivation rec {
   version = "2020-03-25";
 
   src = fetchurl {
-    url = https://get.fontspace.co/download/family/194l/f3bb2d1221f04e149a022c65a84b5563/trace-font.zip;
-    sha256 = "sha256-p8OPkSJonkeaoOG4R2g8oqSErsglriQXJ5a8A5psLlM=";
+    url = "https://get.fontspace.co/download/font/lxy0/Y2VmNGUzYTIzMzlkNDUxZWFkZjVjOTgyOTRmYjlmMzUuVFRG/Trace-lxy0.ttf";
+    sha256 = "sha256-CFN8u1qrL+4qfsvDjIcuZIs1mFU/G6VaDbY/bsM+QH4=";
   };
 
-  nativeBuildInputs = [ unzip ];
-
-  unpackCmd = ''
-    mkdir ${pname}
-    pushd ${pname}
-    unzip $curSrc
-    chmod ug+r *
-    popd
-  '';
+  dontUnpack = true;
 
   installPhase = ''
     mkdir -p $out/share/fonts/trace
-    cp -r ./*.ttf $out/share/fonts/trace
+    ln -s $src $out/share/fonts/trace/trace.ttf
   '';
 
   meta = with lib; {
