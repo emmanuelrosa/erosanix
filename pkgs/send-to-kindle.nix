@@ -34,7 +34,13 @@ mkWindowsApp rec {
   '';
 
   winAppRun = '' 
-    wine "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/SendToKindle.exe"
+   if [ "$ARGS" == "" ]
+   then
+     wine start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/SendToKindle.exe"
+   else
+     file=$(winepath -w "$ARGS")
+     wine start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/StkSendToHandler.exe" "$file"
+  fi
   '';
 
   installPhase = ''
@@ -52,6 +58,7 @@ mkWindowsApp rec {
       icon = pname;
       desktopName = "Amazon Kindle";
       categories = ["Office" "Viewer"];
+      mimeTypes = [ "text/plain" "application/msword" "application/rtf" "application/pdf" "image/png" "image/jpeg" "image/bmp" "image/gif" "application/x-mobipocket-ebook" "application/vnd.amazon.mobi8-ebook" ];
     })
   ];
 
