@@ -27,5 +27,10 @@
       _get_filename
       remote_version=$(echo $_filename | sed 's/^foobar2000_v\([[:digit:]]\+\.[[:digit:]]\+\.[[:digit:]]\+\)\(.*\)/\1/')
     }
+
+    function get_remote_hash () {
+      get_url
+      remote_hash=$(nix-prefetch-url --type sha256 "$url")
+    }
   '';
 }

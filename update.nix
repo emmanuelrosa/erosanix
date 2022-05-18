@@ -46,14 +46,9 @@ let
   in if (! builtins.pathExists derivation) then throw "The path ${derivation} doesn't exist!" else pkgs.writeScript "update.bash" ''
     #!${pkgs.bash}/bin/bash
 
-    export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused ]}
+    export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused pkgs.jq ]}
     derivation="${derivation}"
     url=""
-
-    function get_remote_hash () {
-      get_url
-      remote_hash=$(nix-prefetch-url --type sha256 "$url")
-    }
 
     echo "Starting the updater for $derivation"
     ${localInfoGrabber}
@@ -105,6 +100,7 @@ let
       send-to-kindle = ./updaters/send-to-kindle.nix;
       battery-icons-font = ./updaters/battery-icons-font.nix;
       trace-font = ./updaters/trace-font.nix;
+      muun-recovery = ./updaters/muun-recovery.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
 in updaters // all

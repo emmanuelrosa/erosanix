@@ -34,5 +34,10 @@
       _get_name
       remote_version=$(echo $_name | sed 's/^SierraChart\([[:digit:]]\+\)\.zip/\1/')
     }
+
+    function get_remote_hash () {
+      get_url
+      remote_hash=$(nix-prefetch-url --type sha256 "$url")
+    }
   '';
 }
