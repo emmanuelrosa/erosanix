@@ -101,6 +101,7 @@ let
       battery-icons-font = ./updaters/battery-icons-font.nix;
       trace-font = ./updaters/trace-font.nix;
       muun-recovery = ./updaters/muun-recovery.nix;
+      sparrow = ./updaters/sparrow.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
 in updaters // all
