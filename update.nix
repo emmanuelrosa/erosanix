@@ -85,14 +85,6 @@ let
     derivationUpdater = defaultDerivationUpdater; 
   };
 
-  all = let
-    scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") updaters));
-  in pkgs.writeScript "update-all.bash" ''
-    #!${pkgs.bash}/bin/bash
-
-    ${scripts}
-  '';
-
   updaters = let 
     configs = builtins.mapAttrs (name: derivationPath: importUpdater derivationPath) {
       sierrachart = ./updaters/sierrachart.nix;
@@ -104,4 +96,25 @@ let
       sparrow = ./updaters/sparrow.nix;
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
-in updaters // all
+
+  sets = {
+    sets = {
+      all = let
+        scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") updaters));
+      in pkgs.writeScript "update-all.bash" ''
+        #!${pkgs.bash}/bin/bash
+
+        ${scripts}
+      '';
+
+      quick = let
+        scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") (builtins.removeAttrs updaters [ "send-to-kindle" ])));
+      in pkgs.writeScript "update-quick.bash" ''
+        #!${pkgs.bash}/bin/bash
+
+        ${scripts}
+      '';
+    };
+  };
+
+in updaters // sets
