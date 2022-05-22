@@ -97,22 +97,20 @@ let
     };
   in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
 
-  sets = {
+  sets = let 
+    script = updaterSet: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: updater: "${updater}") updaterSet));
+  in {
     sets = {
-      all = let
-        scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") updaters));
-      in pkgs.writeScript "update-all.bash" ''
+      all = pkgs.writeScript "update-all.bash" ''
         #!${pkgs.bash}/bin/bash
 
-        ${scripts}
+        ${script updaters}
       '';
 
-      quick = let
-        scripts = builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: script: "${script}") (builtins.removeAttrs updaters [ "send-to-kindle" ])));
-      in pkgs.writeScript "update-quick.bash" ''
+      quick = pkgs.writeScript "update-quick.bash" ''
         #!${pkgs.bash}/bin/bash
 
-        ${scripts}
+        ${script (builtins.removeAttrs updaters [ "send-to-kindle" ])}
       '';
     };
   };
