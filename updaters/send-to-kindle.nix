@@ -1,19 +1,13 @@
-{ localInfoGrabber
-, derivationUpdater
+{ pkgs
+, libupdate
 }:
-{
-  inherit localInfoGrabber derivationUpdater;
+libupdate.mkUpdateScript {
   comparator = "hash";
   derivation = builtins.toPath ../pkgs/send-to-kindle.nix;
 
-  remoteInfoGrabber = ''
-    function get_url () {
-      url="https://s3.amazonaws.com/sendtokindle/SendToKindleForPC-installer.exe"
-    }
-
-    function get_remote_hash () {
-      get_url
-      remote_hash=$(nix-prefetch-url --type sha256 "$url")
-    }
+  getRemoteVersion = ''
+    echo "no-op"
   '';
+
+  getRemoteHash = libupdate.prefetchUrl "https://s3.amazonaws.com/sendtokindle/SendToKindleForPC-installer.exe";
 }

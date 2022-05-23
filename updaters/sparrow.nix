@@ -1,24 +1,15 @@
-{ localInfoGrabber
-, derivationUpdater
+{ pkgs
+, libupdate
 }:
-{
-  inherit localInfoGrabber derivationUpdater;
+libupdate.mkUpdateScript {
   comparator = "version";
   derivation = builtins.toPath ../pkgs/sparrow.nix;
 
-  remoteInfoGrabber = ''
+  getRemoteVersion = libupdate.getRemoteVersionFromGitHub { 
+    owner = "sparrowwallet"; 
+    repo = "sparrow"; 
+    versionConverter = "${pkgs.gnused}/bin/sed -e 's/\\\"//g' -e 's/\\\"$//g' -e 's/Release //g'"; 
+  };
 
-    function get_remote_version () {
-      remote_version=$(curl -s https://api.github.com/repos/sparrowwallet/sparrow/releases| jq '.[] | {name,prerelease} | select(.prerelease==false) | limit(1;.[])' | sed -e 's/\"//g' -e 's/\"$//g' | head -n 1)
-    }
-
-    function get_url () {
-      url="https://github.com/sparrowwallet/sparrow/releases/download/$remote_version/sparrow-$remote_version.tar.gz"
-    }
-
-    function get_remote_hash () {
-      get_url
-      remote_hash=$(nix-prefetch-url --type sha256 "$url")
-    }
-  '';
+  getRemoteHash = libupdate.prefetchUrl "https://github.com/sparrowwallet/sparrow/releases/download/$version/sparrow-$version.tar.gz"; 
 }

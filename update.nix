@@ -2,16 +2,42 @@
 let
   pkgs = import nixpkgs { };
 
-  mkUpdateScript = { localInfoGrabber , remoteInfoGrabber , comparator ? "version" , derivationUpdater , derivation }: let
+  defaultGetLocalVersion = ''
+      echo $(${pkgs.gawk}/bin/awk '/#:version:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s", m[2])}' $derivation)
+  '';
+
+  defaultGetLocalHash = ''
+      echo $(${pkgs.gawk}/bin/awk '/#:hash:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s", m[2])}' $derivation)
+  '';
+
+  # Implementation of getRemoteHash
+  prefetchUrl = args: let
+    url = if builtins.isAttrs args then args.url else args;
+    unpack = if builtins.isAttrs args then args.unpack else false;
+    unpackStr = if unpack then "--unpack" else "";
+  in ''
+    echo $(nix-prefetch-url --type sha256 ${unpackStr} "${url}")
+  '';
+
+  getRemoteVersionFromGitHub = { owner, repo, versionConverter }: ''
+      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${versionConverter} | head -n 1)
+  '';
+
+  mkUpdateScript = { getLocalVersion ? defaultGetLocalVersion
+                   , getLocalHash ? defaultGetLocalHash
+                   , getRemoteVersion
+                   , getRemoteHash
+                   , comparator ? "version"
+                   , derivation }: let
     versionComparator = ''
-      get_local_version
-      get_remote_version
+      local_version=$(get_local_version)
+      remote_version=$(get_remote_version)
 
       if [ "$local_version" == "$remote_version" ]
       then
         echo "No update found for $derivation."
       else
-        get_remote_hash
+        remote_hash=$(get_remote_hash $remote_version)
         version=$remote_version
         hash=$remote_hash
         echo "Update found for $derivation. Updating..."
@@ -24,17 +50,14 @@ let
       # The hash comparator is for when the version cannot be determined from the remote content.
       # This means the version must be updated manually.
     hashComparator = ''
-      get_local_hash
-      get_remote_hash
-
-      echo "local hash: $local_hash"
-      echo "remote hash: $remote_hash"
+      local_hash=$(get_local_hash)
+      remote_hash=$(get_remote_hash "version_is_not_used") 
 
       if [[ "$local_hash" == "$remote_hash" ]]
       then
         echo "No update found for $derivation."
       else
-        get_local_version
+        local_version=$(get_local_version)
         version=$local_version
         hash=$remote_hash
         echo "Update found for $derivation. Updating..."
@@ -46,28 +69,31 @@ let
   in if (! builtins.pathExists derivation) then throw "The path ${derivation} doesn't exist!" else pkgs.writeScript "update.bash" ''
     #!${pkgs.bash}/bin/bash
 
-    export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils pkgs.gawk pkgs.curl pkgs.htmlq pkgs.gnugrep pkgs.gnused pkgs.jq ]}
+    export PATH=${pkgs.lib.makeBinPath [ pkgs.nix pkgs.coreutils ]}
     derivation="${derivation}"
-    url=""
 
-    echo "Starting the updater for $derivation"
-    ${localInfoGrabber}
-    ${remoteInfoGrabber}
-
-    ${comparatorScript}
-  '';
-
-  defaultLocalInfoGrabber = ''
     function get_local_version () {
-      local_version=$(awk '/#:version:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s", m[2])}' $derivation)
+      ${getLocalVersion}
     }
 
     function get_local_hash () {
-      local_hash=$(awk '/#:hash:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s", m[2])}' $derivation)
+      ${getLocalHash}
     }
+
+    function get_remote_version () {
+      ${getRemoteVersion}
+    }
+
+    function get_remote_hash () {
+      local version=$1
+      ${getRemoteHash}
+    }
+
+    echo "Starting the updater for $derivation"
+    ${comparatorScript}
   '';
 
-  defaultDerivationUpdater = let
+  derivationUpdater = let
     updateDerivation = pkgs.writeText "update-derivation.awk" ''
       /#:version:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s\"%s\"%s\n", m[1], version , m[3]) }
       /#:hash:/ { match ($0, /^(.*)"([0-9a-z-]+)"(.*)/, m); printf ("%s\"%s\"%s\n", m[1], hash , m[3]) }
@@ -80,22 +106,24 @@ let
     rm $updated_nix_src
   '';
 
-  importUpdater = derivationPath: import derivationPath { 
-    localInfoGrabber = defaultLocalInfoGrabber;
-    derivationUpdater = defaultDerivationUpdater; 
-  };
+  importUpdater = updater:
+    import updater { 
+      inherit pkgs;
 
-  updaters = let 
-    configs = builtins.mapAttrs (name: derivationPath: importUpdater derivationPath) {
-      sierrachart = ./updaters/sierrachart.nix;
-      foobar2000 = ./updaters/foobar2000.nix;
-      send-to-kindle = ./updaters/send-to-kindle.nix;
-      battery-icons-font = ./updaters/battery-icons-font.nix;
-      trace-font = ./updaters/trace-font.nix;
-      muun-recovery = ./updaters/muun-recovery.nix;
-      sparrow = ./updaters/sparrow.nix;
+      libupdate = {
+        inherit mkUpdateScript prefetchUrl getRemoteVersionFromGitHub;
+      };
     };
-  in builtins.mapAttrs (name: updater: mkUpdateScript updater) configs;
+
+  updaters = builtins.mapAttrs (name: path: importUpdater path) {
+    sierrachart = ./updaters/sierrachart.nix;
+    battery-icons-font = ./updaters/battery-icons-font.nix;
+    trace-font = ./updaters/trace-font.nix;
+    send-to-kindle = ./updaters/send-to-kindle.nix;
+    foobar2000 = ./updaters/foobar2000.nix;
+    muun-recovery = ./updaters/muun-recovery.nix;
+    sparrow = ./updaters/sparrow.nix;
+  };
 
   sets = let 
     script = updaterSet: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: updater: "${updater}") updaterSet));
@@ -110,7 +138,7 @@ let
       quick = pkgs.writeScript "update-quick.bash" ''
         #!${pkgs.bash}/bin/bash
 
-        ${script (builtins.removeAttrs updaters [ "send-to-kindle" ])}
+        ${script (builtins.removeAttrs updaters [ "send-to-kindle" "battery-icons-font" "trace-font" ])}
       '';
     };
   };

@@ -1,19 +1,13 @@
-{ localInfoGrabber
-, derivationUpdater
+{ pkgs
+, libupdate
 }:
-{
-  inherit localInfoGrabber derivationUpdater;
+libupdate.mkUpdateScript {
   comparator = "hash";
   derivation = builtins.toPath ../pkgs/battery-icons-font.nix;
 
-  remoteInfoGrabber = ''
-    function get_url () {
-      url="https://dl.dafont.com/dl/?f=battery_icons"
-    }
-
-    function get_remote_hash () {
-      get_url
-      remote_hash=$(nix-prefetch-url --type sha256 "$url")
-    }
+  getRemoteVersion = ''
+    echo "no-op"
   '';
+
+  getRemoteHash = libupdate.prefetchUrl "https://dl.dafont.com/dl/?f=battery_icons";
 }
