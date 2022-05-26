@@ -19,14 +19,15 @@ let
     echo $(nix-prefetch-url --type sha256 ${unpackStr} "${url}")
   '';
 
-  getRemoteVersionFromGitHub = { owner, repo, versionConverter }: ''
-      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${versionConverter} | head -n 1)
+  getRemoteVersionFromGitHub = { owner, repo, versionConverter ? "tee" }: ''
+      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${pkgs.gnused}/bin/sed -e 's/^\"//g' -e 's/\"$//g' -e 's/Release //g' | ${versionConverter} | head -n 1)
   '';
 
   mkUpdateScript = { getLocalVersion ? defaultGetLocalVersion
                    , getLocalHash ? defaultGetLocalHash
                    , getRemoteVersion
                    , getRemoteHash
+                   , derivationUpdater ? defaultDerivationUpdater
                    , comparator ? "version"
                    , derivation }: let
     versionComparator = ''
@@ -93,7 +94,7 @@ let
     ${comparatorScript}
   '';
 
-  derivationUpdater = let
+  defaultDerivationUpdater = let
     updateDerivation = pkgs.writeText "update-derivation.awk" ''
       /#:version:/ { match ($0, /^(.*)"(.+)"(.*)/, m); printf ("%s\"%s\"%s\n", m[1], version , m[3]) }
       /#:hash:/ { match ($0, /^(.*)"([0-9a-z-]+)"(.*)/, m); printf ("%s\"%s\"%s\n", m[1], hash , m[3]) }
@@ -115,15 +116,40 @@ let
       };
     };
 
-  updaters = builtins.mapAttrs (name: path: importUpdater path) {
+  mkSimpleGitHubUpdater = { derivationPath, owner, repo, tagPrefix ? "v" }: mkUpdateScript {
+    comparator = "version";
+    derivation = builtins.toPath derivationPath;
+
+    getRemoteVersion = getRemoteVersionFromGitHub { 
+      inherit owner repo;
+    };
+
+    getRemoteHash = prefetchUrl { unpack = true; url = "https://github.com/${owner}/${repo}/archive/refs/tags/${tagPrefix}$version.tar.gz"; };
+  };
+
+  updaters = (builtins.mapAttrs (name: path: importUpdater path) {
     sierrachart = ./updaters/sierrachart.nix;
     battery-icons-font = ./updaters/battery-icons-font.nix;
     trace-font = ./updaters/trace-font.nix;
     send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
-    muun-recovery = ./updaters/muun-recovery.nix;
     sparrow = ./updaters/sparrow.nix;
-  };
+    openimajgrabber = ./updaters/openimajgrabber.nix;
+    notepad-plus-plus = ./updaters/notepad++.nix;
+  }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
+    muun-recovery-tool = { 
+      derivationPath = ./pkgs/muun-recovery-tool.nix;
+      owner = "muun";
+      repo = "recovery";
+    };
+
+    electrum-personal-server = { 
+      derivationPath = ./pkgs/electrum-personal-server.nix;
+      owner = "chris-belcher";
+      repo = "electrum-personal-server";
+      tagPrefix = "eps-v";
+    };
+  });
 
   sets = let 
     script = updaterSet: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs (name: updater: "${updater}") updaterSet));

@@ -5,11 +5,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "openimajgrabber";
-  version = "1.3.10";
+  version = "1.3.10"; #:version:
 
   src = fetchurl {
     url = "https://github.com/openimaj/openimaj/archive/refs/tags/openimaj-${version}.tar.gz";
-    sha256 = "0dyk9qrqgllfiwfacxgy8widwjadaiv6qs36qiixk427i3d7zdg0";
+    sha256 = "0dyk9qrqgllfiwfacxgy8widwjadaiv6qs36qiixk427i3d7zdg0"; #:hash:
   };
 
   buildInputs = [ libv4l ];

@@ -2,14 +2,14 @@
 
 python3Packages.buildPythonApplication rec {
   pname = "electrum-personal-server";
-  version = "0.2.3";
+  version = "0.2.3"; #:version:
   doCheck = false;
 
   src = fetchFromGitHub {
     owner = "chris-belcher";
     repo = "electrum-personal-server";
     rev = "eps-v${version}";
-    sha256 = "sha256-iONxw2yToB8o7F2Dt4/dcDu+pJ1bA/1QCksYuxyj8qQ=";
+    sha256 = "sha256-iONxw2yToB8o7F2Dt4/dcDu+pJ1bA/1QCksYuxyj8qQ="; #:hash:
   };
 
   propagatedBuildInputs = with python3Packages; [ wheel pytestrunner setuptools ];
