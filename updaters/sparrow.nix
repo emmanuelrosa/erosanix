@@ -13,7 +13,7 @@
     }
 
     function get_url () {
-      url="https://github.com/sparrowwallet/sparrow/releases/download/1.6.4/sparrow-$remote_version.tar.gz"
+      url="https://github.com/sparrowwallet/sparrow/releases/download/$remote_version/sparrow-$remote_version.tar.gz"
     }
 
     function get_remote_hash () {
