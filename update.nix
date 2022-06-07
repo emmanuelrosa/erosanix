@@ -133,8 +133,6 @@ let
     trace-font = ./updaters/trace-font.nix;
     send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
-    sparrow = ./updaters/sparrow.nix;
-    openimajgrabber = ./updaters/openimajgrabber.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     muun-recovery-tool = { 

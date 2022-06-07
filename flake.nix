@@ -51,13 +51,6 @@
       in {
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
         er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
-        openimajgrabber = callPackage ./pkgs/openimajgrabber.nix {};
-
-        sparrow = pkgs.lib.trivial.warn "The sparrow package is now in Nixpkgs, therefore it will be removed from the erosanix flake." (callPackage ./pkgs/sparrow.nix { 
-          openimajgrabber = self.packages.x86_64-linux.openimajgrabber;
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
-        });
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsApp;
