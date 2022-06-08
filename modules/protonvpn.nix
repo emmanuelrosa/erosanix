@@ -58,24 +58,38 @@ in {
         };
       };
 
-      defaultGateway = mkOption {
-        default = "192.168.1.1";
-        example = "192.168.1.1";
-        type = types.str;
-        description = "The default gateway IP address. This is used to add a route so that the Wireguard handshake can complete.";
+      gateway = {
+        interface = mkOption {
+          default = "eth0";
+          example = "eth0";
+          type = types.str;
+          description = "The network interface which can reach the gateway. This is used to add a route so that the Wireguard handshake can complete.";
+        };
+
+        ip = mkOption {
+          default = "192.168.1.1";
+          example = "192.168.1.1";
+          type = types.str;
+          description = "The gateway IP address. This is used to add a route so that the Wireguard handshake can complete.";
+        };
       };
     };
   };
 
   config = mkIf cfg.enable {
     networking.wireguard.interfaces."${cfg.interface.name}" = {
+      preSetup = ''
+        ${pkgs.iproute}/bin/ip route add ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
+        ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.gateway.ip}
+      '';
+
       postSetup = ''
-        ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.defaultGateway}
         printf "nameserver ${cfg.interface.dns}" | ${pkgs.openresolv}/bin/resolvconf -a ${cfg.interface.name} -m 0
       '';
 
       postShutdown = ''
-        ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.defaultGateway}
+        ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.gateway.ip}
+        ${pkgs.iproute}/bin/ip route del ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
         ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
       '';
 
