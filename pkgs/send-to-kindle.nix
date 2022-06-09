@@ -56,14 +56,14 @@ mkWindowsApp rec {
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "Amazon Kindle";
+      desktopName = "Send to Kindle";
       categories = ["Office" "Viewer"];
       mimeTypes = [ "text/plain" "application/msword" "application/rtf" "application/pdf" "image/png" "image/jpeg" "image/bmp" "image/gif" "application/x-mobipocket-ebook" "application/vnd.amazon.mobi8-ebook" ];
     })
   ];
 
   desktopIcon = makeDesktopIcon {
-    name = "amazon-kindle";
+    name = "send-to-kindle";
 
     src = fetchurl {
       url = "https://r7.hiclipart.com/path/440/869/236/kindle-fire-iphone-kindle-store-amazon-kindle-7382d0d39a5d99e1ac56652e55c6b644.png";
