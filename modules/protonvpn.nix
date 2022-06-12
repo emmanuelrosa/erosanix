@@ -59,6 +59,13 @@ in {
       };
 
       gateway = {
+        autoDetect = mkOption {
+          default = true;
+          example = "true";
+          type = types.bool;
+          description = "Attempt to automatically detect the default gateway. The gateway is used to set up a route so that Wireguard can perform the handshake with the ProtonVPN peer. Try this first, and if it doesn't work then set it to 'false' and use the 'interface' and 'ip' options instead.";
+        };
+
         interface = mkOption {
           default = "eth0";
           example = "eth0";
@@ -76,22 +83,53 @@ in {
     };
   };
 
-  config = mkIf cfg.enable {
+  config = let
+    staticSetup = ''
+      ${pkgs.iproute}/bin/ip route add ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
+      ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.gateway.ip}
+    '';
+
+    staticShutdown = ''
+      ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.gateway.ip}
+      ${pkgs.iproute}/bin/ip route del ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
+      ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
+    '';
+
+    dynamicSetup = ''
+      MAX_TRIES=10
+      tries=0
+      gateway=""
+      while [[ -z $gateway && $tries -lt $MAX_TRIES ]]
+      do
+        sleep 2s
+        gateway=$(${pkgs.iproute}/bin/ip route | ${pkgs.gnugrep}/bin/grep "default via" | ${pkgs.coreutils}/bin/cut -d " " -f 3)
+        ((++tries))
+        echo Gateway inquiry try $tries of $MAX_TRIES.
+      done
+
+      if [[ -z $gateway ]]
+      then
+        echo "ERROR: Failed to acquire the default gateway's IP address."
+        exit 1
+      fi
+
+      ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via $gateway
+    '';
+
+    dynamicShutdown = ''
+      gateway=$(${pkgs.iproute}/bin/ip route | ${pkgs.gnugrep}/bin/grep "default via" | ${pkgs.coreutils}/bin/cut -d " " -f 3)
+      ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via $gateway
+      ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
+    '';
+  in mkIf cfg.enable {
     networking.wireguard.interfaces."${cfg.interface.name}" = {
-      preSetup = ''
-        ${pkgs.iproute}/bin/ip route add ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
-        ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.gateway.ip}
-      '';
+      preSetup = if cfg.gateway.autoDetect then dynamicSetup else staticSetup;
 
       postSetup = ''
         printf "nameserver ${cfg.interface.dns}" | ${pkgs.openresolv}/bin/resolvconf -a ${cfg.interface.name} -m 0
       '';
 
-      postShutdown = ''
-        ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.gateway.ip}
-        ${pkgs.iproute}/bin/ip route del ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
-        ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
-      '';
+      postShutdown = if cfg.gateway.autoDetect then dynamicShutdown else staticShutdown;
 
       ips = [ "${cfg.interface.address}" ];
       privateKeyFile = "${cfg.interface.privateKeyFile}";
