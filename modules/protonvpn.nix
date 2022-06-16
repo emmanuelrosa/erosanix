@@ -29,11 +29,20 @@ in {
           description = "The path to a file containing the private key for this interface/peer. Only root should have access to the file. See your Wireguard certificate.";
         };
 
-        dns = mkOption {
-          default = "10.2.0.1";
-          example = "10.2.0.1";
-          type = types.str;
-          description = "The IP address of the DNS provided by the VPN. See your Wireguard certificate.";
+        dns =  {
+          enable = mkOption {
+            default = true;
+            example = "true";
+            type = types.bool;
+            description = "Enable the DNS provided by ProtonVPN";
+          };
+
+          ip = mkOption {
+            default = "10.2.0.1";
+            example = "10.2.0.1";
+            type = types.str;
+            description = "The IP address of the DNS provided by the VPN. See your Wireguard certificate.";
+          };
         };
       };
 
@@ -100,6 +109,10 @@ in {
   };
 
   config = let
+    addDNS = optionalString cfg.interface.dns.enable "printf \"nameserver ${cfg.interface.dns.ip}\" | ${pkgs.openresolv}/bin/resolvconf -a ${cfg.interface.name} -m 0";
+
+    removeDNS = optionalString cfg.interface.dns.enable "${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}";
+
     staticSetup = ''
       ${pkgs.iproute}/bin/ip route add ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
       ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.gateway.ip}
@@ -108,7 +121,7 @@ in {
     staticShutdown = ''
       ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.gateway.ip}
       ${pkgs.iproute}/bin/ip route del ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
-      ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
+      ${removeDNS}
     '';
 
     dynamicSetup = ''
@@ -140,14 +153,14 @@ in {
         ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via $gateway
       fi
 
-      ${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}
+      ${removeDNS}
     '';
   in mkIf cfg.enable {
     networking.wireguard.interfaces."${cfg.interface.name}" = {
       preSetup = if cfg.gateway.autoDetect.enable then dynamicSetup else staticSetup;
 
       postSetup = ''
-        printf "nameserver ${cfg.interface.dns}" | ${pkgs.openresolv}/bin/resolvconf -a ${cfg.interface.name} -m 0
+        ${addDNS}
       '';
 
       postShutdown = if cfg.gateway.autoDetect.enable then dynamicShutdown else staticShutdown;
