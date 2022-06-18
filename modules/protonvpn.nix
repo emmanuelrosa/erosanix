@@ -6,7 +6,7 @@ let cfg = config.services.protonvpn;
 in {
   options = {
     services.protonvpn = {
-      enable = mkEnableOption "Enable ProtonVPN. Now using Wireguard instead of OpenVPN."; 
+      enable = mkEnableOption "Enable ProtonVPN (using Wireguard)."; 
 
       interface = {
         name = mkOption {
@@ -66,109 +66,19 @@ in {
           description = "The port number of the VPN peer endpoint. See your Wireguard certificate.";
         };
       };
-
-      gateway = {
-        autoDetect = {
-          enable = mkOption {
-            default = true;
-            example = "true";
-            type = types.bool;
-            description = "Attempt to automatically detect the default gateway. The gateway is used to set up a route so that Wireguard can perform the handshake with the ProtonVPN peer. Try this first, and if it doesn't work then set it to 'false' and use the 'interface' and 'ip' options instead.";
-          };
-
-          retryDelay = mkOption {
-            default = 2;
-            example = "2";
-            type = types.ints.positive;
-            description = "The number of seconds to wait between attempts to detect the default gateway.";
-          };
-
-          maxRetries = mkOption {
-            default = 30;
-            example = "30";
-            type = types.ints.positive;
-            description = "The number of times to attempt to detect the default gateway.";
-          };
-        };
-
-        interface = mkOption {
-          default = "eth0";
-          example = "eth0";
-          type = types.str;
-          description = "The network interface which can reach the gateway. This is used to add a route so that the Wireguard handshake can complete.";
-        };
-
-        ip = mkOption {
-          default = "192.168.1.1";
-          example = "192.168.1.1";
-          type = types.str;
-          description = "The gateway IP address. This is used to add a route so that the Wireguard handshake can complete.";
-        };
-      };
     };
   };
 
-  config = let
-    addDNS = optionalString cfg.interface.dns.enable "printf \"nameserver ${cfg.interface.dns.ip}\" | ${pkgs.openresolv}/bin/resolvconf -a ${cfg.interface.name} -m 0";
+  config = mkIf cfg.enable {
+    networking.wg-quick.interfaces."${cfg.interface.name}" = {
+      autostart = true;
+      dns = if cfg.interface.dns.enable then [ cfg.interface.dns.ip ] else [ ];
+      privateKeyFile = cfg.interface.privateKeyFile;
+      address = [ cfg.interface.address ];
+      listenPort = 51820;
 
-    removeDNS = optionalString cfg.interface.dns.enable "${pkgs.openresolv}/bin/resolvconf -d ${cfg.interface.name}";
-
-    staticSetup = ''
-      ${pkgs.iproute}/bin/ip route add ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
-      ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via ${cfg.gateway.ip}
-    '';
-
-    staticShutdown = ''
-      ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via ${cfg.gateway.ip}
-      ${pkgs.iproute}/bin/ip route del ${cfg.gateway.ip} dev ${cfg.gateway.interface} 
-      ${removeDNS}
-    '';
-
-    dynamicSetup = ''
-      MAX_TRIES=${builtins.toString cfg.gateway.autoDetect.maxRetries}
-      tries=0
-      gateway=""
-      while [[ -z $gateway && $tries -lt $MAX_TRIES ]]
-      do
-        sleep ${builtins.toString cfg.gateway.autoDetect.retryDelay}s
-        gateway=$(${pkgs.iproute}/bin/ip route | ${pkgs.gnugrep}/bin/grep "default via" | ${pkgs.coreutils}/bin/cut -d " " -f 3)
-        ((++tries))
-        echo Gateway inquiry try $tries of $MAX_TRIES.
-      done
-
-      if [[ -z $gateway ]]
-      then
-        echo "ERROR: Failed to acquire the default gateway's IP address."
-        exit 1
-      fi
-
-      ${pkgs.iproute}/bin/ip route add ${cfg.endpoint.ip} via $gateway
-    '';
-
-    dynamicShutdown = ''
-      gateway=$(${pkgs.iproute}/bin/ip route | ${pkgs.gnugrep}/bin/grep "default via" | ${pkgs.coreutils}/bin/cut -d " " -f 3)
-
-      if [[ ! -z $gateway ]]
-      then
-        ${pkgs.iproute}/bin/ip route del ${cfg.endpoint.ip} via $gateway
-      fi
-
-      ${removeDNS}
-    '';
-  in mkIf cfg.enable {
-    networking.wireguard.interfaces."${cfg.interface.name}" = {
-      preSetup = if cfg.gateway.autoDetect.enable then dynamicSetup else staticSetup;
-
-      postSetup = ''
-        ${addDNS}
-      '';
-
-      postShutdown = if cfg.gateway.autoDetect.enable then dynamicShutdown else staticShutdown;
-
-      ips = [ "${cfg.interface.address}" ];
-      privateKeyFile = "${cfg.interface.privateKeyFile}";
       peers = [
-        { publicKey = "${cfg.endpoint.publicKey}";
+        { publicKey = cfg.endpoint.publicKey;
           allowedIPs = [ "0.0.0.0/0" "::/0"];
           endpoint = "${cfg.endpoint.ip}:${builtins.toString cfg.endpoint.port}";
         }
