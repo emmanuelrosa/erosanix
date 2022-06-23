@@ -8,6 +8,13 @@ in {
     services.protonvpn = {
       enable = mkEnableOption "Enable ProtonVPN (using Wireguard)."; 
 
+      autostart = mkOption {
+        default = true;
+        example = "true";
+        type = types.bool;
+        description = "Automatically set up ProtonVPN when NixOS boots.";
+      };
+
       interface = {
         name = mkOption {
           default = "protonvpn";
@@ -71,7 +78,7 @@ in {
 
   config = mkIf cfg.enable {
     networking.wg-quick.interfaces."${cfg.interface.name}" = {
-      autostart = true;
+      autostart = cfg.autostart;
       dns = if cfg.interface.dns.enable then [ cfg.interface.dns.ip ] else [ ];
       privateKeyFile = cfg.interface.privateKeyFile;
       address = [ cfg.interface.address ];
