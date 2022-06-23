@@ -23,7 +23,7 @@ in {
           description = "The name of the Wireguard network interface to create. Go to https://account.protonmail.com/u/0/vpn/WireGuard to create a Linux Wireguard certificate and download it. You'll need it's content to set the options for this module.";
         };
 
-        address = mkOption {
+        ip = mkOption {
           default = "10.2.0.2/32";
           example = "10.2.0.2/32";
           type = types.str;
@@ -88,7 +88,7 @@ in {
       autostart = cfg.autostart;
       dns = if cfg.interface.dns.enable then [ cfg.interface.dns.ip ] else [ ];
       privateKeyFile = cfg.interface.privateKeyFile;
-      address = [ cfg.interface.address ];
+      address = [ cfg.interface.ip ];
       listenPort = cfg.interface.port;
 
       peers = [
