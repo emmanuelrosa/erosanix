@@ -30,6 +30,13 @@ in {
           description = "The IP address of the interface. See your Wireguard certificate.";
         };
 
+        port = mkOption {
+          default = 51820;
+          example = 51820;
+          type = types.port;
+          description = "The port number of the interface.";
+        };
+
         privateKeyFile = mkOption {
           example = "/root/secrets/protonvpn";
           type = types.path;
@@ -82,7 +89,7 @@ in {
       dns = if cfg.interface.dns.enable then [ cfg.interface.dns.ip ] else [ ];
       privateKeyFile = cfg.interface.privateKeyFile;
       address = [ cfg.interface.address ];
-      listenPort = 51820;
+      listenPort = cfg.interface.port;
 
       peers = [
         { publicKey = cfg.endpoint.publicKey;
