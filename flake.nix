@@ -140,6 +140,13 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        line = callPackage ./pkgs/line.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
         sable = callPackage ./pkgs/sable/default.nix { 
           inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
