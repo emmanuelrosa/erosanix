@@ -69,6 +69,14 @@ Using the example above, here's an explanation of what will happen when users ru
  1. Before running Notepad++, `mkWindowsApp` will look for $HOME/.config/Notepad++, and if it exists, it will create a symlink to it at $WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++. Alternatively, if $WINEPREFIX/drive_c/users/$USER/Application Data/Notepad++ exists but $HOME/.config/Notepad++ doesn't, then the file/directory will be copied out from the $WINEPREFIX into the "source" path, and then symlinked as described earlier.
  2. After Notepad++ terminates, `mkWindowsApp` will cycle through the same list of mappings and copy any of the files/directories which did not exist when the application was launched, to the "source" path. This effectively persists such files so that they can be symlinked the next time the application is launched. 
 
+By default, the Wine registry is not persisted. To enable automatic persistence of the Wine registry files, set the `persistRegistry` attribute in your package to `true`. The registry files are saved at `$HOME/.config/mkWindowsApp/${pname}`.
+
 For a real-world example see [sumatrapdf-nix](https://github.com/emmanuelrosa/sumatrapdf-nix).
+
+## How can I access Wine tools such as winecfg?
+
+NOTICE: By default, the Wine registry is not persisted, so if you want to use winecfg to tweak things you need to enable registry persistence. See the section *How to persist settings*.
+
+There's now an environment variable which can be used to get dropped into a shell after setting up the WINEPREFIX. Simply set the environment variable `WA_RUN_APP=0` before running the app (launcher). When `WA_RUN_APP` is not set to `1`, the WINEPREFIX is set up, but the app is not executed. Once in the shell, you can run Wine tools; The WINEPREFIX will already be set.
 
 [^1]: The script is based on [wrapWine](https://github.com/lucasew/nixcfg/blob/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix).

@@ -31,6 +31,7 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    WA_RUN_APP=''${WA_RUN_APP:-1}
 
     show_notification () {
       local fallback_icon=$1
@@ -114,8 +115,16 @@ let
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       ${fileMappingScript}
-      ${winAppRun}
-      wineserver -w
+
+      if [ $WA_RUN_APP -eq 1 ]
+      then
+        ${winAppRun}
+        wineserver -w
+      else
+        echo "WA_RUN_APP is not set to 1. Starting a bash shell instead of running the app. When you're done, please exit the shell."
+        bash
+      fi
+
       ${persistFilesScript}
     }
 
