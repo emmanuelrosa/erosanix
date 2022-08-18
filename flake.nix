@@ -107,8 +107,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        onlyoffice-bin = callPackage ./pkgs/onlyoffice.nix { };
-
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -164,6 +162,6 @@
     nixosModules.matrix-sendmail = import ./modules/matrix-sendmail.nix;
     nixosModules.electrs = import ./modules/electrs.nix;
     nixosModules.fzf = import ./modules/fzf.nix;
-    nixosModules.onlyoffice = import ./modules/onlyoffice.nix;
+    nixosModules.usrsharefonts = import ./modules/usrsharefonts.nix;
   };
 }
