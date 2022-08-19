@@ -39,11 +39,10 @@ in
   config = {
     system.activationScripts.usrsharefonts = if cfg.enable then ''
       mkdir -m 0755 -p /usr/share
-      ln -sfn ${x11Fonts} /usr/share/.fonts.tmp
-      mv /usr/share/.fonts.tmp /usr/share/fonts
+      rm /usr/share/fonts
+      ln -sfn ${x11Fonts} /usr/share/fonts
     '' else ''
       rm -f /usr/share/fonts
-      rm -f /usr/share/.fonts.tmp
       rmdir --ignore-fail-on-non-empty /usr/share /usr
     '';
   };
