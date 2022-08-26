@@ -11,18 +11,39 @@
 , instanceName ? "default" # This should be alphanumeric, no spaces
 , studies ? []
 , symlinkJoin
-}:
-mkWindowsApp rec {
-  inherit wine;
-
-  pname = "sierrachart-${instanceName}";
+}: let
   version = "2428"; #:version:
-
   src = fetchurl {
     url = "https://www.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
     sha256 = "12j2lkqwlijywa608adk3arrsm4fq7jg91f1ygyjqkg4gs1a0jvb"; #:hash:
   };
 
+  defaultStudies = {
+    stdenv
+    , unzip
+    }: stdenv.mkDerivation {
+      inherit src;
+      name = "sierrachart-default-studies";
+      buildInputs = [ unzip ];
+
+      preUnpack = ''
+        mkdir SierraChart
+        pushd SierraChart
+      '';
+
+      setSourceRoot = ''
+        popd
+        sourceRoot="SierraChart"
+      '';
+
+      installPhase = ''
+        mkdir -p $out/lib
+        cp Data/UserContributedStudies_64.dll $out/lib
+      '';
+    };
+in mkWindowsApp rec {
+  inherit wine src version;
+  pname = "sierrachart-${instanceName}";
   dontUnpack = true;
   wineArch = "win64";
   persistRegistry = true;
@@ -61,7 +82,7 @@ mkWindowsApp rec {
     mkdir -p "$d/NPP"
     cp "$WINEPREFIX/drive_c/windows/system32/winebrowser.exe" "$d/NPP/notepad++.exe"
 
-    ${lib.optionalString (studies != []) installStudyDeps}
+    ${installStudyDeps}
 
     # Prior to supporting multiple instances, user data was stored at ~/.local/share/sierrachart
     # But now the user data for the default instance is stored at ~/.local/share/sierrachart-default
@@ -72,7 +93,7 @@ mkWindowsApp rec {
     fi
   '';
 
-  joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ studies ]; };
+  joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ (defaultStudies { inherit stdenv unzip; }) studies ]; };
 
   installStudyDeps = ''
     # Create symlinks to Sierra Chart studies dependencies
@@ -87,34 +108,47 @@ mkWindowsApp rec {
   '';
 
   installStudies = ''
-    # Create symlinks to Sierra Chart studies
-    pushd "$HOME/.local/share/${pname}/Data"
+    if [ -e "$HOME/.local/share/${pname}/Data" ]
+    then
+      # Create symlinks to Sierra Chart studies
+      pushd "$HOME/.local/share/${pname}/Data"
 
-    for study in $(find ${joinedStudies}/lib -name "*.dll") 
-    do
-      ln -vs $study "$(basename $study)"
-    done
+      for study in $(find ${joinedStudies}/lib -name "*.dll") 
+      do
+        ln -vs --backup=simple $study "$(basename $study)"
+      done
 
-    popd
+      popd
+    fi
   '';
 
   uninstallStudies = ''
-    # Remove symlinks to Sierra Chart studies
-    pushd "$HOME/.local/share/${pname}/Data"
+    if [ -e "$HOME/.local/share/${pname}/Data" ]
+    then
+      # Remove symlinks to Sierra Chart studies
+      pushd "$HOME/.local/share/${pname}/Data"
 
-    for study in $(find ${joinedStudies}/lib -name "*.dll") 
-    do
-      rm -v "$(basename $study)"
-    done
+      for study in $(find ${joinedStudies}/lib -name "*.dll") 
+      do
+        local filename="$(basename $study)"
+        rm -v "$filename"
 
-    popd
+        # Restore DLL backup; For package backwards compatibility.
+        if [ -e "$filename~" ]
+        then
+          mv "$filename~" "$filename"
+        fi
+      done
+
+      popd
+    fi
   '';
 
   winAppRun = ''
-    ${lib.optionalString (studies != []) installStudies}
+    ${installStudies}
     wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
     wineserver -w
-    ${lib.optionalString (studies != []) uninstallStudies}
+    ${uninstallStudies}
   '';
 
   buildPhase = ''
