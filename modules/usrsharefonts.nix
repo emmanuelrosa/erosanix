@@ -36,14 +36,14 @@ in
     };
   };
 
-  config = {
-    system.activationScripts.usrsharefonts = if cfg.enable then ''
-      mkdir -m 0755 -p /usr/share
-      rm /usr/share/fonts
-      ln -sfn ${x11Fonts} /usr/share/fonts
-    '' else ''
-      rm -f /usr/share/fonts
-      rmdir --ignore-fail-on-non-empty /usr/share /usr
-    '';
+  config = let
+    create = [ "L+ /usr/share/fonts - - - - ${x11Fonts}" ];
+    delete = [ 
+        "r /usr/share/fonts - - - - -"
+        "r /usr/share - - - - -"
+      ];
+
+    in {
+      systemd.tmpfiles.rules = if cfg.enable then create else delete;
   };
 }
