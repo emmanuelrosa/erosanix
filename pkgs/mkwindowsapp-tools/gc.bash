@@ -2,8 +2,10 @@
 
 CACHE_DIR="$HOME/.cache/mkWindowsApp"
 
+printf "ACTION\tSIZE\tLAYER ID\n"
+
 # API 0
-for file in $(ls $CACHE_DIR/*.referrers)
+for file in $(ls $CACHE_DIR/*.referrers 2> /dev/null)
 do
   filename=$(basename -s .referrers $file)
   size=$(du -h -s "$CACHE_DIR/$filename")
@@ -19,10 +21,10 @@ do
 
   if [ -s "$temp_file" ]
   then
-    printf "keeping %s %s\n" "$size" "$filename"
+    printf "keeping\t%s\t%s\n" "$size" "$filename"
     mv "$temp_file" "$file"
   else
-    printf "deleting %s %s\n" "$size""$filename" 
+    printf "deleting\t%s\t%s\n" "$size" "$filename"
     rm -fR "$CACHE_DIR/$filename"
     rm "$file"
     rm "$temp_file"
@@ -37,7 +39,7 @@ do
     if [ "$(echo $layer | grep incomplete)" = "" ]
     then
       filename="$(basename $layer)"
-      size=$(du -h -s "$CACHE_DIR/$filename")
+      size=$(du -h -s "$CACHE_DIR/$filename" | cut -f 1)
       temp_file=$(mktemp --suffix .mkwindowsapp-gc)
 
       for ref_path in $(cat $layer/refs)
@@ -50,10 +52,10 @@ do
 
       if [ -s "$temp_file" ]
       then
-        printf "keeping %s %s\n" "$size" "$filename"
+        printf "keeping\t%s\t%s\n" "$size" "$filename"
         mv "$temp_file" "$layer/refs"
       else
-        printf "deleting %s %s\n" "$size""$filename" 
+        printf "deleting\t%s\t%s\n" "$size" "$filename" 
         rm -fR "$layer"
         rm "$temp_file"
       fi
