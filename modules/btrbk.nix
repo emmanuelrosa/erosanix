@@ -35,9 +35,9 @@ in {
       description = "Takes BTRFS snapshots and maintains retention policies.";
       script = ''
         ${pkgs.coreutils}/bin/mkdir -p ${cfg.volume}
-        ${pkgs.utillinux}/bin/mount -L NIXOS ${cfg.volume}
+        ${pkgs.util-linux}/bin/mount -L NIXOS ${cfg.volume}
         ${pkgs.btrbk}/bin/btrbk -c ${configFile} run
-        ${pkgs.utillinux}/bin/umount ${cfg.volume}
+        ${pkgs.util-linux}/bin/umount ${cfg.volume}
       '';
     };
 
