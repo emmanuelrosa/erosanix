@@ -10,17 +10,17 @@
 , copyDesktopIcons
 }:
 let
-  version = "8.4.5"; #:version:
+  version = "8.4.6"; #:version:
 
   srcs = {
     win64 = fetchurl {
       url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${version}/npp.${version}.Installer.x64.exe";
-      sha256 = "0kcj6hknllz85c1bbdqpl4vg3sd74i7x1mlpcskf0xyqbgbpkik9"; #:hash64:
+      sha256 = "1545faa5ghsvgp3l5xxzifpcgxgcvs03k34xkn4hz3f4g05cccvy"; #:hash64:
     };
 
     win32 = fetchurl {
       url = "https://github.com/notepad-plus-plus/notepad-plus-plus/releases/download/v${version}/npp.${version}.Installer.exe";
-      sha256 = "072qgiqyn4a52s9xv7mysf7yv6z1rkq7863zj9ckmibl22rvxj3i"; #:hash32:
+      sha256 = "0jgqv8bn3mm7khdffnhcirrs39lnrh8bc6b5cqxjnz7865vcwmgz"; #:hash32:
     };
   };
 in mkWindowsApp rec {
