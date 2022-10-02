@@ -28,7 +28,7 @@ in stdenv.mkDerivation rec {
     sha256 = "0xzp41hclc58ymz5fq2hfr7g7nk2j11darxvw4ab2jlm059j5xly";
   };
 
-  nativeBuildInputs = [ wrapGAppsHook gtk3 ]; 
+  nativeBuildInputs = [ copyDesktopItems wrapGAppsHook gtk3 ]; 
   buildInputs = [ nodePackages.tiddlywiki jq ];
 
   # These instructions are based on those from the bld.sh upstream script.
