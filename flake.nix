@@ -107,6 +107,8 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        tiddlydesktop = callPackage ./pkgs/tiddlydesktop.nix { };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
