@@ -139,6 +139,7 @@ let
       derivationPath = ./pkgs/muun-recovery-tool.nix;
       owner = "muun";
       repo = "recovery";
+      tagPrefix = "v";
     };
 
     electrum-personal-server = { 
