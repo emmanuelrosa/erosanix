@@ -12,7 +12,7 @@ python3Packages.buildPythonApplication rec {
     sha256 = "0rgdaz111vwifbcwllh2kgc2j9w04pxyjdgmf6nxjcy90wwf980b"; #:hash:
   };
 
-  propagatedBuildInputs = with python3Packages; [ wheel pytestrunner setuptools ];
+  propagatedBuildInputs = with python3Packages; [ wheel pytest-runner setuptools ];
 
   meta = with lib; {
     description = "An lightweight, single-user implementation of the Electrum server protocol";
