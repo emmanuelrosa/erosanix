@@ -165,5 +165,17 @@
     nixosModules.electrs = import ./modules/electrs.nix;
     nixosModules.fzf = import ./modules/fzf.nix;
     nixosModules.usrsharefonts = import ./modules/usrsharefonts.nix;
+
+    bundlers.x86_64-linux = let
+      pkgs = import "${nixpkgs}" {
+        system = "x86_64-linux";
+      };
+    in {
+      nvidia-offload = import ./lib/nvidia-offload-wrapper.nix { 
+        stdenv = pkgs.stdenv;
+        writeShellScript = pkgs.writeShellScript;
+        nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
+      };
+    };
   };
 }
