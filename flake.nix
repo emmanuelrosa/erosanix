@@ -107,7 +107,7 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        tiddlydesktop = callPackage ./pkgs/tiddlydesktop.nix { };
+        tiddlydesktop = pkgs.lib.trivial.warn "The tiddlydesktop package is deprecated because it's now provided by upstream as the Nix Flake 'github:TiddlyWiki/TiddlyDesktop'." (callPackage ./pkgs/tiddlydesktop.nix { });
 
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
