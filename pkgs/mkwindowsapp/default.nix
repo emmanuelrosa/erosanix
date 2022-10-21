@@ -29,7 +29,7 @@ let
     PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused fuse-overlayfs libnotify ]}"
     MY_PATH="@MY_PATH@"
     ARGS="$@"
-    WIN_LAYER_HASH=$(printf "%s %s %s" $(wine --version) ${wineArch} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
 
