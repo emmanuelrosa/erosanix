@@ -20,7 +20,7 @@ in {
   config = mkIf cfg.enable {
     systemd.user.services.mkwindowsapp-gc = {
       description = "Clean up outdated mkWindowsApp layers.";
-      script = "${cfg.package}/bin/mkwindowsapp-gc";
+      script = "${cfg.package}/bin/mkwindows-tools-gc";
     };
 
     systemd.user.timers.mkwindowsapp-gc = {
