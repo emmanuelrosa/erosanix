@@ -50,10 +50,6 @@ wa_close_layer () {
 
   if [ -d "$incomplete_layer_dir" ]
   then
-    pushd "$incomplete_layer_dir/wineprefix"
-    # chmod -R ugo-w .
-    popd
-    
     pushd "$(dirname $incomplete_layer_dir)"
     mv "$(basename $incomplete_layer_dir)" "$(basename $layer_dir)"
     popd
