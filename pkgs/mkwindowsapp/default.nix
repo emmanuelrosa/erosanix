@@ -4,6 +4,8 @@
 { wine
 , wineArch ? "win32"
 , winAppRun
+, winAppPreRun ? ""
+, winAppPostRun ? ""
 , winAppInstall ? ""
 , name ? "${attrs.pname}-${attrs.version}"
 , enableInstallNotification ? true
@@ -31,7 +33,9 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    BUILD_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
+    needs_cleanup="1"
 
     show_notification () {
       local fallback_icon=$1
@@ -114,7 +118,11 @@ let
 
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
-      ${fileMappingScript}
+      if [ "$needs_cleanup" == "1" ]
+      then
+        ${fileMappingScript}
+        ${winAppPreRun}
+      fi
 
       if [ $WA_RUN_APP -eq 1 ]
       then
@@ -125,16 +133,21 @@ let
         bash
       fi
 
-      ${persistFilesScript}
+      if [ "$needs_cleanup" == "1" ]
+      then
+        ${winAppPostRun}
+        ${persistFilesScript}
+      fi
     }
 
-    wa_init ${wineArch}
+    wa_init ${wineArch} $BUILD_HASH
     win_layer=$(wa_init_layer $WIN_LAYER_HASH $MY_PATH)
     app_layer=$(wa_init_layer $APP_LAYER_HASH $MY_PATH)
 
     echo "winearch: ${wineArch}"
     echo "windows layer: $win_layer"
     echo "app layer: $app_layer"
+    echo "build hash: $BUILD_HASH"
 
     if [ -d "$win_layer" ]
     then
@@ -164,10 +177,22 @@ let
     fi
 
     echo "Windows and app layers are initialized.";
-    bottle=$(wa_init_bottle $win_layer $app_layer)
+
+    if [ $(wa_is_bottle_initialized $win_layer $app_layer) == "1" ]
+    then
+      needs_cleanup="0"
+      bottle=$(wa_get_bottle_dir $win_layer $app_layer)
+    else
+      bottle=$(wa_init_bottle $win_layer $app_layer)
+    fi
+
     wa_with_bottle $bottle "" "run_app"
     echo "App exited.";
-    wa_remove_bottle $bottle
+
+    if [ "$needs_cleanup" == "1" ]
+    then
+      wa_remove_bottle $bottle
+    fi
   '';
 in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" ]) // {
 

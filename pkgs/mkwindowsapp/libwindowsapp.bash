@@ -1,10 +1,12 @@
 WA_API="1"
 _wa_cache_dir="$HOME/.cache/mkWindowsApp"
 _wa_winearch=""
+_wa_build_hash=""
 
 # Library initialization
 wa_init () {
   _wa_winearch=$1
+  _wa_build_hash=$2
 }
 
 # Layers API
@@ -57,10 +59,41 @@ wa_close_layer () {
 }
 
 # Wine bottle API
+
+wa_get_bottle_dir () {
+  local windows_layer=$1
+  local app_layer=$2
+
+  if [[ -d "$windows_layer" && -d "$app_layer" ]]
+  then
+     # Use a fixed path based on the "build"; The hash of the Windows and app layers.
+     local tmp_dir="/tmp/$_wa_build_hash.mkwindowsapp"
+
+     mkdir -p $tmp_dir
+     printf "%s" "$tmp_dir"
+  else
+    # Use a temporary directory, since this bottle is being used to build a layer.
+    printf "%s" $(mktemp -d --suffix=.mkwindowsApp)
+  fi
+}
+
+wa_is_bottle_initialized () {
+  local windows_layer=$1
+  local app_layer=$2
+  local bottle_dir=$(wa_get_bottle_dir $windows_layer $app_layer)
+
+  if [ -e "$bottle_dir/wineprefix/.initialized" ]
+  then
+    printf "%s" "1"
+  else
+    printf "%s" "0"
+  fi
+}
+
 wa_init_bottle () {
   local windows_layer=$1
   local app_layer=$2
-  local tmp_dir=$(mktemp -d --suffix=.mkwindowsApp)
+  local tmp_dir=$(wa_get_bottle_dir $windows_layer $app_layer)
   local work_dir="$tmp_dir/work_dir"
   local upper_dir="$tmp_dir/upper_dir"
   local wineprefix="$tmp_dir/wineprefix"
@@ -76,6 +109,7 @@ wa_init_bottle () {
       mkdir -p "$wineprefix"
 
       fuse-overlayfs -o lowerdir=$windows_layer/wineprefix:$app_layer/wineprefix,upperdir=$upper_dir,workdir=$work_dir $wineprefix
+      touch "$wineprefix/.initialized"
     else
       work_dir="$app_layer.incomplete/workdir"
       upper_dir="$app_layer.incomplete/wineprefix"
@@ -106,9 +140,10 @@ wa_remove_bottle () {
     if [ "$type" = "overlay" ]
     then
       fusermount -u $wineprefix
+      rm -fR "$bottle_dir"
+    else
+      rm -fR "$bottle_dir"
     fi
-
-    rm -fR "$bottle_dir"
   fi
 }
 
