@@ -144,10 +144,15 @@ in mkWindowsApp rec {
     fi
   '';
 
-  winAppRun = ''
+  winAppPreRun = '' 
     ${installStudies}
+  '';
+
+  winAppRun = ''
     wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
-    wineserver -w
+  '';
+
+  winAppPostRun = ''
     ${uninstallStudies}
   '';
 
