@@ -49,12 +49,15 @@ in mkWindowsApp rec {
     mkdir -p "$WINEPREFIX/drive_c/KindleContent"
   '';
 
-  winAppRun = '' 
+  winAppPreRun = '' 
     regedit ${settings}
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CSDVersion -d "" /f
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentBuildNumber -d "10240" /f
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentVersion -d "10.0" /f
     wine reg add "HKLM\\System\\CurrentControlSet\\Control\\Windows" /v CSDVersion -d "dword:00000000" /f
+  '';
+
+  winAppRun = '' 
     wine "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/Kindle/Kindle.exe"
   '';
 
