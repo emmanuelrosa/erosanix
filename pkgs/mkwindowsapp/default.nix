@@ -120,6 +120,7 @@ let
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       if [ "$needs_cleanup" == "1" ]
       then
+        echo "Running winAppPreRun."
         ${fileMappingScript}
         ${winAppPreRun}
       fi
@@ -135,6 +136,7 @@ let
 
       if [ "$needs_cleanup" == "1" ]
       then
+        echo "Running winAppPostRun."
         ${winAppPostRun}
         ${persistFilesScript}
       fi
