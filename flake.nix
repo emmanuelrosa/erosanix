@@ -109,6 +109,13 @@
 
         tiddlydesktop = pkgs.lib.trivial.warn "The tiddlydesktop package is deprecated because it's now provided by upstream as the Nix Flake 'github:TiddlyWiki/TiddlyDesktop'." (callPackage ./pkgs/tiddlydesktop.nix { });
 
+        roblox = callPackage ./pkgs/roblox.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.full;
+          wineArch = "win64";
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -152,6 +159,14 @@
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.winePackages.stableFull; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
+        roblox = callPackage ./pkgs/roblox.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
