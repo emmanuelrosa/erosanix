@@ -33,7 +33,7 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-    BUILD_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
+    BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
     needs_cleanup="1"
 
