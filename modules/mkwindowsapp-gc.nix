@@ -21,6 +21,12 @@ in {
     systemd.user.services.mkwindowsapp-gc = {
       description = "Clean up outdated mkWindowsApp layers.";
       script = "${cfg.package}/bin/mkwindows-tools-gc";
+      serviceConfig = {
+        ExecCondition = pkgs.writeScript "mkwindowsapp-gc-execcondition" ''
+          #!/bin/sh
+          stat $HOME/.cache/mkWindowsApp
+        '';
+      };
     };
 
     systemd.user.timers.mkwindowsapp-gc = {
