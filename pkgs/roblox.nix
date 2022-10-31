@@ -9,11 +9,14 @@
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
-, renderer ? "opengl" # Can be opengl or vulkan
+, renderer ? "gl" # Can be gl or vulkan
 , wineArch
+, mangohud
+, enableHUD ? false
 }:
 let
   programFiles = if wineArch == "win64" then "Program Files (x86)" else "Program Files";
+  geckoMsi = if wineArch == "win64" then "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86_64.msi" else "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86.msi";
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -32,6 +35,7 @@ in mkWindowsApp rec {
   };
 
   winAppInstall = ''
+    msiexec /i ${geckoMsi}
     wine start /unix ${src}
   '';
 
@@ -44,7 +48,7 @@ in mkWindowsApp rec {
 
   winAppRun = ''
     export PULSE_LATENCY_MSEC=60
-    wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
+    ${lib.optionalString enableHUD "${mangohud}/bin/mangohud"} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
