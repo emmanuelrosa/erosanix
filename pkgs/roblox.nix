@@ -17,6 +17,10 @@
 let
   programFiles = if wineArch == "win64" then "Program Files (x86)" else "Program Files";
   geckoMsi = if wineArch == "win64" then "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86_64.msi" else "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86.msi";
+  hideDesktop = ''
+    rm $WINEPREFIX/drive_c/users/$USER/Desktop
+    mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
+  '';
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -35,6 +39,7 @@ in mkWindowsApp rec {
   };
 
   winAppInstall = ''
+    ${hideDesktop}
     msiexec /i ${geckoMsi}
     wine start /unix ${src}
   '';
@@ -47,6 +52,7 @@ in mkWindowsApp rec {
   '';
 
   winAppRun = ''
+    ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
     ${lib.optionalString enableHUD "${mangohud}/bin/mangohud"} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
