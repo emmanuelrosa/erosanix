@@ -21,6 +21,8 @@ let
     rm $WINEPREFIX/drive_c/users/$USER/Desktop
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
+
+  hudCommand = if renderer == "gl" then "${mangohud}/bin/mangohud --dlsym" else "${mangohud}/bin/mangohud"; 
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -54,7 +56,7 @@ in mkWindowsApp rec {
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-    ${lib.optionalString enableHUD "${mangohud}/bin/mangohud"} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
+    ${lib.optionalString enableHUD hudCommand} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
