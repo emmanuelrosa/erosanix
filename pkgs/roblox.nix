@@ -76,6 +76,7 @@ in mkWindowsApp rec {
       categories = ["Game"];
       mimeTypes = [ "x-scheme-handler/roblox-player" ];
       noDisplay = true;
+      startupNotify = true;
     })
   ];
 
