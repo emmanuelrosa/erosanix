@@ -75,6 +75,7 @@ in mkWindowsApp rec {
       desktopName = "Roblox";
       categories = ["Game"];
       mimeTypes = [ "x-scheme-handler/roblox-player" ];
+      noDisplay = true;
     })
   ];
 
