@@ -13,6 +13,7 @@
 , wineArch
 , mangohud
 , enableHUD ? false
+, dxvk
 }:
 let
   programFiles = let
@@ -40,6 +41,14 @@ let
       "vulkan" = "${mangohud}/bin/mangohud";
     };
   in map."${renderer}";
+
+  rendererSetup = let
+    map = {
+      "gl" = ''wine reg add "HKCU\\Software\\Wine\\Direct3D" /v renderer -d "${renderer}" /f'';
+
+      "vulkan" = "${dxvk}/bin/setup_dxvk.sh install --with-d3d10 --symlink"; 
+    };
+  in map."${renderer}";
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -61,14 +70,8 @@ in mkWindowsApp rec {
   winAppInstall = ''
     ${hideDesktop}
     msiexec /i ${geckoMsi}
+    ${rendererSetup}
     wine start /unix ${src}
-  '';
-
-    # Select the Wine3d3 renderer.
-    # Relies on the render options built into Wine; No DXVK.
-    # See https://linuxreviews.org/The_New_Wine_Vulkan_Backend_For_DirectX_9-11_Is_Coming_Along_Nicely
-  winAppPreRun = '' 
-    wine reg add "HKCU\\Software\\Wine\\Direct3D" /v renderer -d "${renderer}" /f
   '';
 
   winAppRun = ''
