@@ -38,6 +38,7 @@ in mkWindowsApp rec {
 
   fileMap = { 
     "$HOME/.local/share/roblox/ProgramData/Roblox" = "drive_c/ProgramData/Roblox"; 
+    "$HOME/.local/share/roblox/Versions" = "drive_c/${programFiles}/Roblox/Versions"; 
   };
 
   winAppInstall = ''
