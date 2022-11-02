@@ -53,12 +53,12 @@ in mkWindowsApp rec {
   inherit wine wineArch;
 
   pname = "roblox";
-  version = "current";
+  version = "93fb1ddae5a243cc"; #:version:
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
-    url = "https://setup.rbxcdn.com/RobloxPlayerLauncher.exe";
+    url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
     sha256 = "0a2yn5amwnhlbra17a0xgx2qm1rg7f7xczhvszkfn4ia5520j74a";
   };
 
@@ -77,8 +77,7 @@ in mkWindowsApp rec {
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-    roblox_launcher=$(find "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions" -name RobloxPlayerLauncher.exe -print -quit)
-    ${lib.optionalString enableHUD hudCommand} wine start /unix "$roblox_launcher" "$ARGS"
+    ${lib.optionalString enableHUD hudCommand} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
