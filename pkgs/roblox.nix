@@ -15,14 +15,31 @@
 , enableHUD ? false
 }:
 let
-  programFiles = if wineArch == "win64" then "Program Files (x86)" else "Program Files";
-  geckoMsi = if wineArch == "win64" then "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86_64.msi" else "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86.msi";
+  programFiles = let
+    map = {
+      "win64" = "Program Files (x86)";
+      "win32" = "Program Files";
+    };
+  in map."${wineArch}";
+
+  geckoMsi = let
+    map = {
+      "win64" = "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86_64.msi" ;
+      "win32" = "${wine}/share/wine/gecko/wine-gecko-2.47.3-x86.msi";
+    };
+  in map."${wineArch}";
+
   hideDesktop = ''
     rm $WINEPREFIX/drive_c/users/$USER/Desktop
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
 
-  hudCommand = if renderer == "gl" then "${mangohud}/bin/mangohud --dlsym" else "${mangohud}/bin/mangohud"; 
+  hudCommand = let
+    map = {
+      "gl" = "${mangohud}/bin/mangohud --dlsym";
+      "vulkan" = "${mangohud}/bin/mangohud";
+    };
+  in map."${renderer}";
 in mkWindowsApp rec {
   inherit wine wineArch;
 
