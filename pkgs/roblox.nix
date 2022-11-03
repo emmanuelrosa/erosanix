@@ -9,11 +9,9 @@
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
-, renderer ? "gl" # Can be gl or vulkan
 , wineArch
 , mangohud
 , enableHUD ? false
-, dxvk
 }:
 let
   programFiles = let
@@ -35,20 +33,7 @@ let
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
 
-  hudCommand = let
-    map = {
-      "gl" = "${mangohud}/bin/mangohud --dlsym";
-      "vulkan" = "${mangohud}/bin/mangohud";
-    };
-  in map."${renderer}";
-
-  rendererSetup = let
-    map = {
-      "gl" = ''wine reg add "HKCU\\Software\\Wine\\Direct3D" /v renderer -d "${renderer}" /f'';
-
-      "vulkan" = "${dxvk}/bin/setup_dxvk.sh install --with-d3d10 --symlink"; 
-    };
-  in map."${renderer}";
+  hudCommand = "${mangohud}/bin/mangohud --dlsym";
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -69,7 +54,6 @@ in mkWindowsApp rec {
   winAppInstall = ''
     ${hideDesktop}
     msiexec /i ${geckoMsi}
-    ${rendererSetup}
     wine start /unix ${src}
   '';
 
