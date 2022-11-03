@@ -53,13 +53,13 @@ in mkWindowsApp rec {
   inherit wine wineArch;
 
   pname = "roblox";
-  version = "93fb1ddae5a243cc"; #:version:
+  version = "717cf6a6f7614f44"; #:version:
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
     url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
-    sha256 = "0a2yn5amwnhlbra17a0xgx2qm1rg7f7xczhvszkfn4ia5520j74a";
+    sha256 = "sha256-YCkQXKQIGaXtd04KRZgKRwBAiYjrYp5UhTQ7x3TVGf4=";
   };
 
   fileMap = { 
