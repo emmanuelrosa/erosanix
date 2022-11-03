@@ -110,6 +110,10 @@ wa_init_bottle () {
 
       fuse-overlayfs -o lowerdir=$windows_layer/wineprefix:$app_layer/wineprefix,upperdir=$upper_dir,workdir=$work_dir $wineprefix
       touch "$wineprefix/.initialized"
+
+      # Inject (copy) the registry files from the app layer into the WINEPREFIX.
+      cp $app_layer/wineprefix/system.reg $wineprefix
+      cp $app_layer/wineprefix/user.reg $wineprefix
     else
       work_dir="$app_layer.incomplete/workdir"
       upper_dir="$app_layer.incomplete/wineprefix"
@@ -117,6 +121,10 @@ wa_init_bottle () {
       mkdir -p "$wineprefix"
 
       fuse-overlayfs -o lowerdir=$windows_layer/wineprefix,upperdir=$upper_dir,workdir=$work_dir $wineprefix
+      #
+      # Inject (copy) the registry files from the app layer into the WINEPREFIX.
+      cp $windows_layer/wineprefix/system.reg $wineprefix
+      cp $windows_layer/wineprefix/user.reg $wineprefix
     fi
 
   else
