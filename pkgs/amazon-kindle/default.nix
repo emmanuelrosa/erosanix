@@ -3,33 +3,24 @@
 , mkWindowsApp
 , wine
 , fetchurl
-, requireFile
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
 , imagemagick }:
 let
-  homepage = "https://www.amazon.com/Amazon-Digital-Services-LLC-Download/dp/B00UB76290/";
   # settings.reg disables auto updates and sets the content dir to C:\KindleContent
   settings = ./settings.reg;
 in mkWindowsApp rec {
   inherit wine;
 
   pname = "amazon-kindle";
-  version = "1.33.62002";
+  release = "65323";
+  version = "1.39.${release}";
 
-  src = requireFile rec {
-    name = "Kindle_for_PC_Download.exe";
-    sha256 = "0f3b5lyijd8vlsrgqg2fvqx87ymc78qza7m7jkinrdzqrkcicmkg";
-    message = ''
-      In order to install Amazon Kindle for PC:
-
-      1. Go to ${homepage}.
-      2. Add the app to your cart, and checkout in order to purchase the app (which is free).
-      3. You'll receive an email with a link to download the app.
-      4. Once you have downloaded the file, please use the following command and re-run the installation: nix-prefetch-url file://path/to/${name}
-      '';
+  src = fetchurl {
+    url = "https://kindleforpc.s3.amazonaws.com/${release}/KindleForPC-installer-${version}.exe";
+    sha256 = "1xpha1388hf6c12aj58v75hrj3rpkrsrarl4vjahs1r1zqqkjdih";
   };
 
   dontUnpack = true;
@@ -45,16 +36,17 @@ in mkWindowsApp rec {
   winAppInstall = ''
     wine ${src} /S
     wineserver -w
+
     mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Local/Amazon/Kindle/crashdump"
     mkdir -p "$WINEPREFIX/drive_c/KindleContent"
-  '';
-
-  winAppPreRun = '' 
-    regedit ${settings}
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CSDVersion -d "" /f
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentBuildNumber -d "10240" /f
     wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentVersion -d "10.0" /f
     wine reg add "HKLM\\System\\CurrentControlSet\\Control\\Windows" /v CSDVersion -d "dword:00000000" /f
+    regedit ${settings}
+  '';
+
+  winAppPreRun = '' 
   '';
 
   winAppRun = '' 
@@ -89,9 +81,8 @@ in mkWindowsApp rec {
   };
 
   meta = with lib; {
-    inherit homepage;
-
     description = "Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.";
+    homepage = "https://www.amazon.com/b?ie=UTF8&node=16571048011";
     license = licenses.unfree;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" ];
