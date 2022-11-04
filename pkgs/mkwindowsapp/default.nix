@@ -1,5 +1,5 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
-{ stdenv, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs
+{ stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, fuse-overlayfs
 , libnotify }:
 { wine
 , wineArch ? "win32"
@@ -11,6 +11,7 @@
 , enableInstallNotification ? true
 , fileMap ? {}
 , persistRegistry ? false # Disabled by default for now because it's experimental.
+, persistRuntimeLayer ? false
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
@@ -33,6 +34,7 @@ let
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    RUN_LAYER_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
     BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
     needs_cleanup="1"
@@ -145,10 +147,12 @@ let
     wa_init ${wineArch} $BUILD_HASH
     win_layer=$(wa_init_layer $WIN_LAYER_HASH $MY_PATH)
     app_layer=$(wa_init_layer $APP_LAYER_HASH $MY_PATH)
+    run_layer=${if persistRuntimeLayer then "$(wa_init_layer $RUN_LAYER_HASH $MY_PATH)" else "\"\""}
 
     echo "winearch: ${wineArch}"
     echo "windows layer: $win_layer"
     echo "app layer: $app_layer"
+    ${lib.optionalString persistRuntimeLayer "echo \"run_layer: $run_layer\""}
     echo "build hash: $BUILD_HASH"
 
     if [ -d "$win_layer" ]
@@ -178,6 +182,8 @@ let
       wa_close_layer $APP_LAYER_HASH
     fi
 
+    ${lib.optionalString persistRuntimeLayer "wa_close_layer $RUN_LAYER_HASH"}
+
     echo "Windows and app layers are initialized.";
 
     if [ $(wa_is_bottle_initialized $win_layer $app_layer) == "1" ]
@@ -185,7 +191,7 @@ let
       needs_cleanup="0"
       bottle=$(wa_get_bottle_dir $win_layer $app_layer)
     else
-      bottle=$(wa_init_bottle $win_layer $app_layer)
+      bottle=$(wa_init_bottle $win_layer $app_layer $run_layer)
     fi
 
     wa_with_bottle $bottle "" "run_app"
