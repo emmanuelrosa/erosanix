@@ -40,6 +40,7 @@ in mkWindowsApp rec {
   pname = "roblox";
   version = "717cf6a6f7614f44"; #:version:
   dontUnpack = true;
+  persistRuntimeLayer = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
