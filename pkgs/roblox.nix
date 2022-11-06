@@ -55,13 +55,13 @@ in mkWindowsApp rec {
   winAppInstall = ''
     ${hideDesktop}
     msiexec /i ${geckoMsi}
-    wine start /unix ${src}
+    $WINE start /unix ${src}
   '';
 
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-    ${lib.optionalString enableHUD hudCommand} wine start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
+    ${lib.optionalString enableHUD hudCommand} $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
