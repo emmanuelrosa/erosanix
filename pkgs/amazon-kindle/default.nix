@@ -34,15 +34,15 @@ in mkWindowsApp rec {
   };
 
   winAppInstall = ''
-    wine ${src} /S
+    $WINE ${src} /S
     wineserver -w
 
     mkdir -p "$WINEPREFIX/drive_c/users/$USER/AppData/Local/Amazon/Kindle/crashdump"
     mkdir -p "$WINEPREFIX/drive_c/KindleContent"
-    wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CSDVersion -d "" /f
-    wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentBuildNumber -d "10240" /f
-    wine reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentVersion -d "10.0" /f
-    wine reg add "HKLM\\System\\CurrentControlSet\\Control\\Windows" /v CSDVersion -d "dword:00000000" /f
+    $WINE reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CSDVersion -d "" /f
+    $WINE reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentBuildNumber -d "10240" /f
+    $WINE reg add "HKLM\\Software\\Microsoft\\Windows NT\\CurrentVersion" /v CurrentVersion -d "10.0" /f
+    $WINE reg add "HKLM\\System\\CurrentControlSet\\Control\\Windows" /v CSDVersion -d "dword:00000000" /f
     regedit ${settings}
   '';
 
@@ -50,7 +50,7 @@ in mkWindowsApp rec {
   '';
 
   winAppRun = '' 
-    wine "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/Kindle/Kindle.exe"
+    $WINE "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/Kindle/Kindle.exe"
   '';
 
   installPhase = ''
