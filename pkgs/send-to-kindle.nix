@@ -29,17 +29,17 @@ mkWindowsApp rec {
 
   winAppInstall = ''
     ${zenity}/bin/zenity --info --text "During the Send to Kindle installation you will be prompted to sign in to Amazon. Close that first prompt to allow the installation to complete. If prompted a 2nd time, go ahead and sign in."
-    wine ${src} /S
+    $WINE ${src} /S
     wineserver -w
   '';
 
   winAppRun = '' 
    if [ "$ARGS" == "" ]
    then
-     wine start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/SendToKindle.exe"
+     $WINE start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/SendToKindle.exe"
    else
      file=$(winepath -w "$ARGS")
-     wine start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/StkSendToHandler.exe" "$file"
+     $WINE start /unix "$WINEPREFIX/drive_c/Program Files (x86)/Amazon/SendToKindle/StkSendToHandler.exe" "$file"
   fi
   '';
 
