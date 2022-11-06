@@ -31,6 +31,7 @@ let
     source ${libwindowsapp}
     PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused fuse-overlayfs libnotify ]}"
     MY_PATH="@MY_PATH@"
+    OUT_PATH="@out@"
     ARGS="$@"
     WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
@@ -208,6 +209,6 @@ in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" ]) // {
     mkdir -p $out/bin
 
     cp ${launcher} $out/bin/.launcher
-    substituteInPlace $out/bin/.launcher --subst-var-by MY_PATH $out/bin/.launcher
+    substituteInPlace $out/bin/.launcher --subst-var-by MY_PATH $out/bin/.launcher --subst-var out
   '';
 })
