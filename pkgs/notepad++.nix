@@ -35,14 +35,14 @@ in mkWindowsApp rec {
   fileMap = { "$HOME/.config/Notepad++" = "drive_c/users/$USER/AppData/Roaming/Notepad++"; };
 
   winAppInstall = ''
-    wine start /unix ${src} /S
+    $WINE start /unix ${src} /S
     wineserver -w
     rm -f "$WINEPREFIX/drive_c/Program Files/Notepad++/uninstall.exe"
     rm -fR "$WINEPREFIX/drive_c/Program Files/Notepad++/updater"
   '';
 
   winAppRun = ''
-   wine start /unix "$WINEPREFIX/drive_c/Program Files/Notepad++/notepad++.exe" "$ARGS"
+   $WINE start /unix "$WINEPREFIX/drive_c/Program Files/Notepad++/notepad++.exe" "$ARGS"
   '';
 
   installPhase = ''
