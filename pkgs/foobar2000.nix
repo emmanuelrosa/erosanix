@@ -26,12 +26,12 @@ mkWindowsApp rec {
   fileMap = { "$HOME/.local/share/foobar2000" = "drive_c/users/$USER/AppData/Roaming/foobar2000"; };
 
   winAppInstall = ''
-    wine start /unix ${src} /S
+    $WINE start /unix ${src} /S
   '';
 
   winAppRun = ''
     export PATH=$PATH:${samba}/bin
-    wine start /unix "$WINEPREFIX/drive_c/Program Files/foobar2000/foobar2000.exe" "$ARGS"
+    $WINE start /unix "$WINEPREFIX/drive_c/Program Files/foobar2000/foobar2000.exe" "$ARGS"
   '';
 
   installPhase = ''
