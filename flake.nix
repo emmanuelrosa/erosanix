@@ -62,7 +62,7 @@
 
         sierrachart = callPackage ./pkgs/sierrachart { 
           mkWindowsApp = lib.mkWindowsApp;
-          wine = pkgs.wineWowPackages.full; 
+          wine = pkgs.wine64Packages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };

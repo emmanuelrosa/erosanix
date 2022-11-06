@@ -149,7 +149,7 @@ in mkWindowsApp rec {
   '';
 
   winAppRun = ''
-    wine "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
+    $WINE "$WINEPREFIX/drive_c/SierraChart/SierraChart.exe" "$ARGS"
   '';
 
   winAppPostRun = ''
