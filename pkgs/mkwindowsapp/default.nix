@@ -38,6 +38,7 @@ let
     RUN_LAYER_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
     BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
+    WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "wine64" else "wine"}
     needs_cleanup="1"
 
     show_notification () {
@@ -107,7 +108,7 @@ let
 
     mk_windows_layer () {
       echo "Building a Windows $WINEARCH layer at $WINEPREFIX..."
-      wine boot --init
+      $WINE boot --init
       wineserver -w
     }
 
