@@ -134,6 +134,7 @@ let
     send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
+    roblox = ./updaters/roblox.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     muun-recovery-tool = { 
       derivationPath = ./pkgs/muun-recovery-tool.nix;
