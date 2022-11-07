@@ -9,7 +9,7 @@
 
 stdenv.mkDerivation rec {
   pname = "matrix-sendmail";
-  version = "835d1efc713f6c915e6b2657f77ba19066f61d4b";
+  version = "1498bc10fea7c1ab0083c3a15ee51433395dd463";
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -17,7 +17,7 @@ stdenv.mkDerivation rec {
     owner = "emmanuelrosa";
     repo = "matrix-sendmail";
     rev = version;
-    sha256 = "sha256-q4cvFMOYiqrxRFyaTVhwpgl/p874sfmaXZjk1NEELdo=";
+    sha256 = "sha256-/klYNi/rHl1Uf/6xqBrB6OYQznocARQxQU6AFB1WZsM=";
   };
 
   installPhase = ''
