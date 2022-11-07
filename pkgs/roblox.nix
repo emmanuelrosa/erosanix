@@ -45,7 +45,7 @@ in mkWindowsApp rec {
 
   src = fetchurl {
     url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
-    sha256 = "sha256-YCkQXKQIGaXtd04KRZgKRwBAiYjrYp5UhTQ7x3TVGf4="; #:hash:#
+    sha256 = "1zhrsmscffrlhma9wqpbi24l00271ac4a2jffznsa688lif10ab0"; #:hash:#
   };
 
   fileMap = { 
