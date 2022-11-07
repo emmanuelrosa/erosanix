@@ -7,7 +7,7 @@
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
-, imagemagick }:
+}:
 let
   # settings.reg disables auto updates and sets the content dir to C:\KindleContent
   settings = ./settings.reg;
