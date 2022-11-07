@@ -27,6 +27,12 @@ in {
         description = "The directory where matrix-sendmail stores stateful data. Primarily used for matrix-commander.";
       };
 
+      enableDeliveryBatching = mkOption {
+        type = types.bool;
+        default = false;
+        description = "When enabled, queued messages are batched and delivered as a single message.";
+      };
+
       user = mkOption {
         type = types.str;
         default = "msm";
@@ -57,6 +63,7 @@ in {
         MSM_LIB_DIR=${cfg.libDir}
         MSM_DELIVERY_USER=${cfg.user}
         MSM_DELIVERY_GROUP=${cfg.group}
+        MSM_DELIVERY_BATCHING=${if cfg.enableDeliveryBatching then "1" else "0"}
       '';
     };
 
