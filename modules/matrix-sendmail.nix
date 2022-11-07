@@ -84,6 +84,7 @@ in {
         MSM_LIB_DIR = cfg.libDir;
         MSM_DELIVERY_USER = cfg.user;
         MSM_DELIVERY_GROUP = cfg.group;
+        MSM_DELIVERY_BATCHING=${if cfg.enableDeliveryBatching then "1" else "0"}
       };
 
       serviceConfig = {
