@@ -47,6 +47,7 @@ wa_init_layer () {
 
 wa_close_layer () {
   local input_hash=$1
+  local make_writeable=$2
   local layer_dir=$(_wa_get_layer $input_hash)
   local incomplete_layer_dir="$layer_dir.incomplete"
 
@@ -55,6 +56,13 @@ wa_close_layer () {
     pushd "$(dirname $incomplete_layer_dir)"
     mv "$(basename $incomplete_layer_dir)" "$(basename $layer_dir)"
     popd
+
+    if [ "$make_writeable" == "1" ]
+    then
+      echo "1" > "$layer_dir/mutable"
+    else
+      echo "0" > "$layer_dir/mutable"
+    fi
   fi
 }
 

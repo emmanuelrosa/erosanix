@@ -184,7 +184,7 @@ let
       wa_close_layer $APP_LAYER_HASH
     fi
 
-    ${lib.optionalString persistRuntimeLayer "wa_close_layer $RUN_LAYER_HASH"}
+    ${lib.optionalString persistRuntimeLayer "wa_close_layer $RUN_LAYER_HASH \"1\""}
 
     echo "Windows and app layers are initialized.";
 
