@@ -95,7 +95,6 @@ wa_init_bottle () {
   local app_layer=$2
   local run_layer=$3
   local tmp_dir=$(wa_get_bottle_dir $windows_layer $app_layer)
-  local work_dir="$tmp_dir/work_dir"
   local upper_dir="$tmp_dir/upper_dir"
   local wineprefix="$tmp_dir/wineprefix"
 
@@ -105,47 +104,21 @@ wa_init_bottle () {
 
     if [ -d "$app_layer" ]
     then
-      local injectRegistry="1"
-
       if [ -d "$run_layer" ]
       then
         upper_dir="$run_layer/wineprefix"
-        work_dir="$run_layer/workdir"
-
-        # Bypass the default registry injection process, which always copies the registry files,
-        # and instead copy them only if they don't already exist in the run layer.
-        cp -n $app_layer/wineprefix/system.reg $upper_dir
-        cp -n $app_layer/wineprefix/user.reg $upper_dir
-        injectRegistry="0"
-
-        # Clean up the workdir from a prior run.
-        rm -fR "$run_layer/workdir"
       fi
 
-      mkdir -p "$work_dir"
       mkdir -p "$upper_dir"
       mkdir -p "$wineprefix"
 
-      fuse-overlayfs -o lowerdir=$windows_layer/wineprefix:$app_layer/wineprefix,upperdir=$upper_dir,workdir=$work_dir $wineprefix
+      unionfs -o cow $upper_dir=RW:$app_layer/wineprefix=RO:$windows_layer/wineprefix=RO $wineprefix
       touch "$wineprefix/.initialized"
-
-      # Inject (copy) the registry files from the app layer into the WINEPREFIX.
-      if [ "$injectRegistry" == "1" ]
-      then
-        cp $app_layer/wineprefix/system.reg $wineprefix
-        cp $app_layer/wineprefix/user.reg $wineprefix
-      fi
     else
-      work_dir="$app_layer.incomplete/workdir"
       upper_dir="$app_layer.incomplete/wineprefix"
-      mkdir -p "$work_dir"
       mkdir -p "$wineprefix"
 
-      fuse-overlayfs -o lowerdir=$windows_layer/wineprefix,upperdir=$upper_dir,workdir=$work_dir $wineprefix
-      #
-      # Inject (copy) the registry files from the app layer into the WINEPREFIX.
-      cp $windows_layer/wineprefix/system.reg $wineprefix
-      cp $windows_layer/wineprefix/user.reg $wineprefix
+      unionfs -o cow $upper_dir=RW:$windows_layer/wineprefix=RO $wineprefix
     fi
 
   else
