@@ -12,8 +12,10 @@
 , wineArch
 , mangohud
 , dxvk
+, rbxfpsunlocker
 , enableHUD ? false
 , enableDXVK ? false
+, enableFPSUnlocker ? false # x86-64-linux only, at the moment.
 }:
 let
   programFiles = let
@@ -59,6 +61,10 @@ in mkWindowsApp rec {
     msiexec /i ${geckoMsi}
     $WINE start /unix ${src}
     ${lib.optionalString enableDXVK "${dxvk}/bin/setup_dxvk.sh install"}
+  '';
+
+  winAppPreRun = ''
+    ${lib.optionalString enableFPSUnlocker "$WINE start /unix ${rbxfpsunlocker}/rbxfpsunlocker.exe"}
   '';
 
   winAppRun = ''
