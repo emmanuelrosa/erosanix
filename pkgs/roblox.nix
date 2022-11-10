@@ -11,7 +11,11 @@
 , copyDesktopIcons
 , wineArch
 , mangohud
+, dxvk
+, rbxfpsunlocker
 , enableHUD ? false
+, enableDXVK ? false
+, enableFPSUnlocker ? false # x86-64-linux only, at the moment.
 }:
 let
   programFiles = let
@@ -33,7 +37,7 @@ let
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
 
-  hudCommand = "${mangohud}/bin/mangohud --dlsym";
+  hudCommand = if enableDXVK then "${mangohud}/bin/mangohud" else "${mangohud}/bin/mangohud --dlsym";
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -56,6 +60,11 @@ in mkWindowsApp rec {
     ${hideDesktop}
     msiexec /i ${geckoMsi}
     $WINE start /unix ${src}
+    ${lib.optionalString enableDXVK "${dxvk}/bin/setup_dxvk.sh install"}
+  '';
+
+  winAppPreRun = ''
+    ${lib.optionalString enableFPSUnlocker "$WINE start /unix ${rbxfpsunlocker}/rbxfpsunlocker.exe"}
   '';
 
   winAppRun = ''

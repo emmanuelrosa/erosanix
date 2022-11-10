@@ -115,7 +115,10 @@
           wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+          rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
         };
+
+        rbxfpsunlocker = callPackage ./pkgs/rbxfpsunlocker.nix { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
