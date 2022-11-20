@@ -11,6 +11,7 @@ The erosanix Nix flake contains a Nix package for Sierra Chart. The package uses
  * Clean desktop menu integration (.desktop); Does not use Wine's menu builder. 
  * Upgrade or rollback Sierra Chart just like you would do with any other Nix package. No need to mess around with Wine bottles.
  * Multi-instance installations are supported. Each instance has its own executable, desktop menu entry, and data directory.
+ * Up to 9 sub instances are supported. Each sub instance is saved to $HOME/.local/share/INSTANCE_NAME-instance/SierraChartInstance_#. Therefore, to delete a sub instance, exit Sierra Chart and then delete the corresponding sub instance directory.
  * Uses your default text editor to open [ACSIL](https://www.sierrachart.com/index.php?page=doc/Contents.php#AdvancedCustomStudySystemInterfaceandLanguage) study source code.
  * Supports using ACSIL studies packaged using Nix. Although you can also just save your study DLLs in the Sierra Chart "Data" directory.
 

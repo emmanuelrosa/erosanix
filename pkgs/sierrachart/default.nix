@@ -69,6 +69,14 @@ in mkWindowsApp rec {
               "$HOME/.local/share/${pname}/Images" = "drive_c/SierraChart/Images";
               "$HOME/.local/share/${pname}/SavedTradeActivity" = "drive_c/SierraChart/SavedTradeActivity";
               "$HOME/.local/share/${pname}/ACS_Source" = "drive_c/SierraChart/ACS_Source";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_2" = "drive_c/SierraChart/SierraChartInstance_2";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_3" = "drive_c/SierraChart/SierraChartInstance_3";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_4" = "drive_c/SierraChart/SierraChartInstance_4";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_5" = "drive_c/SierraChart/SierraChartInstance_5";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_6" = "drive_c/SierraChart/SierraChartInstance_6";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_7" = "drive_c/SierraChart/SierraChartInstance_7";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_8" = "drive_c/SierraChart/SierraChartInstance_8";
+              "$HOME/.local/share/${pname}-instance/SierraChartInstance_9" = "drive_c/SierraChart/SierraChartInstance_9";
   };
 
   winAppInstall = ''
@@ -108,40 +116,45 @@ in mkWindowsApp rec {
   '';
 
   installStudies = ''
-    if [ -e "$HOME/.local/share/${pname}/Data" ]
-    then
-      # Create symlinks to Sierra Chart studies
-      pushd "$HOME/.local/share/${pname}/Data"
+    for p in "$HOME/.local/share/${pname}/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_2/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_3/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_4/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_5/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_6/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_7/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_8/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_9/Data" 
+    do
+      if [ -e "$p" ]
+      then
+        # Create symlinks to Sierra Chart studies
+        pushd "$p"
 
-      for study in $(find ${joinedStudies}/lib -name "*.dll") 
-      do
-        ln -vs --backup=simple $study "$(basename $study)"
-      done
+        for study in $(find ${joinedStudies}/lib -name "*.dll") 
+        do
+          ln -vs --backup=simple $study "$(basename $study)"
+        done
 
-      popd
-    fi
+        popd
+      fi
+    done
   '';
 
   uninstallStudies = ''
-    if [ -e "$HOME/.local/share/${pname}/Data" ]
-    then
-      # Remove symlinks to Sierra Chart studies
-      pushd "$HOME/.local/share/${pname}/Data"
+    for p in "$HOME/.local/share/${pname}/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_2/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_3/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_4/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_5/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_6/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_7/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_8/Data" "$HOME/.local/share/${pname}-instance/SierraChartInstance_9/Data" 
+    do
+      if [ -e "$p" ]
+      then
+        # Remove symlinks to Sierra Chart studies
+        pushd "$p"
 
-      for study in $(find ${joinedStudies}/lib -name "*.dll") 
-      do
-        local filename="$(basename $study)"
-        rm -v "$filename"
+        for study in $(find ${joinedStudies}/lib -name "*.dll") 
+        do
+          local filename="$(basename $study)"
+          rm -v "$filename"
 
-        # Restore DLL backup; For package backwards compatibility.
-        if [ -e "$filename~" ]
-        then
-          mv "$filename~" "$filename"
-        fi
-      done
-
-      popd
-    fi
+          # Restore DLL backup; For package backwards compatibility.
+          if [ -e "$filename~" ]
+          then
+            mv "$filename~" "$filename"
+          fi
+        done
+        popd
+      fi
+    done
   '';
 
   winAppPreRun = '' 
