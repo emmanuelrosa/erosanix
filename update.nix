@@ -20,7 +20,7 @@ let
   '';
 
   getRemoteVersionFromGitHub = { owner, repo, versionConverter ? "tee" }: ''
-      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${pkgs.gnused}/bin/sed -e 's/^\"//g' -e 's/\"$//g' -e 's/Release //g' | ${versionConverter} | head -n 1)
+      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {tag_name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${pkgs.gnused}/bin/sed -e 's/^\"//g' -e 's/\"$//g' -e 's/Release //g' | ${versionConverter} | head -n 1)
   '';
 
   mkUpdateScript = { getLocalVersion ? defaultGetLocalVersion
@@ -116,12 +116,12 @@ let
       };
     };
 
-  mkSimpleGitHubUpdater = { derivationPath, owner, repo, tagPrefix ? "v" }: mkUpdateScript {
+  mkSimpleGitHubUpdater = { derivationPath, owner, repo, tagPrefix ? "v", versionConverter ? "tee" }: mkUpdateScript {
     comparator = "version";
     derivation = builtins.toPath derivationPath;
 
     getRemoteVersion = getRemoteVersionFromGitHub { 
-      inherit owner repo;
+      inherit owner repo versionConverter;
     };
 
     getRemoteHash = prefetchUrl { unpack = true; url = "https://github.com/${owner}/${repo}/archive/refs/tags/${tagPrefix}$version.tar.gz"; };
@@ -135,6 +135,7 @@ let
     foobar2000 = ./updaters/foobar2000.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
     roblox = ./updaters/roblox.nix;
+    rbxfpsunlocker = ./updaters/rbxfpsunlocker.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     muun-recovery-tool = { 
       derivationPath = ./pkgs/muun-recovery-tool.nix;
@@ -148,6 +149,7 @@ let
       owner = "chris-belcher";
       repo = "electrum-personal-server";
       tagPrefix = "eps-v";
+      versionConverter = "${pkgs.gnused}/bin/sed 's/eps-v//'";
     };
   });
 

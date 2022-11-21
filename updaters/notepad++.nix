@@ -8,7 +8,7 @@ libupdate.mkUpdateScript {
   getRemoteVersion = libupdate.getRemoteVersionFromGitHub { 
     owner = "notepad-plus-plus";
     repo = "notepad-plus-plus";
-    versionConverter = "${pkgs.gnused}/bin/sed -e 's/^Notepad\+\+ release //g'";
+    versionConverter = "${pkgs.gnused}/bin/sed -e 's/v//'";
   };
 
   getRemoteHash = ''
