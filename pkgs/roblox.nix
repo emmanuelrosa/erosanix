@@ -55,6 +55,7 @@ in mkWindowsApp rec {
   fileMap = { 
     "$HOME/.local/share/roblox/ProgramData/Roblox" = "drive_c/ProgramData/Roblox"; 
     "$HOME/.local/share/roblox/Temp/Roblox" = "drive_c/users/$USER/Temp/Roblox"; 
+    "$HOME/.local/share/roblox/rbxfpsunlocker/settings" = "drive_c/rbxfpsunlocker/settings"; 
   };
 
   winAppInstall = ''
@@ -62,10 +63,11 @@ in mkWindowsApp rec {
     msiexec /i ${geckoMsi}
     $WINE start /unix ${src}
     ${lib.optionalString enableDXVK "${dxvk}/bin/setup_dxvk.sh install"}
+    ${lib.optionalString enableFPSUnlocker "mkdir -p $WINEPREFIX/drive_c/rbxfpsunlocker && ln -s ${rbxfpsunlocker}/rbxfpsunlocker.exe $WINEPREFIX/drive_c/rbxfpsunlocker/rbxfpsunlocker.exe"}
   '';
 
   winAppPreRun = ''
-    ${lib.optionalString enableFPSUnlocker "$WINE start /unix ${rbxfpsunlocker}/rbxfpsunlocker.exe"}
+    ${lib.optionalString enableFPSUnlocker "$WINE start /unix $WINEPREFIX/drive_c/rbxfpsunlocker/rbxfpsunlocker.exe"}
   '';
 
   winAppRun = ''
