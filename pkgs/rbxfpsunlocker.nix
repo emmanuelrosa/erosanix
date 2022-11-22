@@ -3,7 +3,7 @@
 , fetchurl
 , unzip
 }:
-stdenv.mkDerivation {
+stdenv.mkDerivation rec {
   pname = "rbxfpsunlocker";
   version = "4.4.3"; #:version:
 
