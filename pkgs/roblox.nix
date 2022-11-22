@@ -68,13 +68,20 @@ in mkWindowsApp rec {
   '';
 
   winAppPreRun = ''
+    roblox_version=$(wine reg query 'HKLM\Software\Classes\roblox-player\shell\open\command' | grep Default | sed -e 's/\(.*\)\(version-[[:alnum:]]\+\)\(.*\)/\2/' -e 's/\r$//')
+    echo "Roblox version according to the Windows registry: $roblox_version"
+    pushd "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions"
+    rm -f current
+    ln -vs $roblox_version current
+    popd
+
     ${lib.optionalString enableFPSUnlocker "$WINE start /unix $WINEPREFIX/drive_c/rbxfpsunlocker/rbxfpsunlocker.exe"}
   '';
 
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-    ${lib.optionalString enableHUD hudCommand} $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
+    ${lib.optionalString enableHUD hudCommand} $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/current/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
