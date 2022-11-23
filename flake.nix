@@ -172,6 +172,7 @@
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+          rbxfpsunlocker = null;
         };
 
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
