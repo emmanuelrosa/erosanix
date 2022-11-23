@@ -10,6 +10,7 @@
 , name ? "${attrs.pname}-${attrs.version}"
 , enableInstallNotification ? true
 , fileMap ? {}
+, fileMapDuringAppInstall ? false
 , persistRegistry ? false # Disabled by default for now because it's experimental.
 , persistRuntimeLayer ? false
 , ... } @ attrs:
@@ -115,8 +116,10 @@ let
     mk_app_layer () {
       echo "Building an app layer at $WINEPREFIX..."
       show_notification "drive-harddisk" "Installing ${attrs.pname}..."
+      ${lib.optionalString fileMapDuringAppInstall fileMappingScript}
       ${winAppInstall}
       wineserver -w
+      ${lib.optionalString fileMapDuringAppInstall persistFilesScript}
       show_notification "content-loading" "${attrs.pname} is now installed. Running..."
     }
 
