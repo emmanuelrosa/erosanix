@@ -45,6 +45,7 @@ in mkWindowsApp rec {
   version = "3b33190189084158"; #:version:
   dontUnpack = true;
   persistRuntimeLayer = true;
+  fileMapDuringAppInstall = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
