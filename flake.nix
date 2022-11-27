@@ -119,6 +119,14 @@
         };
 
         rbxfpsunlocker = callPackage ./pkgs/rbxfpsunlocker.nix { };
+
+        rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.full;
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
