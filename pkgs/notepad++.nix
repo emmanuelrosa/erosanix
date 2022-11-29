@@ -26,7 +26,7 @@ let
 in mkWindowsApp rec {
   inherit version wine wineArch;
 
-  pname = "notepad++";
+  pname = "notepad++-${wineArch}";
  
   src = srcs."${wineArch}";
 
@@ -48,7 +48,7 @@ in mkWindowsApp rec {
   installPhase = ''
     runHook preInstall
 
-    ln -s $out/bin/.launcher $out/bin/notepad++
+    ln -s $out/bin/.launcher $out/bin/${pname}
     
     runHook postInstall
   '';
@@ -64,7 +64,7 @@ in mkWindowsApp rec {
 
       name = "Notepad++";
       exec = pname;
-      icon = pname;
+      icon =  "notepad++";
       desktopName = "Notepad++";
       genericName = "Text Editor";
       categories = ["Utility" "TextEditor"];
@@ -87,6 +87,6 @@ in mkWindowsApp rec {
     license = licenses.gpl3Plus;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" "i686-linux" ];
-    mainProgram = "notepad++";
+    mainProgram = pname;
   };
 }
