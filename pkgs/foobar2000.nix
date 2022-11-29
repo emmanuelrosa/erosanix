@@ -2,35 +2,46 @@
 , lib
 , mkWindowsApp
 , wine
+, wineArch
 , fetchurl
-, samba
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
 }:
 mkWindowsApp rec {
-  inherit wine;
+  inherit wine wineArch;
 
-  pname = "foobar2000";
-  version = "1.6.16"; #:version:
-  wineArch = "win32";
+  pname = "foobar2000-${wineArch}";
+  version = "2.0"; #:version:
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
+  fileMapDuringAppInstall = true;
 
-  src = fetchurl {
-    url = "https://www.foobar2000.org/files/foobar2000_v${version}.exe";
-    sha256 = "0qzjf51i7wxwpkyc3yscjfcbmxbp0sncsbx2gryp1fmcpyfk4ycn"; #:hash:
+  src = {
+    win32 = fetchurl {
+      url = "https://www.foobar2000.org/files/foobar2000_v${version}.exe";
+      sha256 = "0arkaqj3r6xwx845f8kbnxdv8x5lzbap5yl1nip0ys42sw0snsmx"; #:hash32:
+    };
+
+    win64 = fetchurl {
+      url = "https://www.foobar2000.org/files/foobar2000-x64_v${version}.exe";
+      sha256 = "0k4rsg7wfc0b78gmc43h0j4167l3cdd6j9z0rjwqjp53l8cfr9wi"; #:hash64:
+    };
+  }."${wineArch}";
+
+  # Note: The old (v1) profile directory is still being mapped in case the user has used this package before.
+  # The Foobar2000 v2 installer will import the v1 configuration data if it exists.
+  fileMap = { 
+    "$HOME/.local/share/foobar2000" = "drive_c/users/$USER/AppData/Roaming/foobar2000"; 
+    "$HOME/.local/share/foobar2000-v2" = "drive_c/users/$USER/AppData/Roaming/foobar2000-v2";
   };
-
-  fileMap = { "$HOME/.local/share/foobar2000" = "drive_c/users/$USER/AppData/Roaming/foobar2000"; };
 
   winAppInstall = ''
     $WINE start /unix ${src} /S
   '';
 
   winAppRun = ''
-    export PATH=$PATH:${samba}/bin
     $WINE start /unix "$WINEPREFIX/drive_c/Program Files/foobar2000/foobar2000.exe" "$ARGS"
   '';
 

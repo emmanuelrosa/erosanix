@@ -124,7 +124,8 @@
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           mkWindowsApp = lib.mkWindowsApp;
-          wine = pkgs.winePackages.stableFull; 
+          wine = pkgs.wine64Packages.stableFull; 
+          wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
@@ -241,6 +242,7 @@
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.winePackages.stableFull; 
+          wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
