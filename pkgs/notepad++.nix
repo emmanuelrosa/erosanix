@@ -26,7 +26,7 @@ let
 in mkWindowsApp rec {
   inherit version wine wineArch;
 
-  pname = "notepad++-${wineArch}";
+  pname = "notepad-plus-plus-${wineArch}";
  
   src = srcs."${wineArch}";
 
@@ -64,7 +64,7 @@ in mkWindowsApp rec {
 
       name = "Notepad++";
       exec = pname;
-      icon =  "notepad++";
+      icon = pname;
       desktopName = "Notepad++";
       genericName = "Text Editor";
       categories = ["Utility" "TextEditor"];
@@ -72,7 +72,7 @@ in mkWindowsApp rec {
   ];
 
   desktopIcon = makeDesktopIcon {
-    name = "notepad++";
+    name = pname;
     icoIndex = 2;
 
     src = fetchurl {
