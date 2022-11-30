@@ -41,7 +41,7 @@ let
 in mkWindowsApp rec {
   inherit wine wineArch;
 
-  pname = "roblox";
+  pname = "roblox-${wineArch}";
   version = "3b33190189084158"; #:version:
   dontUnpack = true;
   persistRuntimeLayer = true;
