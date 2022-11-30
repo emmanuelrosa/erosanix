@@ -59,3 +59,295 @@ The NUR-based setup differs from a normal NUR because this repo is not published
   ];
 ```
 
+## What's included?
+
+Keep in mind that the following list of what's included may be incomplete:
+
+```
+{
+  "bundlers": {
+    "type": "unknown"
+  },
+  "lib": {
+    "type": "unknown"
+  },
+  "nixosModules": {
+    "btrbk": {
+      "type": "nixos-module"
+    },
+    "electrs": {
+      "type": "nixos-module"
+    },
+    "electrum-personal-server": {
+      "type": "nixos-module"
+    },
+    "fzf": {
+      "type": "nixos-module"
+    },
+    "matrix-sendmail": {
+      "type": "nixos-module"
+    },
+    "mkwindowsapp-gc": {
+      "type": "nixos-module"
+    },
+    "protonvpn": {
+      "type": "nixos-module"
+    },
+    "usrsharefonts": {
+      "type": "nixos-module"
+    }
+  },
+  "packages": {
+    "aarch64-linux": {
+      "battery-icons-font": {
+        "description": "A font containing nothing but batteries.",
+        "name": "battery-icons-font-2020-01-26",
+        "type": "derivation"
+      },
+      "bitcoin-onion-nodes": {
+        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
+        "name": "bitcoin-onion-nodes-2.4.txt",
+        "type": "derivation"
+      },
+      "century-gothic-font": {
+        "description": "Century Gothic font.",
+        "name": "century-gothic-font-2016-09-17",
+        "type": "derivation"
+      },
+      "electrum-personal-server": {
+        "description": "An lightweight, single-user implementation of the Electrum server protocol",
+        "name": "electrum-personal-server-0.2.4",
+        "type": "derivation"
+      },
+      "er-wallpaper": {
+        "description": "A script for changing wallpaper and setting color schemes, for Linux",
+        "name": "er-wallpaper-0.2.0.0",
+        "type": "derivation"
+      },
+      "matrix-sendmail": {
+        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
+        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
+        "type": "derivation"
+      },
+      "muun-recovery-tool": {
+        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
+        "name": "muun-recovery-tool-v2.2.3",
+        "type": "derivation"
+      },
+      "pdf2png": {
+        "description": "A simple script to convert a PDF into multiple PNGs.",
+        "name": "pdf2png-0.2.0.0",
+        "type": "derivation"
+      },
+      "rofi-menu": {
+        "description": "Various rofi menus (aka. modi)",
+        "name": "rofi-menu-0.7.0",
+        "type": "derivation"
+      },
+      "trace-font": {
+        "description": "Trace font",
+        "name": "trace-font-2020-03-25",
+        "type": "derivation"
+      }
+    },
+    "i686-linux": {
+      "battery-icons-font": {
+        "description": "A font containing nothing but batteries.",
+        "name": "battery-icons-font-2020-01-26",
+        "type": "derivation"
+      },
+      "bitcoin-onion-nodes": {
+        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
+        "name": "bitcoin-onion-nodes-2.4.txt",
+        "type": "derivation"
+      },
+      "century-gothic-font": {
+        "description": "Century Gothic font.",
+        "name": "century-gothic-font-2016-09-17",
+        "type": "derivation"
+      },
+      "electrum-personal-server": {
+        "description": "An lightweight, single-user implementation of the Electrum server protocol",
+        "name": "electrum-personal-server-0.2.4",
+        "type": "derivation"
+      },
+      "er-wallpaper": {
+        "description": "A script for changing wallpaper and setting color schemes, for Linux",
+        "name": "er-wallpaper-0.2.0.0",
+        "type": "derivation"
+      },
+      "foobar2000": {
+        "description": "An advanced freeware audio player for the Windows platform.",
+        "name": "foobar2000-1.6.14",
+        "type": "derivation"
+      },
+      "matrix-sendmail": {
+        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
+        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
+        "type": "derivation"
+      },
+      "mkwindowsapp-tools": {
+        "description": "A set of tools for working with packages made with mkWindowsApp.",
+        "name": "mkwindows-tools-1.0.0",
+        "type": "derivation"
+      },
+      "muun-recovery-tool": {
+        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
+        "name": "muun-recovery-tool-v2.2.3",
+        "type": "derivation"
+      },
+      "notepad-plus-plus": {
+        "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
+        "name": "notepad-plus-plus-win32-8.4.7",
+        "type": "derivation"
+      },
+      "pdf2png": {
+        "description": "A simple script to convert a PDF into multiple PNGs.",
+        "name": "pdf2png-0.2.0.0",
+        "type": "derivation"
+      },
+      "roblox": {
+        "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
+        "name": "roblox-3b33190189084158",
+        "type": "derivation"
+      },
+      "rofi-menu": {
+        "description": "Various rofi menus (aka. modi)",
+        "name": "rofi-menu-0.7.0",
+        "type": "derivation"
+      },
+      "trace-font": {
+        "description": "Trace font",
+        "name": "trace-font-2020-03-25",
+        "type": "derivation"
+      },
+      "vim-desktop": {
+        "description": "A desktop menu (and file associations) to run VIM, a greatly improved version of the good old UNIX editor Vi. Alacritty is used as the terminal.",
+        "name": "vim-desktop-1.0.1",
+        "type": "derivation"
+      }
+    },
+    "x86_64-linux": {
+      "amazon-kindle": {
+        "description": "Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.",
+        "name": "amazon-kindle-1.39.65323",
+        "type": "derivation"
+      },
+      "battery-icons-font": {
+        "description": "A font containing nothing but batteries.",
+        "name": "battery-icons-font-2020-01-26",
+        "type": "derivation"
+      },
+      "bitcoin-onion-nodes": {
+        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
+        "name": "bitcoin-onion-nodes-2.4.txt",
+        "type": "derivation"
+      },
+      "century-gothic-font": {
+        "description": "Century Gothic font.",
+        "name": "century-gothic-font-2016-09-17",
+        "type": "derivation"
+      },
+      "electrum-personal-server": {
+        "description": "An lightweight, single-user implementation of the Electrum server protocol",
+        "name": "electrum-personal-server-0.2.4",
+        "type": "derivation"
+      },
+      "er-wallpaper": {
+        "description": "A script for changing wallpaper and setting color schemes, for Linux",
+        "name": "er-wallpaper-0.2.0.0",
+        "type": "derivation"
+      },
+      "foobar2000": {
+        "description": "An advanced freeware audio player for the Windows platform.",
+        "name": "foobar2000-1.6.14",
+        "type": "derivation"
+      },
+      "matrix-sendmail": {
+        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
+        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
+        "type": "derivation"
+      },
+      "mkwindowsapp-tools": {
+        "description": "A set of tools for working with packages made with mkWindowsApp.",
+        "name": "mkwindows-tools-1.0.0",
+        "type": "derivation"
+      },
+      "muun-recovery-tool": {
+        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
+        "name": "muun-recovery-tool-v2.2.3",
+        "type": "derivation"
+      },
+      "notepad-plus-plus": {
+        "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
+        "name": "notepad-plus-plus-win64-8.4.7",
+        "type": "derivation"
+      },
+      "nvidia-offload": {
+        "name": "nvidia-offload",
+        "type": "derivation"
+      },
+      "pdf2png": {
+        "description": "A simple script to convert a PDF into multiple PNGs.",
+        "name": "pdf2png-0.2.0.0",
+        "type": "derivation"
+      },
+      "rbxfpsunlocker": {
+        "description": "FPS Unlocker for Roblox",
+        "name": "rbxfpsunlocker-4.4.3",
+        "type": "derivation"
+      },
+      "roblox": {
+        "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
+        "name": "roblox-3b33190189084158",
+        "type": "derivation"
+      },
+      "rofi-menu": {
+        "description": "Various rofi menus (aka. modi)",
+        "name": "rofi-menu-0.7.0",
+        "type": "derivation"
+      },
+      "rtrader-pro": {
+        "description": "Rithmic professional trading software",
+        "name": "rtrader-pro-default-17.19.0.0",
+        "type": "derivation"
+      },
+      "send-to-kindle": {
+        "description": "Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.",
+        "name": "send-to-kindle-1.1.1.253",
+        "type": "derivation"
+      },
+      "sierrachart": {
+        "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
+        "name": "sierrachart-default-2457",
+        "type": "derivation"
+      },
+      "sierrachart-example-study": {
+        "description": "An example study that comes with Sierra Chart. This package demonstrates how to package Sierra Chart studies.",
+        "name": "sierrachart-example-study-x86_64-w64-mingw32",
+        "type": "derivation"
+      },
+      "sierrachart-with-example-study": {
+        "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
+        "name": "sierrachart-example-study-2457",
+        "type": "derivation"
+      },
+      "tiddlydesktop": {
+        "description": "A custom desktop browser for TiddlyWiki 5 and TiddlyWiki Classic, based on nw.js",
+        "name": "tiddlydesktop-0.0.15",
+        "type": "derivation"
+      },
+      "trace-font": {
+        "description": "Trace font",
+        "name": "trace-font-2020-03-25",
+        "type": "derivation"
+      },
+      "vim-desktop": {
+        "description": "A desktop menu (and file associations) to run VIM, a greatly improved version of the good old UNIX editor Vi. Alacritty is used as the terminal.",
+        "name": "vim-desktop-1.0.1",
+        "type": "derivation"
+      }
+    }
+  }
+}
+```
