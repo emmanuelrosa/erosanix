@@ -42,7 +42,7 @@ in mkWindowsApp rec {
   inherit wine wineArch;
 
   pname = "roblox-${wineArch}";
-  version = "3b33190189084158"; #:version:
+  version = "ef16b6487a274455"; #:version:
   dontUnpack = true;
   persistRuntimeLayer = true;
   fileMapDuringAppInstall = true;
@@ -50,7 +50,7 @@ in mkWindowsApp rec {
 
   src = fetchurl {
     url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
-    sha256 = "1z9n58cfs6bda8bs88484m7n23q44wn7hlcmyf8branbysgq4vaq"; #:hash:#
+    sha256 = "0pchhbcbjifpzq1k62an81ylg9c89zmg827pdlcc5lg3vgywyl6q"; #:hash:#
   };
 
   fileMap = { 
