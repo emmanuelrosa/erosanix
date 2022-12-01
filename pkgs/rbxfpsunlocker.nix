@@ -5,11 +5,11 @@
 }:
 stdenv.mkDerivation rec {
   pname = "rbxfpsunlocker";
-  version = "4.4.3"; #:version:
+  version = "4.4.4"; #:version:
 
   src = fetchurl {
     url = "https://github.com/axstin/rbxfpsunlocker/releases/download/v${version}/rbxfpsunlocker-x64.zip";
-    sha256 = "13nn1arwn9lqs8hcha3k7c9f0mlnl3b0iypf3r9clpy9p9i4hdaq"; #:hash:
+    sha256 = "1y7j630h41n4x9a1mfpd6x6y39wb4i3bmwzc1kf4zgbx2b0ff3q5"; #:hash:
   };
 
   nativeBuildInputs = [ unzip ];
