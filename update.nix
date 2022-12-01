@@ -136,6 +136,7 @@ let
     notepad-plus-plus = ./updaters/notepad++.nix;
     roblox = ./updaters/roblox.nix;
     rbxfpsunlocker = ./updaters/rbxfpsunlocker.nix;
+    rtrader-pro = ./updaters/rtrader-pro.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     muun-recovery-tool = { 
       derivationPath = ./pkgs/muun-recovery-tool.nix;
@@ -166,7 +167,7 @@ let
       quick = pkgs.writeScript "update-quick.bash" ''
         #!${pkgs.bash}/bin/bash
 
-        ${script (builtins.removeAttrs updaters [ "send-to-kindle" "battery-icons-font" "trace-font" ])}
+        ${script (builtins.removeAttrs updaters [ "send-to-kindle" "battery-icons-font" "trace-font" "rtrader-pro" ])}
       '';
     };
   };
