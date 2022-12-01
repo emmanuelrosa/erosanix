@@ -193,6 +193,7 @@
     nixosModules.fzf = import ./modules/fzf.nix;
     nixosModules.usrsharefonts = import ./modules/usrsharefonts.nix;
     nixosModules.mkwindowsapp-gc = import ./modules/mkwindowsapp-gc.nix;
+    nixosModules.sendtome = import ./modules/sendtome.nix;
 
     bundlers.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
