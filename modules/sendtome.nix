@@ -87,13 +87,13 @@ in {
         # Based on a script from https://unix.stackexchange.com/questions/82093/minimal-mta-that-delivers-mail-locally-for-cron
 
         rand=$((RANDOM % 1000))
-        msgname=$(date +%s).P$$R$rand.$(hostname | tr '/:' '\057\072')
+        msgname=$(date +%s).P$$R$rand.$(${pkgs.nettools}/bin/hostname | tr '/:' '\057\072')
         tmp_msgpath=${cfg.spoolDir}/tmp/$msgname
 
         cat > $tmp_msgpath
 
         # If the encoding is base64, decode into plain text
-        if [ "$(grep 'Content-Transfer-Encoding: base64' $tmp_msgpath)" != "" ] 
+        if [ "$(${pkgs.gnugrep}/bin/grep 'Content-Transfer-Encoding: base64' $tmp_msgpath)" != "" ] 
         then 
           tmp_message=$(mktemp)
           sed -e '/^$/,$d' < $tmp_msgpath > $tmp_message
