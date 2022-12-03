@@ -29,11 +29,18 @@ in {
   config = let
     userCfg = config.users.users."${cfg.user}";
 
-    prep = pkgs.writeScript "sendtome-prep" ''
-      chown -v ${cfg.user}:${userCfg.group} ${cfg.spoolDir}/new/*
+    prep = pkgs.writeScript "sendtome-prep.bash" ''
+      #! ${pkgs.bash}/bin/bash
+
+      for f in `ls ${cfg.spoolDir}/new`
+      do
+        chown -v ${cfg.user}:${userCfg.group} ${cfg.spoolDir}/new/$f
+      done
     '';
 
-    deliver = pkgs.writeScript "sendtome-deliver" ''
+    deliver = pkgs.writeScript "sendtome-deliver.bash" ''
+      #! ${pkgs.bash}/bin/bash
+
       MAILDIR=${userCfg.home}/Maildir
 
       mkdir -p $MAILDIR/new
