@@ -32,10 +32,7 @@ in {
     prep = pkgs.writeScript "sendtome-prep.bash" ''
       #! ${pkgs.bash}/bin/bash
 
-      for f in `ls ${cfg.spoolDir}/new`
-      do
-        chown -v ${cfg.user}:${userCfg.group} ${cfg.spoolDir}/new/$f
-      done
+      ${pkgs.findutils}/bin/find ${cfg.spoolDir}/new -type f | ${pkgs.findutils}/bin/xargs -I "{}" -- chown -v ${cfg.user}:${userCfg.group} {}
     '';
 
     deliver = pkgs.writeScript "sendtome-deliver.bash" ''
@@ -46,7 +43,7 @@ in {
       mkdir -p $MAILDIR/new
       mkdir -p $MAILDIR/cur
 
-      mv -v ${cfg.spoolDir}/new/* $MAILDIR/new/
+      ${pkgs.findutils}/bin/find ${cfg.spoolDir}/new -type f | ${pkgs.findutils}/bin/xargs -I "{}" -- mv -v {} $MAILDIR/new/
     '';
   in lib.mkIf cfg.setSendmail {
     systemd.tmpfiles.rules = [
