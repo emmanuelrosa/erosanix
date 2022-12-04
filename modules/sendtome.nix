@@ -89,7 +89,7 @@ in {
 
         cat > $tmp_msgpath
 
-        # If the encoding is base64, decode into plain text
+        # If the encoding is base64, then decode into plain text.
         if [ "$(${pkgs.gnugrep}/bin/grep 'Content-Transfer-Encoding: base64' $tmp_msgpath)" != "" ] 
         then 
           tmp_message=$(mktemp)
@@ -98,6 +98,21 @@ in {
           sed -e '1,/^To\:/d' < $tmp_msgpath | base64 -d >> $tmp_message
           mv $tmp_message $tmp_msgpath
         fi
+
+        tmp_message=$(mktemp)
+
+        if [ "$(${pkgs.gnugrep}/bin/grep 'Message-ID:' $tmp_msgpath)" == "" ] 
+        then
+          echo "Message-ID: <$(${pkgs.util-linux}/bin/uuidgen)>" > $tmp_message
+        fi
+
+        if [ "$(${pkgs.gnugrep}/bin/grep 'Date:' $tmp_msgpath)" == "" ] 
+        then
+          echo "Date: $(date -R)" >> $tmp_message
+        fi
+
+        cat $tmp_msgpath >> $tmp_message
+        mv $tmp_message $tmp_msgpath
 
         mv -n $tmp_msgpath ${cfg.spoolDir}/new/$msgname
       '';
