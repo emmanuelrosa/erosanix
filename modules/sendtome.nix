@@ -1,6 +1,7 @@
 { config, pkgs, lib, ... }:
 
 let cfg = config.services.sendtome;
+    userCfg = config.users.users."${cfg.user}";
 in {
   options = {
     services.sendtome = {
@@ -18,6 +19,14 @@ in {
         description = "The top-level directory where email messages are stored prior to delivery.";
       };
 
+      deliveryDir = lib.mkOption {
+        type = lib.types.path;
+        default = "${userCfg.home}/Maildir";
+        defaultText = lib.literalExpression "\${userCfg.home}/Maildir";
+        example = "$HOME/.mail";
+        description = "The top-level directory where email messages are stored prior to delivery.";
+      };
+
       deliveryInterval = lib.mkOption {
         type = lib.types.str;
         default = "10m";
@@ -27,8 +36,6 @@ in {
   };
 
   config = let
-    userCfg = config.users.users."${cfg.user}";
-
     prep = pkgs.writeScript "sendtome-prep.bash" ''
       #! ${pkgs.bash}/bin/bash
 
@@ -38,7 +45,7 @@ in {
     deliver = pkgs.writeScript "sendtome-deliver.bash" ''
       #! ${pkgs.bash}/bin/bash
 
-      MAILDIR=${userCfg.home}/Maildir
+      MAILDIR=${cfg.deliveryDir}
 
       mkdir -p $MAILDIR/new
       mkdir -p $MAILDIR/cur
