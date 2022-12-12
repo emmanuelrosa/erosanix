@@ -3,7 +3,7 @@
 }:
 libupdate.mkUpdateScript {
   comparator = "version";
-  derivation = builtins.toPath ../pkgs/roblox.nix;
+  derivation = builtins.toPath ../pkgs/roblox/default.nix;
 
   getRemoteVersion = ''
     ${pkgs.curl}/bin/curl https://s3.amazonaws.com/setup.roblox.com/version | ${pkgs.gnused}/bin/sed 's/^version-\(.*\)$/\1/'
