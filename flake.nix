@@ -127,6 +127,13 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        epic-games-launcher = callPackage ./pkgs/epic-games-launcher.nix { 
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.full; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
