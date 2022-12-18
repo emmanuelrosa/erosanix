@@ -132,6 +132,7 @@
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+          zenity = pkgs.gnome.zenity;
         };
 
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
