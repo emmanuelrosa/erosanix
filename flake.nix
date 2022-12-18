@@ -133,7 +133,10 @@
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
           zenity = pkgs.gnome.zenity;
+          powershell = self.packages.x86_64-linux.powershell;
         };
+
+        powershell = callPackage ./pkgs/powershell.nix { };
 
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
