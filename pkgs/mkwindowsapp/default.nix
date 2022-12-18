@@ -13,6 +13,11 @@
 , fileMapDuringAppInstall ? false
 , persistRegistry ? false # Disabled by default for now because it's experimental.
 , persistRuntimeLayer ? false
+
+  # The method used to calculate the input hashes for the layers.
+  # This should be set to "store-path", which is the strictest and most reproduceable method. But it results in many rebuilds of the layers.
+  # An alternative is "version" which is a relaxed method and results in fewer rebuilds but is less reproduceable.
+, inputHashMethod ? "store-path"
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
@@ -27,6 +32,18 @@ let
 
   fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
   persistFilesScript = withFileMap (dest: src: ''persist_file "${src}" "${dest}"'');
+ 
+  inputHashScript = {
+    "store-path" = ''
+      WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+      APP_LAYER_HASH=$(printf "%s %s" $MY_PATH $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    '';
+
+    "version" = ''
+      WIN_LAYER_HASH=$(printf "%s %s" $($WINE --version) $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+      APP_LAYER_HASH=$(printf "%s %s %s" "${attrs.pname}" "${attrs.version}" $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    '';
+  }."${inputHashMethod}";
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
@@ -34,12 +51,11 @@ let
     MY_PATH="@MY_PATH@"
     OUT_PATH="@out@"
     ARGS="$@"
-    WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-    APP_LAYER_HASH=$(printf "%s %s" @MY_PATH@ $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+    WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "wine64" else "wine"}
+    ${inputHashScript}
     RUN_LAYER_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
     BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
-    WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "wine64" else "wine"}
     needs_cleanup="1"
 
     show_notification () {
