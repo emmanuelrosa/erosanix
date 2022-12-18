@@ -18,6 +18,7 @@ mkWindowsApp rec {
   persistRegistry = true;
   persistRuntimeLayer = true;
   dontUnpack = true;
+  inputHashMethod = "version";
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
@@ -26,13 +27,9 @@ mkWindowsApp rec {
   };
 
   fileMap = { 
-    "$HOME/.cache/${pname}/Content" = "drive_c/Program Files (x86)/Epic Games/Launcher/Portal/Content"; 
-    "$HOME/.cache/${pname}/Extras" = "drive_c/Program Files (x86)/Epic Games/Launcher/Portal/Extras"; 
-    "$HOME/.cache/${pname}/SysFiles" = "drive_c/Program Files (x86)/Epic Games/Launcher/Portal/SysFiles"; 
     "$HOME/.cache/${pname}/Data" = "drive_c/ProgramData/Epic/EpicGamesLauncher/Data"; 
     "$HOME/.cache/${pname}/AppData/UnrealEngine" = "drive_c/users/$USER/AppData/Local/UnrealEngine"; 
     "$HOME/.cache/${pname}/AppData/EpicGamesLauncher" = "drive_c/users/$USER/AppData/Local/EpicGamesLauncher"; 
-    "$HOME/.local/share/${pname}/Games/Epic Games" = "drive_c/Program Files/Epic Games"; 
   };
 
   winAppInstall = ''
