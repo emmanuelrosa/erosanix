@@ -107,8 +107,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        tiddlydesktop = pkgs.lib.trivial.warn "The tiddlydesktop package is deprecated because it's now provided by upstream as the Nix Flake 'github:TiddlyWiki/TiddlyDesktop'." (callPackage ./pkgs/tiddlydesktop.nix { });
-
         roblox = callPackage ./pkgs/roblox/default.nix {
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full;
