@@ -136,6 +136,14 @@
 
         powershell = callPackage ./pkgs/powershell.nix { };
 
+        sable = callPackage ./pkgs/sable/default.nix { 
+          mkWindowsApp = lib.mkWindowsApp;
+          copyDesktopIcons = lib.copyDesktopIcons; 
+          makeDesktopIcon = lib.makeDesktopIcon;
+          wine = pkgs.wine64Packages.stableFull; 
+          zenity = pkgs.gnome.zenity;
+        };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
