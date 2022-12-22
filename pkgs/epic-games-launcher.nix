@@ -31,6 +31,7 @@ mkWindowsApp rec {
     "$HOME/.cache/${pname}/Data" = "drive_c/ProgramData/Epic/EpicGamesLauncher/Data"; 
     "$HOME/.cache/${pname}/AppData/UnrealEngine" = "drive_c/users/$USER/AppData/Local/UnrealEngine"; 
     "$HOME/.cache/${pname}/AppData/EpicGamesLauncher" = "drive_c/users/$USER/AppData/Local/EpicGamesLauncher"; 
+    "$HOME/Games/Epic Games" = "drive_c/Program Files/Epic Games";
   };
 
   winAppInstall = ''
