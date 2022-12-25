@@ -13,8 +13,10 @@
 mkWindowsApp rec {
   inherit wine;
 
+  name = "${pname}-${version}-${build}";
   pname = "epic-games-launcher";
   version = "14.2.1"; #:version:
+  build = "b1";
   wineArch = "win64";
   persistRuntimeLayer = true;
   dontUnpack = true;

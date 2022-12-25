@@ -41,7 +41,7 @@ let
 
     "version" = ''
       WIN_LAYER_HASH=$(printf "%s %s" $($WINE --version) $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-      APP_LAYER_HASH=$(printf "%s %s %s" "${attrs.pname}" "${attrs.version}" $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
+      APP_LAYER_HASH=$(printf "%s %s" "${name}" $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     '';
   }."${inputHashMethod}";
 
