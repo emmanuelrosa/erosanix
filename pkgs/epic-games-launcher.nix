@@ -34,9 +34,9 @@ mkWindowsApp rec {
   };
 
   winAppInstall = ''
-    ${zenity}/bin/zenity --info --text "Epic Games Launcher takes a LONG time to install, and there's little visual indication of progress. Sit back, relax, and be ready to confirm the installation of C++ runtimes; There are two of them. You may be able to see what's going on with journalctl."
+    ${zenity}/bin/zenity --info --text "Epic Games Launcher takes a LONG time to install, and there's little visual indication of progress. You can see what's going on with journalctl."
     mkdir -p "$HOME/Games/Epic Games"
-    winetricks -q arial cjkfonts vcrun2019 d3dcompiler_43 d3dcompiler_47 d3dx9 dotnet471
+    winetricks -q d3dcompiler_43 d3dcompiler_47 d3dx9
     ${dxvk}/bin/setup_dxvk.sh install
 
     rm $WINEPREFIX/drive_c/users/$USER/Desktop
