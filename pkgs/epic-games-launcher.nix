@@ -16,7 +16,6 @@ mkWindowsApp rec {
   pname = "epic-games-launcher";
   version = "14.2.1"; #:version:
   wineArch = "win64";
-  persistRegistry = true;
   persistRuntimeLayer = true;
   dontUnpack = true;
   inputHashMethod = "version";
