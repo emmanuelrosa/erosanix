@@ -40,6 +40,8 @@ OpenGL is used by default (with the `renderer` attribute set to `wine-opengl`), 
 
 ## DXVK Vulkan
 
+NOTICE: DXVK 2.0 is incompatible with Wine < 7.1.0. If this is your configuration, then try the `wine-vulkan` renderer instead.
+
 ```
 (erosanix.packages.x86_64-linux.sable.override { 
   renderer = "dxvk-vulkan";

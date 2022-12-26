@@ -37,7 +37,12 @@ let
   runGame = let
     cmd = "$WINE start /unix \"${exePath}\"";
   in if enableHUD then "${hudCommand} ${cmd}" else "${cmd}";
-in mkWindowsApp rec {
+
+  configIsValid = let
+    olddxvk = lib.versionOlder dxvk.version "2.0" && lib.versionOlder wine.version "7.1";
+    newdxvk = lib.versionAtLeast dxvk.version "2.0" && lib.versionAtLeast wine.version "7.1";
+  in if renderer != "dxvk-vulkan" then true else (if olddxvk || newdxvk then true else false);
+in if !configIsValid then (throw "sable: dxvk ${dxvk.version} is incompatible with Wine ${wine.version}. Try setting the renderer to 'wine-vulkan' instead.") else mkWindowsApp rec {
   inherit wine;
 
   pname = "sable";
