@@ -28,23 +28,15 @@ This _Sable_ Nix package provides the following options via package overrides:
 
 ## OpenGL
 
-OpenGL is used by default (with the `renderer` attribute set to `wine-opengl`), but you can change it to one of two Vulkan implementations. In my experience with an NVIDIA GPU, DXVK reduces the CPU load the most.
+OpenGL is used by default (with the `enableVulkan` attribute set to `false`).
 
-## Built-in Wine D3D Vulkan
+## Vulkan
 
-```
-(erosanix.packages.x86_64-linux.sable.override { 
-  renderer = "wine-vulkan";
-})
-```
-
-## DXVK Vulkan
-
-NOTICE: DXVK 2.0 is incompatible with Wine < 7.1.0. If this is your configuration, then try the `wine-vulkan` renderer instead.
+When `enableVulkan` is set to `true`, the package will choose either Wine's built-in vulkan implementation or DXVK, depending on the compatibility between Wine and DXVK.
 
 ```
 (erosanix.packages.x86_64-linux.sable.override { 
-  renderer = "dxvk-vulkan";
+  enableVulkan = true;
 })
 ```
 

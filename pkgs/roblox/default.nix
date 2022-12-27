@@ -14,10 +14,15 @@
 , dxvk
 , rbxfpsunlocker
 , enableHUD ? false
-, enableDXVK ? false
+, enableVulkan ? false
 , enableFPSUnlocker ? false # x86-64-linux only, at the moment.
+, setupRenderer
+, getRenderer
+, getHudCommand
 }:
 let
+  renderer = getRenderer enableVulkan wine dxvk;
+
   programFiles = let
     map = {
       "win64" = "Program Files (x86)";
@@ -37,7 +42,7 @@ let
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
 
-  hudCommand = if enableDXVK then "${mangohud}/bin/mangohud" else "${mangohud}/bin/mangohud --dlsym";
+  hudCommand = getHudCommand mangohud renderer;
 in mkWindowsApp rec {
   inherit wine wineArch;
 
@@ -64,7 +69,7 @@ in mkWindowsApp rec {
     ${hideDesktop}
     msiexec /i ${geckoMsi}
     $WINE start /unix ${src}
-    ${lib.optionalString enableDXVK "${dxvk}/bin/setup_dxvk.sh install"}
+    ${setupRenderer dxvk renderer}
     ${lib.optionalString enableFPSUnlocker "mkdir -p $WINEPREFIX/drive_c/rbxfpsunlocker && ln -s ${rbxfpsunlocker}/rbxfpsunlocker.exe $WINEPREFIX/drive_c/rbxfpsunlocker/rbxfpsunlocker.exe"}
   '';
 

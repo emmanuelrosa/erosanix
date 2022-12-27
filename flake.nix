@@ -24,6 +24,8 @@
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
+
+      inherit (callPackage ./lib/wine.nix { }) recommendedVulkanImplementation getRenderer getHudCommand setupRenderer;
     };
 
     lib.i686-linux = let
@@ -37,6 +39,7 @@
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
+      inherit (callPackage ./lib/wine.nix { }) recommendedVulkanImplementation getRenderer getHudCommand setupRenderer;
     };
 
     packages.x86_64-linux = let
@@ -108,11 +111,9 @@
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
           wine = pkgs.wineWowPackages.full;
           wineArch = "win64";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
           rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
         };
 
@@ -136,9 +137,7 @@
         powershell = callPackage ./pkgs/powershell.nix { };
 
         sable = callPackage ./pkgs/sable/default.nix { 
-          mkWindowsApp = lib.mkWindowsApp;
-          copyDesktopIcons = lib.copyDesktopIcons; 
-          makeDesktopIcon = lib.makeDesktopIcon;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
@@ -191,11 +190,9 @@
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
           wine = pkgs.winePackages.stableFull;
           wineArch = "win32";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
           rbxfpsunlocker = null;
         };
 

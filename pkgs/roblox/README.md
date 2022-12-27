@@ -26,7 +26,7 @@ Here's an example installation:
 
 This Roblox package defaults to using OpenGL, but includes the following options:
 
-- DXVK support
+- Vulkan support (DXVK is used if it's possible)
 - HUD support (provided by MangoHUD) 
 - FPS Unlocker support
 
@@ -34,7 +34,7 @@ This Roblox package defaults to using OpenGL, but includes the following options
 environment.systemPackages = [
   (erosanix.packages.x86_64-linux.roblox.override { 
     enableHUD = true; 
-    enableDXVK = true;
+    enableVulkan = true;
     enableFPSUnlocker = true;
   })
 ];
@@ -47,7 +47,7 @@ environment.systemPackages = [
   (erosanix.lib.x86_64-linux.nvidia-offload-wrapper
     (erosanix.packages.x86_64-linux.roblox.override { 
       enableHUD = true; 
-      enableDXVK = true;
+      enableVulkan = true;
       enableFPSUnlocker = true;
     })
   )

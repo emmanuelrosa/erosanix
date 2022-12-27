@@ -10,39 +10,23 @@
 , copyDesktopIcons
 , zenity
 , mangohud
-, renderer ? "wine-opengl" # Choices: "wine-opengl", "wine-vulkan", "dxvk-vulkan"
+, enableVulkan ? false
 , enableHUD ? false
+, setupRenderer
+, getRenderer
+, getHudCommand
 }:
 let
+  renderer = getRenderer enableVulkan wine dxvk;
   gameDir = "$HOME/Games/Sable";
   wineGameDir = "drive_c/Program Files/Epic Games/Sable";
   exePath = "$WINEPREFIX/${wineGameDir}/Sable.exe";
-
-  hudCommand = {
-    wine-opengl = "${mangohud}/bin/mangohud --dlsym";
-    wine-vulkan = "${mangohud}/bin/mangohud";
-    dxvk-vulkan = "${mangohud}/bin/mangohud";
-  }."${renderer}";
-
-  setWineRenderer = value: ''
-    $WINE reg add 'HKCU\Software\Wine\Direct3D' /v renderer /d "${value}" /f
-  '';
-
-  setupRenderer = {
-    wine-opengl = setWineRenderer "gl";
-    wine-vulkan = setWineRenderer "vulkan";
-    dxvk-vulkan = "${dxvk}/bin/setup_dxvk.sh install";
-  }."${renderer}";
+  hudCommand = getHudCommand mangohud renderer;
 
   runGame = let
     cmd = "$WINE start /unix \"${exePath}\"";
   in if enableHUD then "${hudCommand} ${cmd}" else "${cmd}";
-
-  configIsValid = let
-    olddxvk = lib.versionOlder dxvk.version "2.0" && lib.versionOlder wine.version "7.1";
-    newdxvk = lib.versionAtLeast dxvk.version "2.0" && lib.versionAtLeast wine.version "7.1";
-  in if renderer != "dxvk-vulkan" then true else (if olddxvk || newdxvk then true else false);
-in if !configIsValid then (throw "sable: dxvk ${dxvk.version} is incompatible with Wine ${wine.version}. Try setting the renderer to 'wine-vulkan' instead.") else mkWindowsApp rec {
+in mkWindowsApp rec {
   inherit wine;
 
   pname = "sable";
@@ -66,7 +50,7 @@ in if !configIsValid then (throw "sable: dxvk ${dxvk.version} is incompatible wi
   };
 
   winAppInstall = ''
-    ${setupRenderer}
+    ${setupRenderer dxvk renderer}
     mkdir -p "$WINEPREFIX/${wineGameDir}"
   '';
 
