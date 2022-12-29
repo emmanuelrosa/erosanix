@@ -124,14 +124,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        epic-games-launcher = callPackage ./pkgs/epic-games-launcher.nix { 
-          mkWindowsApp = lib.mkWindowsApp;
-          wine = pkgs.wineWowPackages.full; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
-          zenity = pkgs.gnome.zenity;
-        };
-
         powershell = callPackage ./pkgs/powershell.nix { };
 
         sable = callPackage ./pkgs/sable/default.nix { 
