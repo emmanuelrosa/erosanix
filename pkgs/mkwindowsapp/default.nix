@@ -1,6 +1,6 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
 { stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, unionfs-fuse
-, libnotify }:
+, libnotify, dxvk, mangohud }:
 { wine
 , wineArch ? "win32"
 , winAppRun
@@ -13,6 +13,9 @@
 , fileMapDuringAppInstall ? false
 , persistRegistry ? false # Disabled by default for now because it's experimental.
 , persistRuntimeLayer ? false
+, enableVulkan ? false # Determines the DirectX rendering backend. Defaults to opengl.
+, rendererOverride ? null # Can be wine-opengl, wine-vulkan, or dxvk-vulkan. Used to override renderer selection. Avoid using.
+, enableHUD ? false # When enabled, use $MANGOHUD as the mangohud command.
 
   # The method used to calculate the input hashes for the layers.
   # This should be set to "store-path", which is the strictest and most reproduceable method. But it results in many rebuilds of the layers.
@@ -21,7 +24,34 @@
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
-  
+
+  # OpenGL or Vulkan rendering support
+  renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else vulkanRenderer);
+
+  vulkanRenderer = let 
+    olddxvk = lib.versionOlder dxvk.version "2.0" && lib.versionOlder wine.version "7.1";
+    newdxvk = lib.versionAtLeast dxvk.version "2.0" && lib.versionAtLeast wine.version "7.1";
+  in if olddxvk || newdxvk then "dxvk-vulkan" else "wine-vulkan";
+
+  setupRendererScript = let
+    setWineRenderer = value: ''
+      $WINE reg add 'HKCU\Software\Wine\Direct3D' /v renderer /d "${value}" /f
+    '';
+  in {
+    wine-opengl = setWineRenderer "gl";
+    wine-vulkan = setWineRenderer "vulkan";
+    dxvk-vulkan = ''
+      ${setWineRenderer "gl"}
+      ${dxvk}/bin/setup_dxvk.sh install
+    '';
+  }."${renderer}";
+
+  hudCommand = {
+    wine-opengl = "${mangohud}/bin/mangohud --dlsym";
+    wine-vulkan = "${mangohud}/bin/mangohud";
+    dxvk-vulkan = "${mangohud}/bin/mangohud";
+  }."${renderer}";
+
   withFileMap = let
     defaultExtraFileMap = { "$HOME/.config/mkWindowsApp/${attrs.pname}/user.reg" = "user.reg"; 
                             "$HOME/.config/mkWindowsApp/${attrs.pname}/system.reg" = "system.reg";
@@ -133,6 +163,7 @@ let
       echo "Building an app layer at $WINEPREFIX..."
       show_notification "drive-harddisk" "Installing ${attrs.pname}..."
       ${lib.optionalString fileMapDuringAppInstall fileMappingScript}
+      ${setupRendererScript}
       ${winAppInstall}
       wineserver -w
       ${lib.optionalString fileMapDuringAppInstall persistFilesScript}
@@ -150,6 +181,7 @@ let
 
       if [ $WA_RUN_APP -eq 1 ]
       then
+        ${lib.optionalString enableHUD "export MANGOHUD=${hudCommand}"}
         ${winAppRun}
         wineserver -w
       else

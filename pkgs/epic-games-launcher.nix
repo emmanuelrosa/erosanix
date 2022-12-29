@@ -3,7 +3,6 @@
 , mkWindowsApp
 , wine
 , fetchurl
-, dxvk
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
@@ -16,9 +15,10 @@ mkWindowsApp rec {
   name = "${pname}-${version}-${build}";
   pname = "epic-games-launcher";
   version = "14.2.1"; #:version:
-  build = "b1";
+  build = "b2";
   wineArch = "win64";
   persistRuntimeLayer = true;
+  enableVulkan = true;
   dontUnpack = true;
   inputHashMethod = "version";
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
@@ -39,7 +39,6 @@ mkWindowsApp rec {
     ${zenity}/bin/zenity --info --text "Epic Games Launcher takes a LONG time to install, and there's little visual indication of progress. You can see what's going on with journalctl."
     mkdir -p "$HOME/Games/Epic Games"
     winetricks -q d3dcompiler_43 d3dcompiler_47 d3dx9
-    ${dxvk}/bin/setup_dxvk.sh install
 
     rm $WINEPREFIX/drive_c/users/$USER/Desktop
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop

@@ -12,22 +12,13 @@
 , mangohud
 , enableVulkan ? false
 , enableHUD ? false
-, setupRenderer
-, getRenderer
-, getHudCommand
 }:
 let
-  renderer = getRenderer enableVulkan wine dxvk;
   gameDir = "$HOME/Games/Sable";
   wineGameDir = "drive_c/Program Files/Epic Games/Sable";
   exePath = "$WINEPREFIX/${wineGameDir}/Sable.exe";
-  hudCommand = getHudCommand mangohud renderer;
-
-  runGame = let
-    cmd = "$WINE start /unix \"${exePath}\"";
-  in if enableHUD then "${hudCommand} ${cmd}" else "${cmd}";
 in mkWindowsApp rec {
-  inherit wine;
+  inherit wine enableVulkan enableHUD;
 
   pname = "sable";
   version = "unknown"; #:version:
@@ -50,14 +41,13 @@ in mkWindowsApp rec {
   };
 
   winAppInstall = ''
-    ${setupRenderer dxvk renderer}
     mkdir -p "$WINEPREFIX/${wineGameDir}"
   '';
 
   winAppRun = ''
     if [ -f "${exePath}" ]
     then
-      ${runGame}
+      $MANGOHUD $WINE start /unix "${exePath}";
     else
       ${zenity}/bin/zenity --error --text "Could not find the Sable installation at: ${gameDir}"
     fi

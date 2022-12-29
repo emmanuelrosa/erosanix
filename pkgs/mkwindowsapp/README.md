@@ -4,7 +4,9 @@
 
  - Multiple versions of a Windows application can be installed simultaneously; Although only one can be active in the environment, of course.
  - Windows applications can be _rolled back_ along with other native Linux applications installed with Nix.
- - Installations are reproducible; Though (purposely) not to the same extent as native applications.
+ - Installations are reproducible; Though sometimes not to the same extent as native applications.
+
+`mkWindowsApp` now also features improved support for Windows games through the `enableVulkan` and `enableHUD` attributes.
 
 ## How does it work?
 

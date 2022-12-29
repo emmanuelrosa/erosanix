@@ -18,14 +18,13 @@
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
 
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
-
-      inherit (callPackage ./lib/wine.nix { }) recommendedVulkanImplementation getRenderer getHudCommand setupRenderer;
     };
 
     lib.i686-linux = let
@@ -39,7 +38,6 @@
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
-      inherit (callPackage ./lib/wine.nix { }) recommendedVulkanImplementation getRenderer getHudCommand setupRenderer;
     };
 
     packages.x86_64-linux = let
@@ -111,7 +109,7 @@
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.full;
           wineArch = "win64";
           rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
@@ -137,7 +135,7 @@
         powershell = callPackage ./pkgs/powershell.nix { };
 
         sable = callPackage ./pkgs/sable/default.nix { 
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
@@ -190,7 +188,7 @@
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon getRenderer getHudCommand setupRenderer;
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.stableFull;
           wineArch = "win32";
           rbxfpsunlocker = null;

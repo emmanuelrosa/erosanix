@@ -10,19 +10,12 @@
 , copyDesktopItems
 , copyDesktopIcons
 , wineArch
-, mangohud
-, dxvk
 , rbxfpsunlocker
 , enableHUD ? false
 , enableVulkan ? false
 , enableFPSUnlocker ? false # x86-64-linux only, at the moment.
-, setupRenderer
-, getRenderer
-, getHudCommand
 }:
 let
-  renderer = getRenderer enableVulkan wine dxvk;
-
   programFiles = let
     map = {
       "win64" = "Program Files (x86)";
@@ -41,10 +34,8 @@ let
     rm $WINEPREFIX/drive_c/users/$USER/Desktop
     mkdir $WINEPREFIX/drive_c/users/$USER/Desktop
   '';
-
-  hudCommand = getHudCommand mangohud renderer;
 in mkWindowsApp rec {
-  inherit wine wineArch;
+  inherit wine wineArch enableVulkan enableHUD;
 
   pname = "roblox-${wineArch}";
   version = "e3de6c198f2c469b"; #:version:
@@ -69,7 +60,6 @@ in mkWindowsApp rec {
     ${hideDesktop}
     msiexec /i ${geckoMsi}
     $WINE start /unix ${src}
-    ${setupRenderer dxvk renderer}
     ${lib.optionalString enableFPSUnlocker "mkdir -p $WINEPREFIX/drive_c/rbxfpsunlocker && ln -s ${rbxfpsunlocker}/rbxfpsunlocker.exe $WINEPREFIX/drive_c/rbxfpsunlocker/rbxfpsunlocker.exe"}
   '';
 
@@ -80,7 +70,7 @@ in mkWindowsApp rec {
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-    ${lib.optionalString enableHUD hudCommand} $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
+    $MANGOHUD $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
