@@ -124,8 +124,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        powershell = callPackage ./pkgs/powershell.nix { };
-
         sable = callPackage ./pkgs/sable/default.nix { 
           inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
