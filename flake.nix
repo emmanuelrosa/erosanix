@@ -16,8 +16,8 @@
       };
 
       callPackage = pkgs.callPackage;
-    in {
-      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+    in rec {
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; inherit dxvk1; };
 
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
@@ -25,6 +25,14 @@
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
+
+      dxvk1 = let
+        oldNixpkgs = import (builtins.fetchTarball {
+          name = "nixos-master-2022-12-04";
+          url = "https://github.com/nixos/nixpkgs/archive/cc6635027a8fadd3aaaab6b1d14bc2c2df688151.tar.gz";
+          sha256 = "sha256-zuDhKsNUHLucIHLagrS2R91TT70D7zSyai+UaEirzvs=";
+        }) { system = "x86_64-linux"; };
+      in oldNixpkgs.dxvk;
     };
 
     lib.i686-linux = let
@@ -34,10 +42,18 @@
       };
 
       callPackage = pkgs.callPackage;
-    in {
-      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
+    in rec {
+      mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; inherit dxvk1; };
       copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
+
+      dxvk1 = let
+        oldNixpkgs = import (builtins.fetchTarball {
+          name = "nixos-master-2022-12-04";
+          url = "https://github.com/nixos/nixpkgs/archive/cc6635027a8fadd3aaaab6b1d14bc2c2df688151.tar.gz";
+          sha256 = "sha256-zuDhKsNUHLucIHLagrS2R91TT70D7zSyai+UaEirzvs=";
+        }) { system = "i686-linux"; };
+      in oldNixpkgs.dxvk;
     };
 
     packages.x86_64-linux = let
