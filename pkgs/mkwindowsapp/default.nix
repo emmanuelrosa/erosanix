@@ -54,6 +54,13 @@ let
     dxvk-vulkan = "${mangohud}/bin/mangohud";
   }."${renderer}";
 
+  dxvkCacheSetupScript = let
+    path = "$HOME/.cache/dxvk-cache/${attrs.pname}";
+  in if renderer != "dxvk-vulkan" then "" else ''
+    mkdir -p "${path}"
+    export DXVK_STATE_CACHE_PATH="${path}"
+  '';
+
   withFileMap = let
     defaultExtraFileMap = { "$HOME/.config/mkWindowsApp/${attrs.pname}/user.reg" = "user.reg"; 
                             "$HOME/.config/mkWindowsApp/${attrs.pname}/system.reg" = "system.reg";
@@ -174,6 +181,8 @@ let
 
     run_app () {
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
+      ${dxvkCacheSetupScript}
+
       if [ "$needs_cleanup" == "1" ]
       then
         echo "Running winAppPreRun."
