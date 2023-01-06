@@ -17,6 +17,5 @@ writeShellScriptBin "nvidia-offload" ''
     export VK_ICD_FILENAMES=$(${findutils}/bin/find /usr/share/vulkan/icd.d -name nvidia_icd*)
   fi
 
-  echo "nvidia-offload: Using NVIDIA ICD $VK_ICD_FILENAMES"
   exec -a "$0" "$@"
 ''
