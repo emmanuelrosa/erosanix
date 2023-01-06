@@ -47,7 +47,7 @@ in mkWindowsApp rec {
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "Genshin Impact";
+      desktopName = "LEGO(c) Builder's Journey";
       categories = ["Game"];
     })
   ];
