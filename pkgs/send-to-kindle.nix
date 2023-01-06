@@ -13,11 +13,11 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "send-to-kindle";
-  version = "1.1.1.253"; #:version:
+  version = "1.1.1.254"; #:version:
 
   src = fetchurl {
     url = "https://s3.amazonaws.com/sendtokindle/SendToKindleForPC-installer.exe";
-    sha256 = "1w5ixrnkvjg507yymq24kqn1qy1bpr9m25143v4g2mihkdk7789q"; #:hash:
+    sha256 = "0h295v4r3iq1sbppay4273yzw8xx9y64dvrjng44bm2vcswhk546"; #:hash:
   };
 
   dontUnpack = true;
@@ -58,7 +58,7 @@ mkWindowsApp rec {
       icon = pname;
       desktopName = "Send to Kindle";
       categories = ["Office" "Viewer"];
-      mimeTypes = [ "text/plain" "application/msword" "application/rtf" "application/pdf" "image/png" "image/jpeg" "image/bmp" "image/gif" "application/x-mobipocket-ebook" "application/vnd.amazon.mobi8-ebook" ];
+      mimeTypes = [ "text/plain" "application/msword" "application/rtf" "application/pdf" "image/png" "image/jpeg" "image/bmp" "image/gif" "application/x-mobipocket-ebook" "application/vnd.amazon.mobi8-ebook" "application/epub+zip" ];
     })
   ];
 
