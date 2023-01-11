@@ -93,6 +93,9 @@ Keep in mind that the following list of what's included may be incomplete:
     "protonvpn": {
       "type": "nixos-module"
     },
+    "sendtome": {
+      "type": "nixos-module"
+    },
     "usrsharefonts": {
       "type": "nixos-module"
     }
@@ -198,7 +201,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "notepad-plus-plus": {
         "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win32-8.4.7",
+        "name": "notepad-plus-plus-win32-8.4.8",
         "type": "derivation"
       },
       "pdf2png": {
@@ -208,7 +211,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "roblox": {
         "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
-        "name": "roblox-3b33190189084158",
+        "name": "roblox-win32-f51be0bac4f14d35",
         "type": "derivation"
       },
       "rofi-menu": {
@@ -263,6 +266,16 @@ Keep in mind that the following list of what's included may be incomplete:
         "name": "foobar2000-1.6.14",
         "type": "derivation"
       },
+      "lego-builders-journey": {
+        "description": "A puzzle game developed by Light Brick Studio and published by Lego Games.",
+        "name": "lego-builders-journey-unknown",
+        "type": "derivation"
+      },
+      "line": {
+        "description": "LINE is new level of communication, and the very infrastructure of your life.",
+        "name": "line-7.14.1.2907",
+        "type": "derivation"
+      },
       "matrix-sendmail": {
         "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
         "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
@@ -280,7 +293,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "notepad-plus-plus": {
         "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win64-8.4.7",
+        "name": "notepad-plus-plus-win64-8.4.8",
         "type": "derivation"
       },
       "nvidia-offload": {
@@ -294,12 +307,12 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "rbxfpsunlocker": {
         "description": "FPS Unlocker for Roblox",
-        "name": "rbxfpsunlocker-4.4.3",
+        "name": "rbxfpsunlocker-4.4.4",
         "type": "derivation"
       },
       "roblox": {
         "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
-        "name": "roblox-3b33190189084158",
+        "name": "roblox-win64-f51be0bac4f14d35",
         "type": "derivation"
       },
       "rofi-menu": {
@@ -312,14 +325,19 @@ Keep in mind that the following list of what's included may be incomplete:
         "name": "rtrader-pro-default-17.19.0.0",
         "type": "derivation"
       },
+      "sable": {
+        "description": "Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.",
+        "name": "sable-unknown",
+        "type": "derivation"
+      },
       "send-to-kindle": {
         "description": "Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.",
-        "name": "send-to-kindle-1.1.1.253",
+        "name": "send-to-kindle-1.1.1.254",
         "type": "derivation"
       },
       "sierrachart": {
         "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-default-2457",
+        "name": "sierrachart-default-2465",
         "type": "derivation"
       },
       "sierrachart-example-study": {
@@ -329,12 +347,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "sierrachart-with-example-study": {
         "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-example-study-2457",
-        "type": "derivation"
-      },
-      "tiddlydesktop": {
-        "description": "A custom desktop browser for TiddlyWiki 5 and TiddlyWiki Classic, based on nw.js",
-        "name": "tiddlydesktop-0.0.15",
+        "name": "sierrachart-example-study-2465",
         "type": "derivation"
       },
       "trace-font": {
