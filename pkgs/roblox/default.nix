@@ -69,13 +69,7 @@ in mkWindowsApp rec {
   winAppRun = ''
     ${hideDesktop}
     export PULSE_LATENCY_MSEC=60
-
-    if [ "$ARGS" == "" ]
-    then
-      $MANGOHUD $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe"
-    else
-      $MANGOHUD $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
-    fi
+    $MANGOHUD $WINE start /unix "$WINEPREFIX/drive_c/${programFiles}/Roblox/Versions/version-${version}/RobloxPlayerLauncher.exe" "$ARGS"
   '';
 
   installPhase = ''
@@ -94,6 +88,7 @@ in mkWindowsApp rec {
       desktopName = "Roblox";
       categories = ["Game"];
       mimeTypes = [ "x-scheme-handler/roblox-player" ];
+      noDisplay = true;
       startupNotify = true;
     })
   ];
