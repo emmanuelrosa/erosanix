@@ -192,7 +192,7 @@ let
 
       if [ $WA_RUN_APP -eq 1 ]
       then
-        ${lib.optionalString enableHUD "export MANGOHUD=${hudCommand}"}
+        ${lib.optionalString enableHUD "export MANGOHUD=\"${hudCommand}\""}
         ${winAppRun}
         wineserver -w
       else
