@@ -1,6 +1,6 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
 { stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, unionfs-fuse
-, libnotify, dxvk, mangohud, dxvk1 }:
+, libnotify, dxvk, mangohud }:
 { wine
 , wineArch ? "win32"
 , winAppRun
@@ -28,12 +28,10 @@ let
   # OpenGL or Vulkan rendering support
   renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else vulkanRenderer);
 
-# This is a temporary hack to use an older version of DXVK with the current wine stable packages.
-# The problem is that Wine's vulkan implementation for 3D3 9-11 doesn't perform as well as DXVK.
-# Remove this hack once the Wine stable packages are updated to 7.1 or greater.
-  myDXVK = if lib.versionAtLeast wine.version "7.1" then dxvk else dxvk1;
-
-  vulkanRenderer = "dxvk-vulkan"; 
+  vulkanRenderer = let 
+    olddxvk = lib.versionOlder dxvk.version "2.0" && lib.versionOlder wine.version "7.1";
+    newdxvk = lib.versionAtLeast dxvk.version "2.0" && lib.versionAtLeast wine.version "7.1";
+  in if olddxvk || newdxvk then "dxvk-vulkan" else "wine-vulkan";
 
   setupRendererScript = let
     setWineRenderer = value: ''
@@ -44,7 +42,7 @@ let
     wine-vulkan = setWineRenderer "vulkan";
     dxvk-vulkan = ''
       ${setWineRenderer "gl"}
-      ${myDXVK}/bin/setup_dxvk.sh install
+      ${dxvk}/bin/setup_dxvk.sh install
     '';
   }."${renderer}";
 
