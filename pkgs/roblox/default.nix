@@ -38,14 +38,14 @@ in mkWindowsApp rec {
   inherit wine wineArch enableVulkan enableHUD;
 
   pname = "roblox-${wineArch}";
-  version = "c5837a56b9bf486f"; #:version:
+  version = "b467400c8f8e4097"; #:version:
   dontUnpack = true;
   persistRuntimeLayer = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   src = fetchurl {
     url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
-    sha256 = "1ybn2i693a7hn41kyapib1rvbd9mx7dwnpp87in736ymkff1x3g0"; #:hash:#
+    sha256 = "0vif5vcx7f4r9cbm4wnyj88kr4r87zlww7sqvy8x5vrypffiw6m2"; #:hash:#
   };
 
   fileMap = { 
