@@ -26,12 +26,7 @@ let
   libwindowsapp = ./libwindowsapp.bash;
 
   # OpenGL or Vulkan rendering support
-  renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else vulkanRenderer);
-
-  vulkanRenderer = let 
-    olddxvk = lib.versionOlder dxvk.version "2.0" && lib.versionOlder wine.version "7.1";
-    newdxvk = lib.versionAtLeast dxvk.version "2.0" && lib.versionAtLeast wine.version "7.1";
-  in if olddxvk || newdxvk then "dxvk-vulkan" else "wine-vulkan";
+  renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else "dxvk-vulkan");
 
   setupRendererScript = let
     setWineRenderer = value: ''
