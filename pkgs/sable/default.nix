@@ -73,10 +73,8 @@ in mkWindowsApp rec {
 
   desktopIcon = makeDesktopIcon {
     name = pname;
-    src = fetchurl {
-      url = "https://images.squarespace-cdn.com/content/v1/5b0583a7f93fd49e35a7c61c/1623348529138-3XZYH4AYOEBQUTE63G5F/QuestBulletSelect.png?format=100w";
-      sha256 = "0yca6f8rp6r644id0rgwsrqzvsp0jwsgbkbys7w3z72p84hg7wxg";
-    };
+    src = ./sable.ico;
+    icoIndex = 0;
   };
 
   meta = with lib; {

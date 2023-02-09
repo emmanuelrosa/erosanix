@@ -1,4 +1,4 @@
-![Sable screenshot](sable.png)
+![Sable screenshot](sable-screenshot.png)
 
 # Sable
 
