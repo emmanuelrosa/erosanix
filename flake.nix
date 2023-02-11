@@ -19,7 +19,7 @@
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
 
-      copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
+      copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
 
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
@@ -36,7 +36,7 @@
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { makeBinPath = pkgs.lib.makeBinPath; };
-      copyDesktopIcons = pkgs.makeSetupHook {} ./hooks/copy-desktop-icons.sh;
+      copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
     };
 
