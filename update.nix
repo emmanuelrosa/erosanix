@@ -134,8 +134,6 @@ let
     send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
-    roblox = ./updaters/roblox.nix;
-    rbxfpsunlocker = ./updaters/rbxfpsunlocker.nix;
     rtrader-pro = ./updaters/rtrader-pro.nix;
     line = ./updaters/line.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
