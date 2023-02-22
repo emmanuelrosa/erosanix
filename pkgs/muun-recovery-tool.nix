@@ -1,13 +1,13 @@
 { buildGoModule, fetchFromGitHub, lib }:
 buildGoModule rec {
   pname = "muun-recovery-tool";
-  version = "v2.2.3"; #:version:
+  version = "v2.2.4"; #:version:
 
   src = fetchFromGitHub {
     owner = "muun";
     repo = "recovery";
     rev = "${version}";
-    sha256 = "sha256-W+Z95t95gu3Lzh8AzOb3ozlXemKk5z51XYnmfwSbjJI="; #:hash:
+    sha256 = "sha256-XEgxRxyTwbnDyOh7OcnACFIfjspjxVqFDZpvAQOorfo="; #:hash:
   };
 
   vendorSha256 = null;
