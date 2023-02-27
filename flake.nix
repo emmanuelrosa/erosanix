@@ -33,7 +33,7 @@
 
       genericBinWrapper = callPackage ./lib/generic-bin-wrapper.nix { };
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
-        inherit generic-bin-wrapper;
+        genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
     };
@@ -155,6 +155,11 @@
           zenity = pkgs.gnome.zenity;
         };
 
+        qutebrowser-hardware-accelerated = let
+          wrapper = pkgs.writeShellScript "qutebrowser-hardware-accelerated" ''
+            "@EXECUTABLE@" --qt-flag ignore-gpu-backlist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag enable-accelerated-video-decode "$@"
+          '';
+        in self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper;
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
