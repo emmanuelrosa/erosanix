@@ -31,7 +31,9 @@
       copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
 
+      genericBinWrapper = callPackage ./lib/generic-bin-wrapper.nix { };
       nvidia-offload-wrapper = callPackage ./lib/nvidia-offload-wrapper.nix { 
+        inherit generic-bin-wrapper;
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
     };
@@ -217,7 +219,7 @@
       };
     in {
       nvidia-offload = import ./lib/nvidia-offload-wrapper.nix { 
-        stdenv = pkgs.stdenv;
+        genericBinWrapper = import ./lib/generic-bin-wrapper.nix { stdenv = pkgs.stdenv; };
         writeShellScript = pkgs.writeShellScript;
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
