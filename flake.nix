@@ -160,6 +160,12 @@
             "@EXECUTABLE@" --qt-flag ignore-gpu-backlist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag enable-accelerated-video-decode "$@"
           '';
         in self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper;
+
+        duskers = callPackage ./pkgs/duskers/default.nix { 
+          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          wine = pkgs.wineWowPackages.stableFull;
+          zenity = pkgs.gnome.zenity;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
