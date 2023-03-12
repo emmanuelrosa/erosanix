@@ -166,6 +166,13 @@
           wine = pkgs.wineWowPackages.stableFull;
           zenity = pkgs.gnome.zenity;
         };
+
+        caustic = callPackage ./pkgs/caustic/default.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.winePackages.stableFull; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -207,6 +214,13 @@
         };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.winePackages.stableFull; 
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
+        caustic = callPackage ./pkgs/caustic/default.nix {
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.winePackages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
