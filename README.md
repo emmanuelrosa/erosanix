@@ -134,7 +134,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "muun-recovery-tool": {
         "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.3",
+        "name": "muun-recovery-tool-v2.2.4",
         "type": "derivation"
       },
       "pdf2png": {
@@ -164,6 +164,11 @@ Keep in mind that the following list of what's included may be incomplete:
         "name": "bitcoin-onion-nodes-2.4.txt",
         "type": "derivation"
       },
+      "caustic": {
+        "description": "A music creation tool inspired by rack-mount synthesizers / samplers rigs.",
+        "name": "caustic-3.2.0",
+        "type": "derivation"
+      },
       "century-gothic-font": {
         "description": "Century Gothic font.",
         "name": "century-gothic-font-2016-09-17",
@@ -181,7 +186,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "foobar2000": {
         "description": "An advanced freeware audio player for the Windows platform.",
-        "name": "foobar2000-1.6.14",
+        "name": "foobar2000-1.6.16",
         "type": "derivation"
       },
       "matrix-sendmail": {
@@ -196,22 +201,17 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "muun-recovery-tool": {
         "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.3",
+        "name": "muun-recovery-tool-v2.2.4",
         "type": "derivation"
       },
       "notepad-plus-plus": {
         "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win32-8.4.8",
+        "name": "notepad-plus-plus-win32-8.5",
         "type": "derivation"
       },
       "pdf2png": {
         "description": "A simple script to convert a PDF into multiple PNGs.",
         "name": "pdf2png-0.2.0.0",
-        "type": "derivation"
-      },
-      "roblox": {
-        "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
-        "name": "roblox-win32-f51be0bac4f14d35",
         "type": "derivation"
       },
       "rofi-menu": {
@@ -246,9 +246,19 @@ Keep in mind that the following list of what's included may be incomplete:
         "name": "bitcoin-onion-nodes-2.4.txt",
         "type": "derivation"
       },
+      "caustic": {
+        "description": "A music creation tool inspired by rack-mount synthesizers / samplers rigs.",
+        "name": "caustic-3.2.0",
+        "type": "derivation"
+      },
       "century-gothic-font": {
         "description": "Century Gothic font.",
         "name": "century-gothic-font-2016-09-17",
+        "type": "derivation"
+      },
+      "duskers": {
+        "description": "In Duskers you pilot drones into derelict spaceships to find the means to survive and piece together how the universe became a giant graveyard. This package is for the Windows version of the game.",
+        "name": "duskers-unknown",
         "type": "derivation"
       },
       "electrum-personal-server": {
@@ -263,7 +273,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "foobar2000": {
         "description": "An advanced freeware audio player for the Windows platform.",
-        "name": "foobar2000-1.6.14",
+        "name": "foobar2000-1.6.16",
         "type": "derivation"
       },
       "lego-builders-journey": {
@@ -288,12 +298,12 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "muun-recovery-tool": {
         "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.3",
+        "name": "muun-recovery-tool-v2.2.4",
         "type": "derivation"
       },
       "notepad-plus-plus": {
         "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win64-8.4.8",
+        "name": "notepad-plus-plus-win64-8.5",
         "type": "derivation"
       },
       "nvidia-offload": {
@@ -305,14 +315,8 @@ Keep in mind that the following list of what's included may be incomplete:
         "name": "pdf2png-0.2.0.0",
         "type": "derivation"
       },
-      "rbxfpsunlocker": {
-        "description": "FPS Unlocker for Roblox",
-        "name": "rbxfpsunlocker-4.4.4",
-        "type": "derivation"
-      },
-      "roblox": {
-        "description": "An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.",
-        "name": "roblox-win64-f51be0bac4f14d35",
+      "qutebrowser-hardware-accelerated": {
+        "name": "qutebrowser-2.5.2-wrapped",
         "type": "derivation"
       },
       "rofi-menu": {
@@ -322,7 +326,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "rtrader-pro": {
         "description": "Rithmic professional trading software",
-        "name": "rtrader-pro-default-17.19.0.0",
+        "name": "rtrader-pro-default-17.24.0.0",
         "type": "derivation"
       },
       "sable": {
@@ -337,7 +341,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "sierrachart": {
         "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-default-2465",
+        "name": "sierrachart-default-2485",
         "type": "derivation"
       },
       "sierrachart-example-study": {
@@ -347,7 +351,7 @@ Keep in mind that the following list of what's included may be incomplete:
       },
       "sierrachart-with-example-study": {
         "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-example-study-2465",
+        "name": "sierrachart-example-study-2485",
         "type": "derivation"
       },
       "trace-font": {
