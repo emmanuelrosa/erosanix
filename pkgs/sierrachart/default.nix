@@ -12,10 +12,10 @@
 , studies ? []
 , symlinkJoin
 }: let
-  version = "2485"; #:version:
+  version = "2486"; #:version:
   src = fetchurl {
     url = "https://www.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
-    sha256 = "1ir07fmga6h4mnab2dv5d250vr7dcj3n0biv5sjr74n9nnry18l2"; #:hash:
+    sha256 = "1xh5ys7j3hg7sr60pq8f5ms9sb5kg6qf49v8mdpj069fvnywal3k"; #:hash:
   };
 
   defaultStudies = {
