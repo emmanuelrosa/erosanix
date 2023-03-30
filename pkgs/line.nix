@@ -27,6 +27,10 @@ mkWindowsApp rec {
 
   fileMap = { "$HOME/.local/share/line/Data" = "drive_c/users/$USER/AppData/Local/LINE/Data"; };
 
+  enabledWineSymlinks = {
+    desktop = false;
+  };
+
   winAppInstall = ''
     winetricks win10
     $WINE ${src} /S

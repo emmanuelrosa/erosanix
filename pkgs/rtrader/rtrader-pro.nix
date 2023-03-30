@@ -35,6 +35,10 @@ mkWindowsApp rec {
     $WINE "$WINEPREFIX/drive_c/Program Files (x86)/Rithmic/Rithmic Trader Pro/Rithmic Trader Pro.exe";
   '';
 
+  enabledWineSymlinks = {
+    desktop = false;
+  };
+
   installPhase = ''
     runHook preInstall
 

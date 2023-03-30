@@ -33,6 +33,10 @@ in mkWindowsApp rec {
               "$HOME/.local/share/amazon-kindle/KindleContent" = "drive_c/KindleContent";
   };
 
+  enabledWineSymlinks = {
+    desktop = false;
+  };
+
   winAppInstall = ''
     $WINE ${src} /S
     wineserver -w

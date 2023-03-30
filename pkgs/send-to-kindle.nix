@@ -27,6 +27,10 @@ mkWindowsApp rec {
 
   fileMap = { "$HOME/.cache/send-to-kindle/AppData" = "drive_c/users/$USER/AppData"; };
 
+  enabledWineSymlinks = {
+    desktop = false;
+  };
+
   winAppInstall = ''
     ${zenity}/bin/zenity --info --text "During the Send to Kindle installation you will be prompted to sign in to Amazon. Close that first prompt to allow the installation to complete. If prompted a 2nd time, go ahead and sign in."
     $WINE ${src} /S
