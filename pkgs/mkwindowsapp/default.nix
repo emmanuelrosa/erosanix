@@ -21,6 +21,15 @@
   # This should be set to "store-path", which is the strictest and most reproduceable method. But it results in many rebuilds of the layers.
   # An alternative is "version" which is a relaxed method and results in fewer rebuilds but is less reproduceable.
 , inputHashMethod ? "store-path"
+
+  # Wine creates a number of symlinks in the Windows user profile directory.
+  # This attribute set allows specific symlinks to be disabled.
+  # For example, if you find that an application creates a Windows shortcut in your Linux home directory,
+  # the Desktop symlink can be disabled with { desktop = false; }.
+  # When a symlink is disabled, it's replaced with a directory. That way anything written to it remains in a mkWindowsApp layer.
+  # Acceptable attributes, all of which default to the boolean value 'true', are:
+  # desktop, documents, downloads, music, pictures, and videos.
+, enabledWineSymlinks ? { }
 , ... } @ attrs:
 let
   libwindowsapp = ./libwindowsapp.bash;
@@ -81,6 +90,16 @@ let
       APP_LAYER_HASH=$(printf "%s %s" "${name}" $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
     '';
   }."${inputHashMethod}";
+
+  wineUserProfileSymlinkScript = let
+    cfg = (builtins.listToAttrs (builtins.map (dir: { name = dir; value = true; }) [ "desktop" "documents" "downloads" "music" "pictures" "videos" ])) // enabledWineSymlinks;
+    disableSymlink = name: ''
+      rm "$WINEPREFIX/drive_c/users/$USER/${name}";
+      mkdir -p "$WINEPREFIX/drive_c/users/$USER/${name}";
+    '';
+  in ''
+    ${lib.optionalString (!cfg.desktop) (disableSymlink "Desktop")}
+  '';
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
@@ -171,6 +190,7 @@ let
       show_notification "drive-harddisk" "Installing ${attrs.pname}..."
       ${lib.optionalString fileMapDuringAppInstall fileMappingScript}
       ${setupRendererScript}
+      ${wineUserProfileSymlinkScript}
       ${winAppInstall}
       wineserver -w
       ${lib.optionalString fileMapDuringAppInstall persistFilesScript}
@@ -264,7 +284,7 @@ let
       wa_remove_bottle $bottle
     fi
   '';
-in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" ]) // {
+in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" "enabledWineSymlinks" ]) // {
 
   preInstall = ''
     mkdir -p $out/bin
