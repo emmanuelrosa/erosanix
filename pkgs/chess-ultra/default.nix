@@ -28,7 +28,7 @@ in mkWindowsApp rec {
 
   fileMap = { 
     "${gameDir}" = wineGameDir; 
-    "$HOME/.local/share/chess-ultra/Local" = "drive_c/users/unclehunkle/AppData/Local";
+    "$HOME/.local/share/chess-ultra/Local" = "drive_c/users/$USER/AppData/Local";
   };
 
   winAppInstall = ''
