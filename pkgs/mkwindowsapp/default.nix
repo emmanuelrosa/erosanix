@@ -92,14 +92,25 @@ let
   }."${inputHashMethod}";
 
   wineUserProfileSymlinkScript = let
-    cfg = (builtins.listToAttrs (builtins.map (dir: { name = dir; value = true; }) [ "desktop" "documents" "downloads" "music" "pictures" "videos" ])) // enabledWineSymlinks;
+    dirs = { "desktop" = "Desktop";
+             "documents" = "Documents";
+             "downloads" = "Downloads";
+             "music" = "Music";
+             "pictures" = "Pictures";
+             "videos" = "Videos";
+          };
+
+    cfg = (builtins.listToAttrs (builtins.map (dir: { name = dir; value = true; }) (builtins.attrNames dirs))) // enabledWineSymlinks;
+
     disableSymlink = name: ''
       rm "$WINEPREFIX/drive_c/users/$USER/${name}";
       mkdir -p "$WINEPREFIX/drive_c/users/$USER/${name}";
     '';
-  in ''
-    ${lib.optionalString (!cfg.desktop) (disableSymlink "Desktop")}
-  '';
+
+  in builtins.concatStringsSep "\n"
+      (builtins.map 
+        (name: disableSymlink dirs."${name}") 
+        (builtins.filter (name: cfg."${name}" == false) (builtins.attrNames cfg)));
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
