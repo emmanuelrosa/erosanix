@@ -179,6 +179,12 @@
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
+
+        tunche = callPackage ./pkgs/tunche/default.nix {
+          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          wine = pkgs.wine64Packages.stableFull; 
+          zenity = pkgs.gnome.zenity;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
