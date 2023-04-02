@@ -194,6 +194,10 @@
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
+
+        specter-desktop = callPackage ./pkgs/specter-desktop/default.nix {
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
