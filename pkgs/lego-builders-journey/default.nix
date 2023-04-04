@@ -48,7 +48,7 @@ in mkWindowsApp rec {
       exec = pname;
       icon = pname;
       desktopName = "LEGO(c) Builder's Journey";
-      categories = ["Game"];
+      categories = [ "Game" "LogicGame" ];
     })
   ];
 

@@ -60,7 +60,7 @@ in mkWindowsApp rec {
       exec = pname;
       icon = pname;
       desktopName = "Tunche";
-      categories = ["Game"];
+      categories = [ "Game" "AdventureGame" ];
     })
   ];
 
