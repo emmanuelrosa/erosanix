@@ -38,7 +38,7 @@ in mkWindowsApp rec {
   inherit wine wineArch enableVulkan enableHUD;
 
   pname = "roblox-${wineArch}";
-  version = "b467400c8f8e4097"; #:version:
+  version = "5354115123b54b9a"; #:version:
   dontUnpack = true;
   persistRuntimeLayer = true;
   inputHashMethod = "version";
@@ -46,7 +46,7 @@ in mkWindowsApp rec {
 
   src = fetchurl {
     url = "https://setup.rbxcdn.com/version-${version}-Roblox.exe";
-    sha256 = "0vif5vcx7f4r9cbm4wnyj88kr4r87zlww7sqvy8x5vrypffiw6m2"; #:hash:#
+    sha256 = "45d46345af6910f24d308c0240abbbb2c18d912aa82e323606de9ce215c7d8bb"; #:hash:#
   };
 
   fileMap = { 
