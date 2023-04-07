@@ -129,6 +129,15 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        roblox = callPackage ./pkgs/roblox/default.nix {
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          wine = pkgs.wineWowPackages.full;
+          wineArch = "win64";
+          rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
+        };
+
+        rbxfpsunlocker = callPackage ./pkgs/rbxfpsunlocker.nix { };
+
         rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full;
@@ -238,6 +247,14 @@
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
+
+        roblox = callPackage ./pkgs/roblox/default.nix {
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
+          rbxfpsunlocker = null;
+        };
+
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
