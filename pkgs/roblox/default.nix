@@ -50,8 +50,6 @@ in mkWindowsApp rec {
   };
 
   fileMap = { 
-    "$HOME/.cache/roblox/ProgramData/Roblox" = "drive_c/ProgramData/Roblox"; 
-    "$HOME/.cache/roblox/Temp/Roblox" = "drive_c/users/$USER/Temp/Roblox"; 
     "$HOME/.local/share/roblox/rbxfpsunlocker/settings" = "drive_c/rbxfpsunlocker/settings"; 
     "$HOME/.local/share/roblox/rbxcsettings.rbx" = "drive_c/users/$USER/AppData/LocalLow/rbxcsettings.rbx"; 
   };
