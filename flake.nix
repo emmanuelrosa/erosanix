@@ -263,9 +263,9 @@
     nixosModules.matrix-sendmail = import ./modules/matrix-sendmail.nix;
     nixosModules.electrs = import ./modules/electrs.nix;
     nixosModules.fzf = import ./modules/fzf.nix;
-    nixosModules.usrsharefonts = import ./modules/usrsharefonts.nix;
     nixosModules.mkwindowsapp-gc = import ./modules/mkwindowsapp-gc.nix;
     nixosModules.sendtome = import ./modules/sendtome.nix;
+    nixosModules.onlyoffice = import ./modules/onlyoffice.nix;
 
     bundlers.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
