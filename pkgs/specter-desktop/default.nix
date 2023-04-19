@@ -1,3 +1,8 @@
+# Be aware that Specter wallet downloads the specterd (daemon) in realtime; I don't like this at all.
+# That downloaded binary is the reason why this package runs Specter in a FHS environment.
+# I also had to manually edit it's configuration to get it to connect to a local Electrum server.
+# This package essentially takes the upstream AppImage and smashes it to get the goods.
+# Then it just uses Electron from Nixpkgs to run the app.
 { stdenv
 , lib
 , fetchurl
@@ -49,12 +54,12 @@
     installPhase = ''
       runHook preInstall
 
-      mkdir -p $out/appdir
+      mkdir -p $out/appdir/resources
       mkdir -p $out/bin
       mkdir -p $out/lib
       mkdir -p $out/etc/udev/rules.d
 
-      cp -r squashfs-root/* $out/appdir
+      cp squashfs-root/resources/app.asar $out/appdir/resources/
       install -D -m 777 ${launcher} $out/bin/specter-desktop
       substituteAllInPlace $out/bin/specter-desktop
       cp udev/*.rules $out/etc/udev/rules.d
