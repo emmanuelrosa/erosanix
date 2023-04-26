@@ -138,6 +138,7 @@ let
     rbxfpsunlocker = ./updaters/rbxfpsunlocker.nix;
     rtrader-pro = ./updaters/rtrader-pro.nix;
     line = ./updaters/line.nix;
+    specter-desktop = ./updaters/specter-desktop.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     muun-recovery-tool = { 
       derivationPath = ./pkgs/muun-recovery-tool.nix;
