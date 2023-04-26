@@ -1,13 +1,6 @@
 # erosanix
 This repository includes misc. Nix packages, NixOS modules, and Nix functions. This repo also functions as a Nix User Repository (NUR), and replaces my old NUR `emmanuelrosa`.
 
-## Features
-
-* `mkWindowsApp` - A derivation for packaging Wine-compatible Windows programs. There are also various packaged programs, such as Notepad++ and foobar2000.
-* Bitcoin packages - Various Bitcoin tools are packaged, such as the Muun wallet recovery tool
-* `nvidia-offload-wrapper` - A function to wrap programs so that they use Nvidia offload rendering.
-* `makeDesktopIcon` - A function to generate desktop icons. A companion to makeDesktopItem.
-
 ## Setup as a Nix Flake
 
 Setting up this repo as a Nix flake is no different than setting up any other flake:
@@ -61,310 +54,66 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 
 ## What's included?
 
-Keep in mind that the following list of what's included may be incomplete:
+### Library functions
 
-```
-{
-  "bundlers": {
-    "type": "unknown"
-  },
-  "lib": {
-    "type": "unknown"
-  },
-  "nixosModules": {
-    "btrbk": {
-      "type": "nixos-module"
-    },
-    "electrs": {
-      "type": "nixos-module"
-    },
-    "electrum-personal-server": {
-      "type": "nixos-module"
-    },
-    "fzf": {
-      "type": "nixos-module"
-    },
-    "matrix-sendmail": {
-      "type": "nixos-module"
-    },
-    "mkwindowsapp-gc": {
-      "type": "nixos-module"
-    },
-    "protonvpn": {
-      "type": "nixos-module"
-    },
-    "sendtome": {
-      "type": "nixos-module"
-    },
-    "usrsharefonts": {
-      "type": "nixos-module"
-    }
-  },
-  "packages": {
-    "aarch64-linux": {
-      "battery-icons-font": {
-        "description": "A font containing nothing but batteries.",
-        "name": "battery-icons-font-2020-01-26",
-        "type": "derivation"
-      },
-      "bitcoin-onion-nodes": {
-        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
-        "name": "bitcoin-onion-nodes-2.4.txt",
-        "type": "derivation"
-      },
-      "century-gothic-font": {
-        "description": "Century Gothic font.",
-        "name": "century-gothic-font-2016-09-17",
-        "type": "derivation"
-      },
-      "electrum-personal-server": {
-        "description": "An lightweight, single-user implementation of the Electrum server protocol",
-        "name": "electrum-personal-server-0.2.4",
-        "type": "derivation"
-      },
-      "er-wallpaper": {
-        "description": "A script for changing wallpaper and setting color schemes, for Linux",
-        "name": "er-wallpaper-0.2.0.0",
-        "type": "derivation"
-      },
-      "matrix-sendmail": {
-        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
-        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
-        "type": "derivation"
-      },
-      "muun-recovery-tool": {
-        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.4",
-        "type": "derivation"
-      },
-      "pdf2png": {
-        "description": "A simple script to convert a PDF into multiple PNGs.",
-        "name": "pdf2png-0.2.0.0",
-        "type": "derivation"
-      },
-      "rofi-menu": {
-        "description": "Various rofi menus (aka. modi)",
-        "name": "rofi-menu-0.7.0",
-        "type": "derivation"
-      },
-      "trace-font": {
-        "description": "Trace font",
-        "name": "trace-font-2020-03-25",
-        "type": "derivation"
-      }
-    },
-    "i686-linux": {
-      "battery-icons-font": {
-        "description": "A font containing nothing but batteries.",
-        "name": "battery-icons-font-2020-01-26",
-        "type": "derivation"
-      },
-      "bitcoin-onion-nodes": {
-        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
-        "name": "bitcoin-onion-nodes-2.4.txt",
-        "type": "derivation"
-      },
-      "caustic": {
-        "description": "A music creation tool inspired by rack-mount synthesizers / samplers rigs.",
-        "name": "caustic-3.2.0",
-        "type": "derivation"
-      },
-      "century-gothic-font": {
-        "description": "Century Gothic font.",
-        "name": "century-gothic-font-2016-09-17",
-        "type": "derivation"
-      },
-      "electrum-personal-server": {
-        "description": "An lightweight, single-user implementation of the Electrum server protocol",
-        "name": "electrum-personal-server-0.2.4",
-        "type": "derivation"
-      },
-      "er-wallpaper": {
-        "description": "A script for changing wallpaper and setting color schemes, for Linux",
-        "name": "er-wallpaper-0.2.0.0",
-        "type": "derivation"
-      },
-      "foobar2000": {
-        "description": "An advanced freeware audio player for the Windows platform.",
-        "name": "foobar2000-1.6.16",
-        "type": "derivation"
-      },
-      "matrix-sendmail": {
-        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
-        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
-        "type": "derivation"
-      },
-      "mkwindowsapp-tools": {
-        "description": "A set of tools for working with packages made with mkWindowsApp.",
-        "name": "mkwindows-tools-1.0.0",
-        "type": "derivation"
-      },
-      "muun-recovery-tool": {
-        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.4",
-        "type": "derivation"
-      },
-      "notepad-plus-plus": {
-        "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win32-8.5",
-        "type": "derivation"
-      },
-      "pdf2png": {
-        "description": "A simple script to convert a PDF into multiple PNGs.",
-        "name": "pdf2png-0.2.0.0",
-        "type": "derivation"
-      },
-      "rofi-menu": {
-        "description": "Various rofi menus (aka. modi)",
-        "name": "rofi-menu-0.7.0",
-        "type": "derivation"
-      },
-      "trace-font": {
-        "description": "Trace font",
-        "name": "trace-font-2020-03-25",
-        "type": "derivation"
-      },
-      "vim-desktop": {
-        "description": "A desktop menu (and file associations) to run VIM, a greatly improved version of the good old UNIX editor Vi. Alacritty is used as the terminal.",
-        "name": "vim-desktop-1.0.1",
-        "type": "derivation"
-      }
-    },
-    "x86_64-linux": {
-      "amazon-kindle": {
-        "description": "Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.",
-        "name": "amazon-kindle-1.39.65323",
-        "type": "derivation"
-      },
-      "battery-icons-font": {
-        "description": "A font containing nothing but batteries.",
-        "name": "battery-icons-font-2020-01-26",
-        "type": "derivation"
-      },
-      "bitcoin-onion-nodes": {
-        "description": "A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services.",
-        "name": "bitcoin-onion-nodes-2.4.txt",
-        "type": "derivation"
-      },
-      "caustic": {
-        "description": "A music creation tool inspired by rack-mount synthesizers / samplers rigs.",
-        "name": "caustic-3.2.0",
-        "type": "derivation"
-      },
-      "century-gothic-font": {
-        "description": "Century Gothic font.",
-        "name": "century-gothic-font-2016-09-17",
-        "type": "derivation"
-      },
-      "duskers": {
-        "description": "In Duskers you pilot drones into derelict spaceships to find the means to survive and piece together how the universe became a giant graveyard. This package is for the Windows version of the game.",
-        "name": "duskers-unknown",
-        "type": "derivation"
-      },
-      "electrum-personal-server": {
-        "description": "An lightweight, single-user implementation of the Electrum server protocol",
-        "name": "electrum-personal-server-0.2.4",
-        "type": "derivation"
-      },
-      "er-wallpaper": {
-        "description": "A script for changing wallpaper and setting color schemes, for Linux",
-        "name": "er-wallpaper-0.2.0.0",
-        "type": "derivation"
-      },
-      "foobar2000": {
-        "description": "An advanced freeware audio player for the Windows platform.",
-        "name": "foobar2000-1.6.16",
-        "type": "derivation"
-      },
-      "lego-builders-journey": {
-        "description": "A puzzle game developed by Light Brick Studio and published by Lego Games.",
-        "name": "lego-builders-journey-unknown",
-        "type": "derivation"
-      },
-      "line": {
-        "description": "LINE is new level of communication, and the very infrastructure of your life.",
-        "name": "line-7.14.1.2907",
-        "type": "derivation"
-      },
-      "matrix-sendmail": {
-        "description": "A simple sendmail implementation which uses a Matrix CLI client to send 'mail' to a Matrix room.",
-        "name": "matrix-sendmail-835d1efc713f6c915e6b2657f77ba19066f61d4b",
-        "type": "derivation"
-      },
-      "mkwindowsapp-tools": {
-        "description": "A set of tools for working with packages made with mkWindowsApp.",
-        "name": "mkwindows-tools-1.0.0",
-        "type": "derivation"
-      },
-      "muun-recovery-tool": {
-        "description": "You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing",
-        "name": "muun-recovery-tool-v2.2.4",
-        "type": "derivation"
-      },
-      "notepad-plus-plus": {
-        "description": "A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.",
-        "name": "notepad-plus-plus-win64-8.5",
-        "type": "derivation"
-      },
-      "nvidia-offload": {
-        "name": "nvidia-offload",
-        "type": "derivation"
-      },
-      "pdf2png": {
-        "description": "A simple script to convert a PDF into multiple PNGs.",
-        "name": "pdf2png-0.2.0.0",
-        "type": "derivation"
-      },
-      "qutebrowser-hardware-accelerated": {
-        "name": "qutebrowser-2.5.2-wrapped",
-        "type": "derivation"
-      },
-      "rofi-menu": {
-        "description": "Various rofi menus (aka. modi)",
-        "name": "rofi-menu-0.7.0",
-        "type": "derivation"
-      },
-      "rtrader-pro": {
-        "description": "Rithmic professional trading software",
-        "name": "rtrader-pro-default-17.24.0.0",
-        "type": "derivation"
-      },
-      "sable": {
-        "description": "Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.",
-        "name": "sable-unknown",
-        "type": "derivation"
-      },
-      "send-to-kindle": {
-        "description": "Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.",
-        "name": "send-to-kindle-1.1.1.254",
-        "type": "derivation"
-      },
-      "sierrachart": {
-        "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-default-2485",
-        "type": "derivation"
-      },
-      "sierrachart-example-study": {
-        "description": "An example study that comes with Sierra Chart. This package demonstrates how to package Sierra Chart studies.",
-        "name": "sierrachart-example-study-x86_64-w64-mingw32",
-        "type": "derivation"
-      },
-      "sierrachart-with-example-study": {
-        "description": "A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.",
-        "name": "sierrachart-example-study-2485",
-        "type": "derivation"
-      },
-      "trace-font": {
-        "description": "Trace font",
-        "name": "trace-font-2020-03-25",
-        "type": "derivation"
-      },
-      "vim-desktop": {
-        "description": "A desktop menu (and file associations) to run VIM, a greatly improved version of the good old UNIX editor Vi. Alacritty is used as the terminal.",
-        "name": "vim-desktop-1.0.1",
-        "type": "derivation"
-      }
-    }
-  }
-}
-```
+- generic-bin-wrapper - A reusable function that is used to wrap the executables of an existing package, while making the wrapping transparent so that programs can still be launched from the "application menu."
+- makeDesktopIcon - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in $out/usr/share
+- nvidia-offload-wrapper - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering.
+
+### NixOS modules
+
+- btrbk - My own version of an automatic BTRFS snapshot program, using btrbk.
+- electrs - A NixOS module to run the electrs Bitcoin electrum server.
+- electrum-personal-server - A NixOS module to run the EPS bitcoin electrum server.
+- fzf - Sets up fuzzy-finding for your shell.
+- matrix-sendmail - Use "sendtome" instead. See below.
+- mkwindowsapp-gc - Garbage collector for the `mkWindowsApp` derivation function.
+- onlyoffice - Sets up ONLYOFFICE such that it can access your system fonts. 
+- protonvpn - Facade for Wireguard's "quick" to easily connect to a ProvonVPN server.
+- sendtome - Sets up a simple `sendmail` implementation which copies messages to a Maildir directory.
+
+### Packages
+
+This repo has quite a variety of packages.
+
+#### Wine-compatible Windows applications 
+
+- caustic - A music creation tool inspired by rack-mount synthesizers / samplers rigs.
+- amazon-kindle - Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.
+- chess-ultra - The most breathtaking chess game ever made. Experience stunning 4K visuals, seamless online multiplayer, Grandmaster approved AI and full VR compatibility.
+- duskers - In Duskers you pilot drones into derelict spaceships to find the means to survive and piece together how the universe became a giant graveyard. This package is for the Windows version of the game.
+- foobar2000 - An advanced freeware audio player for the Windows platform.
+- lego-builders-journey - A puzzle game developed by Light Brick Studio and published by Lego Games.
+- line - LINE is new level of communication, and the very infrastructure of your life.
+- notepad++ - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
+- rbxfpsunlocker - FPS Unlocker for Roblox
+- roblox - An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.
+- rtrader - Rithmic professional trading software.
+- sable - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
+- send-to-kindle - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
+- sierrachart - A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.
+- tunche - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
+
+#### Misc utilities
+  
+- mkwindowsapp - A derivation function used to package Wine-compatible Windows (R) application to run on NixOS.
+- mkwindowsapp-tools - The garbage collector for `mkWindowsApp`.
+- matrix-sendmail - Don't use this anymore. Use `sendtome` instead.
+- er-wallpaper - My custom wallpaper setting tool, which also invokes `wal`.
+- nvidia-offload - A script to run the specified program using NVIDIA offload rendering.
+- pdf2png - A simple pdf to png converter.
+- rofi-menu - My custom rofi menu scripts.
+- vim-desktop - A .desktop file to execute VIM using alacritty.
+
+#### Bitcoin utilities
+  
+- electrum-personal-server - An lightweight, single-user implementation of the Electrum server protocol.
+- muun-recovery-tool - You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing.
+- specter-desktop - A desktop GUI for Bitcoin Core optimised to work with hardware wallets.
+- bitcoin-onion-nodes - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
+
+#### Fonts
+
+- battery-icons-font - A font containing nothing but batteries.
+- century-gothic - Century Gothic font.
+- trace-font - Trace font.
