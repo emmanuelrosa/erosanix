@@ -31,7 +31,7 @@ let
 
     extraInstallCommands = ''
       mkdir -p $out/share/applications
-      cp -r ${onlyofficeUnwrapped}/share/icons $out/share
+      test -d ${onlyofficeUnwrapped}/share/icons && ln -s ${onlyofficeUnwrapped}/share/icons $out/share
       cp ${onlyofficeUnwrapped}/share/applications/onlyoffice-desktopeditors.desktop $out/share/applications
       substituteInPlace $out/share/applications/onlyoffice-desktopeditors.desktop \
         --replace "${onlyofficeUnwrapped}/bin/DesktopEditors" "$out/bin/onlyoffice"
