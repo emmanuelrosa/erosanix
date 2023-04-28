@@ -25,11 +25,11 @@
 
   unwrapped = stdenv.mkDerivation rec {
     pname = "specter-desktop-unwrapped";
-    version = "2.0.1"; #:version:#
+    version = "2.0.2-pre2"; #:version:#
 
     src = fetchurl {
       url = "https://github.com/cryptoadvance/specter-desktop/releases/download/v${version}/specter_desktop-v${version}-x86_64-linux-gnu.tar.gz";
-      sha256 = "1ivzxbfmhnisb4harq07isxdggf9n3vpsi4jl9h9fgbkly24d5vf"; #:hash:#
+      sha256 = "06zypfl6papgq5yngyk57z6x9qg3fvvww3nmnw9cfnmcc54svj6k"; #:hash:#
     };
 
     nativeBuildInputs = [ patchelf zlib copyDesktopItems copyDesktopIcons ];
