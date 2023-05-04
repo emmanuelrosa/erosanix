@@ -118,7 +118,7 @@ let
     MY_PATH="@MY_PATH@"
     OUT_PATH="@out@"
     ARGS="$@"
-    WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "wine64" else "wine"}
+    WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "${wine}/bin/wine64" else "${wine}/bin/wine"}
     ${inputHashScript}
     RUN_LAYER_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
     BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
