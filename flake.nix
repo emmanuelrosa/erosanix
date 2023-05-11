@@ -15,16 +15,9 @@
         config.allowUnfree = true;
       };
 
-      dxvk = (import (builtins.fetchTarball {
-          name = "nixos-master-2022-12-04";
-          url = "https://github.com/nixos/nixpkgs/archive/cc6635027a8fadd3aaaab6b1d14bc2c2df688151.tar.gz";
-          sha256 = "sha256-zuDhKsNUHLucIHLagrS2R91TT70D7zSyai+UaEirzvs=";
-        }) { system = "x86_64-linux"; }).dxvk;
-
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { 
-        inherit dxvk;
         makeBinPath = pkgs.lib.makeBinPath; 
       };
 
@@ -44,16 +37,9 @@
         config.allowUnfree = true;
       };
 
-      dxvk = (import (builtins.fetchTarball {
-          name = "nixos-master-2022-12-04";
-          url = "https://github.com/nixos/nixpkgs/archive/cc6635027a8fadd3aaaab6b1d14bc2c2df688151.tar.gz";
-          sha256 = "sha256-zuDhKsNUHLucIHLagrS2R91TT70D7zSyai+UaEirzvs=";
-        }) { system = "i686-linux"; }).dxvk;
-
       callPackage = pkgs.callPackage;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { 
-        inherit dxvk;
         makeBinPath = pkgs.lib.makeBinPath; 
       };
 
