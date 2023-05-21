@@ -19,8 +19,8 @@ let
     echo $(nix-prefetch-url --type sha256 ${unpackStr} "${url}")
   '';
 
-  getRemoteVersionFromGitHub = { owner, repo, versionConverter ? "tee" }: ''
-      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {tag_name,prerelease} | select(.prerelease==false) | limit(1;.[])' | ${pkgs.gnused}/bin/sed -e 's/^\"//g' -e 's/\"$//g' -e 's/Release //g' | ${versionConverter} | head -n 1)
+  getRemoteVersionFromGitHub = { owner, repo, versionConverter ? "tee", allowPrerelease ? false }: ''
+      echo $(${pkgs.curl}/bin/curl -s https://api.github.com/repos/${owner}/${repo}/releases| ${pkgs.jq}/bin/jq '.[] | {tag_name,prerelease} | select(.prerelease==${if allowPrerelease then "true" else "false"}) | limit(1;.[])' | ${pkgs.gnused}/bin/sed -e 's/^\"//g' -e 's/\"$//g' -e 's/Release //g' | ${versionConverter} | head -n 1)
   '';
 
   mkUpdateScript = { getLocalVersion ? defaultGetLocalVersion
