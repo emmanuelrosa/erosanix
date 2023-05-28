@@ -111,6 +111,7 @@ This repo has quite a variety of packages.
 - muun-recovery-tool - You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing.
 - specter-desktop - A desktop GUI for Bitcoin Core optimised to work with hardware wallets.
 - bitcoin-onion-nodes - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
+- blockstream-green - A multi-platform, feature-rich Bitcoin and Liquid wallet.
 
 #### Fonts
 

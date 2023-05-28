@@ -185,6 +185,8 @@
         specter-desktop = callPackage ./pkgs/specter-desktop/default.nix {
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
+
+        blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
