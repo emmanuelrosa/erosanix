@@ -14,6 +14,7 @@
 , libuuid
 , libgpg-error
 , xorg
+, hwi
 }: let
   pname = "blockstream-green";
   version = "1.2.0"; #:version:#
@@ -68,17 +69,20 @@ in stdenv.mkDerivation {
     mkdir -p $out/bin
     mkdir -p $out/lib
     mkdir -p $out/share/applications
+    mkdir -p $out/etc/udev/rules.d
     cp $src/usr/bin/green $out/bin/${pname}
     cp $src/usr/lib/* $out/lib/
     ln -s ${icons} $out/share/icons
     cp "$src/usr/share/applications/green.desktop" $out/share/applications/${pname}.desktop
     ${gnused}/bin/sed -i 's/Exec=green/Exec=${pname}/' $out/share/applications/${pname}.desktop
+    cp ${hwi}/lib/python*/site-packages/hwilib/udev/55-usb-jade.rules $out/etc/udev/rules.d/
+    cp ${hwi}/lib/python*/site-packages/hwilib/udev/20-hw1.rules $out/etc/udev/rules.d/
 
     runHook postInstall
   '';
 
   meta = with lib; {
-    description = "A multi-platform, feature-rich Bitcoin and Liquid wallet.";
+    description = "A multi-platform, feature-rich Bitcoin and Liquid wallet. Note: To use a Blockstream JADE or Ledger Nano S hardware wallet on NixOS you need to add the udev rules: `services.udev.packages = [ blockstream-green ]`";
     homepage = "https://blockstream.com/green/";
     sourceProvenance = with sourceTypes; [
       binaryNativeCode
