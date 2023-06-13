@@ -187,6 +187,15 @@
         };
 
         blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { };
+
+        sparrow-unwrapped = callPackage ./pkgs/sparrow/default.nix {
+          openimajgrabber = callPackage ./pkgs/sparrow/openimajgrabber.nix {};
+          openjdk = pkgs.openjdk.override { enableJavaFX = true; };
+        };
+
+        sparrow = callPackage ./pkgs/sparrow/fhsenv.nix { 
+          sparrow-unwrapped = self.packages.x86_64-linux.sparrow-unwrapped;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
