@@ -17,7 +17,7 @@
 , hwi
 }: let
   pname = "blockstream-green";
-  version = "1.2.0"; #:version:#
+  version = "1.2.2"; #:version:#
 
   icons = stdenv.mkDerivation {
     inherit version;
@@ -41,7 +41,7 @@
 
     src = fetchurl {
       url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen-x86_64.AppImage";
-      sha256 = "0bpxihh2q2rr62z1al7nbmqmsbvd55lq78fg3hf2rl0vdwzqkr8d"; #:hash:
+      sha256 = "1cli1bky2hnvcbsd6fb3biaf37909wnv07z856hd9ais6bvi5bd2"; #:hash:
     };
   };
 in stdenv.mkDerivation {
