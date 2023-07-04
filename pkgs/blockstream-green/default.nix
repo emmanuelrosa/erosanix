@@ -1,85 +1,91 @@
 { stdenv
 , lib
 , fetchurl
-, appimageTools
 , autoPatchelfHook
-, imagemagick
-, gnused
+, makeDesktopItem
+, makeDesktopIcon
+, copyDesktopItems
+, copyDesktopIcons
+, glib
+, dbus
 , libdrm
-, libGL
 , freetype
 , fontconfig
-, mesa
 , zlib
-, libuuid
 , libgpg-error
 , xorg
+, libxkbcommon
+, gst_all_1
+, pulseaudio
 , hwi
-}: let
+}: stdenv.mkDerivation rec {
   pname = "blockstream-green";
   version = "1.2.3"; #:version:#
 
-  icons = stdenv.mkDerivation {
-    inherit version;
-    pname = "${pname}-icons";
-    nativeBuildInputs = [ imagemagick ];
-    dontUnpack = true;
-
-    src = blockstream-green-extracted;
-
-    installPhase = ''
-      for n in 16 24 32 48 64 96 128 256; do
-        size=$n"x"$n
-        mkdir -p $out/hicolor/$size/apps
-        convert $src/green.png -resize $size $out/hicolor/$size/apps/green.png
-      done;
-    '';
+  src = fetchurl {
+    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen_Linux_x86_64.tar.gz";
+    sha256 = "1hvrzzncxnlkr9j8cwlbnq9gp4hgx66ps28jycbjq95ha0x7144d"; #:hash:
   };
 
-  blockstream-green-extracted = appimageTools.extractType2 {
-    name = "${pname}-extracted";
+  setSourceRoot = ''
+    mkdir source
+    mv green source/
+    sourceRoot=source
+  '';
 
-    src = fetchurl {
-      url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen-x86_64.AppImage";
-      sha256 = "1x9vyi6zp53701d4h84pmvyvj8iibg5p3vbr18w515p7z4lc7swd"; #:hash:
-    };
-  };
-in stdenv.mkDerivation {
-  inherit pname version;
-  src = blockstream-green-extracted;
-  nativeBuildInputs = [ autoPatchelfHook ];
+  nativeBuildInputs = [ autoPatchelfHook copyDesktopItems copyDesktopIcons ];
 
   buildInputs = [
     libdrm
-    libGL
     freetype
     fontconfig
-    mesa
     zlib
-    libuuid
     libgpg-error
+    glib
+    dbus
+    libxkbcommon
   ] ++ (with xorg; [
     libX11
     libxcb
+    xcbutilkeysyms
+    xcbutilrenderutil
+    xcbutilwm
+    xcbutilimage
+    pulseaudio
+  ]) ++ (with gst_all_1; [
+    gstreamer
+    gst-plugins-base
   ]);
 
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out/bin
-    mkdir -p $out/lib
-    mkdir -p $out/share/applications
     mkdir -p $out/etc/udev/rules.d
-    cp $src/usr/bin/green $out/bin/${pname}
-    cp $src/usr/lib/* $out/lib/
-    ln -s ${icons} $out/share/icons
-    cp "$src/usr/share/applications/green.desktop" $out/share/applications/${pname}.desktop
-    ${gnused}/bin/sed -i 's/Exec=green/Exec=${pname}/' $out/share/applications/${pname}.desktop
+    install green $out/bin/${pname}
     cp ${hwi}/lib/python*/site-packages/hwilib/udev/55-usb-jade.rules $out/etc/udev/rules.d/
     cp ${hwi}/lib/python*/site-packages/hwilib/udev/20-hw1.rules $out/etc/udev/rules.d/
 
     runHook postInstall
   '';
+
+  desktopItems = [
+    (makeDesktopItem {
+      name = pname;
+      exec = pname;
+      icon = pname;
+      desktopName = "Blockstream Green";
+      categories = ["Office" "Finance"];
+    })
+  ];
+
+  desktopIcon = makeDesktopIcon {
+    name = pname;
+    src = fetchurl {
+      url = "https://github.com/Blockstream/green_qt/raw/release_${version}/assets/icons/green.png";
+      sha256 = "0y808kcv53bvlkw2ha9w8a8fnl01y24i5jgfmw54iv9hlskr7l65";
+    };
+  };
 
   meta = with lib; {
     description = "A multi-platform, feature-rich Bitcoin and Liquid wallet. Note: To use a Blockstream JADE or Ledger Nano S hardware wallet on NixOS you need to add the udev rules: `services.udev.packages = [ blockstream-green ]`";

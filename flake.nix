@@ -186,7 +186,9 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { };
+        blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { 
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+        };
 
         sparrow-unwrapped = callPackage ./pkgs/sparrow/default.nix {
           openimajgrabber = callPackage ./pkgs/sparrow/openimajgrabber.nix {};
