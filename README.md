@@ -56,21 +56,21 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 
 ### Library functions
 
-- generic-bin-wrapper - A reusable function that is used to wrap the executables of an existing package, while making the wrapping transparent so that programs can still be launched from the "application menu."
-- makeDesktopIcon - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in $out/usr/share
-- nvidia-offload-wrapper - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering.
+- **generic-bin-wrapper** - A reusable function that is used to wrap the executables of an existing package, while making the wrapping transparent so that programs can still be launched from the "application menu."
+- **makeDesktopIcon** - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in $out/usr/share
+- **nvidia-offload-wrapper** - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering.
 
 ### NixOS modules
 
-- btrbk - My own version of an automatic BTRFS snapshot program, using btrbk.
-- electrs - A NixOS module to run the electrs Bitcoin electrum server.
-- electrum-personal-server - A NixOS module to run the EPS bitcoin electrum server.
-- fzf - Sets up fuzzy-finding for your shell.
-- matrix-sendmail - Use "sendtome" instead. See below.
-- mkwindowsapp-gc - Garbage collector for the `mkWindowsApp` derivation function.
-- onlyoffice - Sets up ONLYOFFICE such that it can access your system fonts. 
-- protonvpn - Facade for Wireguard's "quick" to easily connect to a ProvonVPN server.
-- sendtome - Sets up a simple `sendmail` implementation which copies messages to a Maildir directory.
+- **btrbk** - My own version of an automatic BTRFS snapshot program, using btrbk.
+- **electrs** - A NixOS module to run the electrs Bitcoin electrum server.
+- **electrum-personal-server** - A NixOS module to run the EPS bitcoin electrum server.
+- **fzf** - Sets up fuzzy-finding for your shell.
+- **matrix-sendmail** - Use "sendtome" instead. See below.
+- **mkwindowsapp-gc** - Garbage collector for the `mkWindowsApp` derivation function.
+- **onlyoffice** - Sets up ONLYOFFICE such that it can access your system fonts. 
+- **protonvpn** - Facade for Wireguard's "quick" to easily connect to a ProvonVPN server.
+- **sendtome** - Sets up a simple `sendmail` implementation which copies messages to a Maildir directory.
 
 ### Packages
 
@@ -78,43 +78,44 @@ This repo has quite a variety of packages.
 
 #### Wine-compatible Windows applications 
 
-- caustic - A music creation tool inspired by rack-mount synthesizers / samplers rigs.
-- amazon-kindle - Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.
-- chess-ultra - The most breathtaking chess game ever made. Experience stunning 4K visuals, seamless online multiplayer, Grandmaster approved AI and full VR compatibility.
-- duskers - In Duskers you pilot drones into derelict spaceships to find the means to survive and piece together how the universe became a giant graveyard. This package is for the Windows version of the game.
-- foobar2000 - An advanced freeware audio player for the Windows platform.
-- lego-builders-journey - A puzzle game developed by Light Brick Studio and published by Lego Games.
-- line - LINE is new level of communication, and the very infrastructure of your life.
-- notepad++ - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
-- rbxfpsunlocker - FPS Unlocker for Roblox
-- roblox - An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.
-- rtrader - Rithmic professional trading software.
-- sable - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
-- send-to-kindle - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
-- sierrachart - A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.
-- tunche - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
+- **caustic** - A music creation tool inspired by rack-mount synthesizers / samplers rigs.
+- **amazon-kindle** - Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.
+- **chess-ultra** - The most breathtaking chess game ever made. Experience stunning 4K visuals, seamless online multiplayer, Grandmaster approved AI and full VR compatibility.
+- **duskers** - In Duskers you pilot drones into derelict spaceships to find the means to survive and piece together how the universe became a giant graveyard. This package is for the Windows version of the game.
+- **foobar2000** - An advanced freeware audio player for the Windows platform.
+- **lego-builders-journey** - A puzzle game developed by Light Brick Studio and published by Lego Games.
+- **line** - LINE is new level of communication, and the very infrastructure of your life.
+- **notepad++** - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
+- **rbxfpsunlocker** - FPS Unlocker for Roblox
+- **roblox** - An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.
+- **rtrader** - Rithmic professional trading software.
+- **sable** - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
+- **send-to-kindle** - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
+- **sierrachart** - A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.
+- **tunche** - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
 
 #### Misc utilities
   
-- mkwindowsapp - A derivation function used to package Wine-compatible Windows (R) application to run on NixOS.
-- mkwindowsapp-tools - The garbage collector for `mkWindowsApp`.
-- matrix-sendmail - Don't use this anymore. Use `sendtome` instead.
-- er-wallpaper - My custom wallpaper setting tool, which also invokes `wal`.
-- nvidia-offload - A script to run the specified program using NVIDIA offload rendering.
-- pdf2png - A simple pdf to png converter.
-- rofi-menu - My custom rofi menu scripts.
-- vim-desktop - A .desktop file to execute VIM using alacritty.
+- **mkwindowsapp** - A derivation function used to package Wine-compatible Windows (R) application to run on NixOS.
+- **mkwindowsapp-tools** - The garbage collector for `mkWindowsApp`.
+- **matrix-sendmail** - Don't use this anymore. Use `sendtome` instead.
+- **er-wallpaper** - My custom wallpaper setting tool, which also invokes `wal`.
+- **nvidia-offload** - A script to run the specified program using NVIDIA offload rendering.
+- **pdf2png** - A simple pdf to png converter.
+- **rofi-menu** - My custom rofi menu scripts.
+- **vim-desktop** - A .desktop file to execute VIM using alacritty.
+- **gossip** - A desktop client for nostr.
 
 #### Bitcoin utilities
   
-- electrum-personal-server - An lightweight, single-user implementation of the Electrum server protocol.
-- muun-recovery-tool - You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing.
-- specter-desktop - A desktop GUI for Bitcoin Core optimised to work with hardware wallets.
-- bitcoin-onion-nodes - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
-- blockstream-green - A multi-platform, feature-rich Bitcoin and Liquid wallet.
+- **electrum-personal-server** - An lightweight, single-user implementation of the Electrum server protocol.
+- **muun-recovery-tool** - You can use this Recovery Tool to transfer all funds out of your Muun account to an address of your choosing.
+- **specter-desktop** - A desktop GUI for Bitcoin Core optimised to work with hardware wallets.
+- **bitcoin-onion-nodes** - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
+- **blockstream-green** - A multi-platform, feature-rich Bitcoin and Liquid wallet.
 
 #### Fonts
 
-- battery-icons-font - A font containing nothing but batteries.
-- century-gothic - Century Gothic font.
-- trace-font - Trace font.
+- **battery-icons-font** - A font containing nothing but batteries.
+- **century-gothic** - Century Gothic font.
+- **trace-font** - Trace font.
