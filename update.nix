@@ -146,7 +146,7 @@ let
   };
 
   updaters = (builtins.mapAttrs (name: path: importUpdater path) {
-    sierrachart = ./updaters/sierrachart.nix;
+    # sierrachart = ./updaters/sierrachart.nix;
     battery-icons-font = ./updaters/battery-icons-font.nix;
     trace-font = ./updaters/trace-font.nix;
     send-to-kindle = ./updaters/send-to-kindle.nix;
