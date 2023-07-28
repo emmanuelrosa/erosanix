@@ -93,6 +93,7 @@ This repo has quite a variety of packages.
 - **send-to-kindle** - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
 - **sierrachart** - A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.
 - **tunche** - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
+- **horizon-chase-turbo** - A racing game inspired by the great hits of the 80's and 90's: Out Run, Lotus Turbo Challenge, Top Gear (SNES), Rush, among others. Each curve and each lap in Horizon Chase Turbo recreates classic arcade gameplay and offers you unbound speed limits of fun. Full throttle on and enjoy!
 
 #### Misc utilities
   
