@@ -2,7 +2,11 @@
 
 Sierra Chart is a charting and trading platform, available at https://www.sierrachart.com/
 
-The software is written for Windows, but it's compatible with Wine. Better yet, the developers are aware Linux users use Sierra Chart.
+The software is written for Windows, but it's compatible with Wine. Better yet, the developers are aware Linux users use Sierra Chart. However, due to an IO performance limitation in Wine, there's a setting you may wish to enable. See the following links for context:
+
+ * https://www.sierrachart.com/SupportBoard.php?ThreadID=85248
+ * https://bugs.winehq.org/show_bug.cgi?id=55232
+ * https://www.sierrachart.com/SupportBoard.php?ThreadID=85443
 
 ![Sierra Chart running on NixOS](sierrachart.png)
 
