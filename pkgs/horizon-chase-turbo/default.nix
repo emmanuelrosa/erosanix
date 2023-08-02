@@ -60,7 +60,7 @@ in mkWindowsApp rec {
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = title;
+      desktopName = "Horizon Chase Turbo";
       categories = ["Game"];
     })
   ];
