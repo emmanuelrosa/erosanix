@@ -208,6 +208,12 @@
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
+
+        black-book = callPackage ./pkgs/black-book/default.nix { 
+          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          wine = pkgs.wine64Packages.stableFull; 
+          zenity = pkgs.gnome.zenity;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
