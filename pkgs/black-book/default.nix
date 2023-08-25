@@ -64,7 +64,7 @@ in mkWindowsApp rec {
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "black-book";
+      desktopName = "Black Book";
       categories = [ "Game" "RolePlaying" ];
     })
   ];
