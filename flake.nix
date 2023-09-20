@@ -214,6 +214,27 @@
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
+
+        wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wine64Packages.stableFull; 
+          wineArch = "win64";
+          wineFlavor = "wine64";
+        };
+
+        wineshell-wineWow64 = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wineWowPackages.stableFull;
+          wineArch = "win64";
+          wineFlavor = "wineWow64";
+        };
+
+        wineshell-wine = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
+          wineFlavor = "wine";
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -276,6 +297,12 @@
           rbxfpsunlocker = null;
         };
 
+        wineshell-wine = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
+          wineFlavor = "wine";
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
