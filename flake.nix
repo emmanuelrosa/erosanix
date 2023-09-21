@@ -235,6 +235,18 @@
           wineArch = "win32";
           wineFlavor = "wine";
         };
+
+        wineshell-wine64-vulkan = self.packages.x86_64-linux.wineshell-wine64.override {
+          enableVulkan = true;
+        };
+
+        wineshell-wineWow64-vulkan = self.packages.x86_64-linux.wineshell-wineWow64.override {
+          enableVulkan = true;
+        };
+
+        wineshell-wine-vulkan = self.packages.x86_64-linux.wineshell-wine.override {
+          enableVulkan = true;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -302,6 +314,10 @@
           wine = pkgs.winePackages.stableFull;
           wineArch = "win32";
           wineFlavor = "wine";
+        };
+
+        wineshell-wine-vulkan = self.packages.x86-linux.wineshell-wine.override {
+          enableVulkan = true;
         };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 

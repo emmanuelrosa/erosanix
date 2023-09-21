@@ -4,9 +4,10 @@
 , wine
 , wineArch
 , wineFlavor
+, enableVulkan ? false
 }:
 mkWindowsApp rec {
-  inherit wine wineArch;
+  inherit wine wineArch enableVulkan;
 
   pname = "wineshell-${wineFlavor}";
   version = "0.1.0"; #:version:
