@@ -247,6 +247,39 @@
         wineshell-wine-vulkan = self.packages.x86_64-linux.wineshell-wine.override {
           enableVulkan = true;
         };
+
+        winerun-wine64 = callPackage ./pkgs/winerun/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wine64Packages.stableFull; 
+          wineArch = "win64";
+          wineFlavor = "wine64";
+        };
+
+        winerun-wineWow64 = callPackage ./pkgs/winerun/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wineWowPackages.stableFull;
+          wineArch = "win64";
+          wineFlavor = "wineWow64";
+        };
+
+        winerun-wine = callPackage ./pkgs/winerun/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
+          wineFlavor = "wine";
+        };
+
+        winerun-wine64-vulkan = self.packages.x86_64-linux.winerun-wine64.override {
+          enableVulkan = true;
+        };
+
+        winerun-wineWow64-vulkan = self.packages.x86_64-linux.winerun-wineWow64.override {
+          enableVulkan = true;
+        };
+
+        winerun-wine-vulkan = self.packages.x86_64-linux.winerun-wine.override {
+          enableVulkan = true;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
@@ -317,6 +350,17 @@
         };
 
         wineshell-wine-vulkan = self.packages.x86-linux.wineshell-wine.override {
+          enableVulkan = true;
+        };
+
+        winerun-wine = callPackage ./pkgs/winerun/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.winePackages.stableFull;
+          wineArch = "win32";
+          wineFlavor = "wine";
+        };
+
+        winerun-wine-vulkan = self.packages.x86-linux.winerun-wine.override {
           enableVulkan = true;
         };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
