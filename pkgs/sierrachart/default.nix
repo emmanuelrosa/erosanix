@@ -159,6 +159,23 @@ in mkWindowsApp rec {
 
   winAppPreRun = '' 
     ${installStudies}
+
+    cached_version_file="$HOME/.cache/${pname}/acs-source-version.txt" 
+    needs_acs_update="1"
+
+    if [ "$(cat $cached_version_file)" == "${version}" ]
+    then
+      needs_acs_update=0
+    fi
+    
+    if [ "$needs_acs_update" == "1" ]
+    then
+      echo "Updating ACS_Source."
+      cp -a "$OUT_PATH/include/." "$WINEPREFIX/drive_c/SierraChart/ACS_Source/";
+      cp -an "$OUT_PATH/share/sierrachart/examples/." "$WINEPREFIX/drive_c/SierraChart/ACS_Source/";
+      mkdir -p $(dirname "$cached_version_file")
+      echo "${version}" > "$cached_version_file"
+    fi
   '';
 
   winAppRun = ''
@@ -179,7 +196,7 @@ in mkWindowsApp rec {
     ln -s $out/bin/.launcher $out/bin/${pname}
 
     # Copy Sierra Chart ACSIL, except for example code.
-    mkdir -p $out/include/sierrachart
+    mkdir -p $out/include
     cp -a ACS_Source/*.h $out/include
     cp ACS_Source/SCStudyFunctions.cpp $out/include
 
