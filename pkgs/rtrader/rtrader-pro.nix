@@ -13,12 +13,12 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "rtrader-pro-${instanceName}";
-  version = "17.27.0.0"; #:version:
+  version = "17.34.0.1"; #:version:
   wineArch = "win64";
 
   src = fetchurl {
     url = "https://rithmic.com/rtraderpro.msi";
-    sha256 = "1r21ah9fqrxnbdi0nrx7scfi4p8m4v7yi5yv6jwk02vsr38ixsaf"; #:hash:
+    sha256 = "0hypjp2mkf0ck5cd2r7wjxbxr9rxkf6c244ni0yapl8vj10c2ykj"; #:hash:
   };
 
   dontUnpack = true;
