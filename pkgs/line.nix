@@ -13,11 +13,11 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "line";
-  version = "7.17.0.3035"; #:version:
+  version = "8.3.0.3189"; #:version:
 
   src = fetchurl {
     url = "https://desktop.line-scdn.net/win/new/LineInst.exe";
-    sha256 = "118pz2dn73kqpvn6mkh1zidrqn3s1r8798znl3rvz52l1hbwl5k9"; #:hash:
+    sha256 = "0sc7jg982pj1lgd62d5jsl3iqf21h80wlmdmh4pwia49bc5gzi0g"; #:hash:
   };
 
   dontUnpack = true;
