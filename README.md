@@ -107,6 +107,7 @@ This repo has quite a variety of packages.
 - **rofi-menu** - My custom rofi menu scripts.
 - **vim-desktop** - A .desktop file to execute VIM using alacritty.
 - **gossip** - A desktop client for nostr.
+- **alice3** - An innovative block-based programming environment that makes it easy to create animations, build interactive narratives, or program simple games in 3D.
 
 #### Bitcoin utilities
   

@@ -286,6 +286,11 @@
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
+
+        alice3 = callPackage ./pkgs/alice/alice3.nix {
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          openjdk = pkgs.openjdk.override { enableJavaFX = true; };
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
