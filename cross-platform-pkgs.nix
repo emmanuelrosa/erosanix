@@ -5,6 +5,5 @@
   pdf2png = ./pkgs/pdf2png.nix;
   rofi-menu = ./pkgs/rofi-menu.nix;
   bitcoin-onion-nodes = ./pkgs/bitcoin-onion-nodes.nix;
-  muun-recovery-tool = ./pkgs/muun-recovery-tool.nix;
   matrix-sendmail = ./pkgs/matrix-sendmail.nix;
 }

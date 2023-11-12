@@ -160,13 +160,6 @@ let
     blockstream-green = ./updaters/blockstream-green.nix;
     gossip = ./updaters/gossip.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
-    muun-recovery-tool = { 
-      derivationPath = ./pkgs/muun-recovery-tool.nix;
-      owner = "muun";
-      repo = "recovery";
-      tagPrefix = "v";
-    };
-
     electrum-personal-server = { 
       derivationPath = ./pkgs/electrum-personal-server.nix;
       owner = "chris-belcher";
