@@ -379,7 +379,6 @@
     nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
     nixosModules.btrbk = import ./modules/btrbk.nix;
-    nixosModules.matrix-sendmail = import ./modules/matrix-sendmail.nix;
     nixosModules.electrs = import ./modules/electrs.nix;
     nixosModules.fzf = import ./modules/fzf.nix;
     nixosModules.mkwindowsapp-gc = import ./modules/mkwindowsapp-gc.nix;

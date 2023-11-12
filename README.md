@@ -100,7 +100,6 @@ This repo has quite a variety of packages.
   
 - **mkwindowsapp** - A derivation function used to package Wine-compatible Windows (R) application to run on NixOS.
 - **mkwindowsapp-tools** - The garbage collector for `mkWindowsApp`.
-- **matrix-sendmail** - Don't use this anymore. Use `sendtome` instead.
 - **er-wallpaper** - My custom wallpaper setting tool, which also invokes `wal`.
 - **nvidia-offload** - A script to run the specified program using NVIDIA offload rendering.
 - **pdf2png** - A simple pdf to png converter.
