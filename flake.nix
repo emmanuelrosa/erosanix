@@ -29,6 +29,11 @@
         genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
       };
+
+      mkmupen64plus = callPackage ./lib/mkmupen64plus.nix {
+        copyDesktopIcons = self.lib.x86_64-linux.copyDesktopIcons;
+        makeDesktopIcon = self.lib.x86_64-linux.makeDesktopIcon;
+      };
     };
 
     lib.i686-linux = let
