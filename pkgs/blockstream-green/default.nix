@@ -20,11 +20,11 @@
 , hwi
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
-  version = "1.2.8"; #:version:#
+  version = "1.2.9"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen_Linux_x86_64.tar.gz";
-    sha256 = "1hiwb711k9q42qppl9v4x6sjn8z22jzdzi0m51cgq9mxsfq59hv6"; #:hash:
+    sha256 = "08j8hjp6pgc6yl2vpv98w7sqd7mwr9yddi0q92wixkvs6sal1qhr"; #:hash:
   };
 
   setSourceRoot = ''
