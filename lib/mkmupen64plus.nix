@@ -6,10 +6,16 @@
 , copyDesktopItems
 , copyDesktopIcons
 }:
-{ name
-, desktopName 
-, icon ? {}
-, rom
+{ name                          # The name of the executable.
+, desktopName                   # The name displayed in the "applications" menu.
+, category ? "Emulator"         # The freedesktop.org additional category.
+                                # Can be any additional category where the "related category" is "Game". Defaults to "Emulator".
+                                # See https://specifications.freedesktop.org/menu-spec/latest/apas02.html
+, icon ? {}                     # Attribute set passed to makeDesktopIcon, minus the 'name" attribute:
+                                # { src - Build-time path to the icon image.
+                                #   icoIndex - For *.ico files, a number indicating which of the multiple images to extract; Etc, 0.
+                                # }
+, rom                           # Run-time path to the N64 ROM file.
 }: 
 let
   wrapper = writeShellScript "mupen64plus-wrapper" ''
@@ -37,7 +43,7 @@ in stdenv.mkDerivation rec {
       name = pname;
       exec = name;
       icon = name;
-      categories = [ "Game" "Emulator" ];
+      categories = [ "Game" category ];
     })
   ];
 
