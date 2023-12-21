@@ -16,6 +16,7 @@
       };
 
       callPackage = pkgs.callPackage;
+      trivial = import ./lib/trivial.nix;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { 
         makeBinPath = pkgs.lib.makeBinPath; 
@@ -34,6 +35,8 @@
         copyDesktopIcons = self.lib.x86_64-linux.copyDesktopIcons;
         makeDesktopIcon = self.lib.x86_64-linux.makeDesktopIcon;
       };
+
+      composeAndApply = trivial.composeAndApply;
     };
 
     lib.i686-linux = let
@@ -43,6 +46,7 @@
       };
 
       callPackage = pkgs.callPackage;
+      trivial = import ./lib/trivial.nix;
     in {
       mkWindowsApp = callPackage ./pkgs/mkwindowsapp { 
         makeBinPath = pkgs.lib.makeBinPath; 
@@ -50,6 +54,7 @@
 
       copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
+      composeAndApply = trivial.composeAndApply;
     };
 
     packages.x86_64-linux = let
