@@ -36,6 +36,7 @@
         makeDesktopIcon = self.lib.x86_64-linux.makeDesktopIcon;
       };
 
+      compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
     };
 
@@ -54,6 +55,7 @@
 
       copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
+      compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
     };
 

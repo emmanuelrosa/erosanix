@@ -60,7 +60,8 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 - **makeDesktopIcon** - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in $out/usr/share
 - **nvidia-offload-wrapper** - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering.
 - **mkmupen64plus** - Creates a launcher script to run a N64 game using *mupen64plus*. Also created a corresponding menu item.
-- **composeAndApply** - Applies the functions in the list to the argument.
+- **compose** - Returns a function which when applied to an argument, applies the functions in the list, in the order provided. Ex 1. `myFunc = compose [ mkmupen64plus nvidia-offload-wrapper ];`. Ex 2. `(compose [ mkmupen64plus nvidia-offload-wrapper ]) {...}`
+- **composeAndApply** - Composes a list of functions (see `compose` above) and then applies them to the argument. Ex. `composeAndApply [ mkmupen64plus nvidia-offload-wrapper ] {...}`
 
 ### NixOS modules
 
