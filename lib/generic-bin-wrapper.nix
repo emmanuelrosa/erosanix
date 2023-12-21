@@ -3,7 +3,7 @@ pkg: #pkg must contain $out/bin with executables within.
 wrapper: #wrapper must contain @EXECUTABLE@ as a placeholder for the binary to run.
 stdenv.mkDerivation {
   name = "${pkg.name}-wrapped";
-  version = "1.0.0";
+  version = "1.1.0";
   src = pkg;
   dontUnpack = true;
 
@@ -25,7 +25,10 @@ stdenv.mkDerivation {
     fi
 
     # Symlink the share directory so that .desktop files and such continue to work.
-    if [[ -d $src/share ]]
+    if [[ -h $src/share ]]
+    then
+      ln -s $(readlink $src/share) $out/share
+    elif [[ -d $src/share ]]
     then
       ln -s $src/share $out/share
     fi
