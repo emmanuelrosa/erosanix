@@ -56,10 +56,10 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 
 ### Library functions
 
-- **generic-bin-wrapper** - A reusable function that is used to wrap the executables of an existing package, while making the wrapping transparent so that programs can still be launched from the "application menu."
-- **makeDesktopIcon** - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in $out/usr/share
-- **nvidia-offload-wrapper** - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering.
-- **mkmupen64plus** - Creates a launcher script to run a N64 game using *mupen64plus*. Also created a corresponding menu item.
+- **generic-bin-wrapper** - A reusable function that is used to wrap the executables of an existing package, while making the wrapping transparent so that programs can still be launched from the "application menu." For an example, see the source for `nvidia-offload-wrapper` in `lib/nvidia-offload-wrapper.nix`. Wrappers created with `generic-bin-wrapper` are composable; Wrappers can wrap wrappers; To do this in a more readable fashion, see `compose` below.
+- **makeDesktopIcon** - The counter-part to makeDesktop from Nixpkgs; Used to scale the provided icon and install it in `$out/usr/share`
+- **nvidia-offload-wrapper** - Wraps the given package so that it renders on an NVIDIA GPU using NVIDIA's offload rendering. Ex. `(nvidia-offload-wrapper pkgs.superTuxKart)`.
+- **mkmupen64plus** - Creates a launcher script to run a N64 game using *mupen64plus*. Also creates a corresponding menu item. Compose `mupen64plus` and `nvidia-offload-wrapper` using `compose` and you get a Nix package which launches a N64 game on your NVIDIA dGPU using offload rendering.
 - **compose** - Returns a function which when applied to an argument, applies the functions in the list, in the order provided. Ex 1. `myFunc = compose [ mkmupen64plus nvidia-offload-wrapper ];`. Ex 2. `(compose [ mkmupen64plus nvidia-offload-wrapper ]) {...}`
 - **composeAndApply** - Composes a list of functions (see `compose` above) and then applies them to the argument. Ex. `composeAndApply [ mkmupen64plus nvidia-offload-wrapper ] {...}`
 
