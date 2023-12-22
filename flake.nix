@@ -38,6 +38,11 @@
 
       compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
+
+      mkSierraChartStudy = pkgs.pkgsCross.mingwW64.callPackage ./lib/mkSierraChartStudy.nix { 
+        mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads_pre_gcc_13;
+        sierrachart = self.packages.x86_64-linux.sierrachart;
+      };
     };
 
     lib.i686-linux = let
@@ -87,9 +92,12 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        sierrachart-example-study = pkgs.pkgsCross.mingwW64.callPackage ./pkgs/sierrachart/example-study.nix { 
-          mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads_pre_gcc_13;
-          sierrachart = self.packages.x86_64-linux.sierrachart;
+        sierrachart-example-study = self.lib.x86_64-linux.mkSierraChartStudy {
+          name = "sierrachart-example-study";
+          dllName = "Studies_64.dll";
+
+          # Using an example set of studies which comes with Sierra Chart, as the source for this example.
+          sourceFiles = [ "${self.packages.x86_64-linux.sierrachart}/share/sierrachart/examples/Studies.cpp" ]; 
         };
 
         # This is to demonstrate how to install an instance of Sierra Chart using a Nix package to install a study.
