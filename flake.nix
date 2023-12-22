@@ -88,7 +88,7 @@
         };
 
         sierrachart-example-study = pkgs.pkgsCross.mingwW64.callPackage ./pkgs/sierrachart/example-study.nix { 
-          mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads;
+          mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads_pre_gcc_13;
           sierrachart = self.packages.x86_64-linux.sierrachart;
         };
 

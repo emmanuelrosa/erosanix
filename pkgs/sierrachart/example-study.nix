@@ -16,18 +16,18 @@ stdenv.mkDerivation {
 
     # Execute the compiler using the Nixpkgs CC/CXX Wrapper
     # The wrapper take care of including Windows headers and headers provided by buildInputs.
-    $CXX -D _WIN64 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 Studies.cpp -o Studies.dll
+    $CXX -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 Studies.cpp -o Studies_64.dll -Wno-deprecated
   '';
 
   installPhase = ''
     # Create a lib directory, and place the DLL(s) within.
     # The sierrachart package will link the DLL(s) into the ACS_Source directory when creating the WINEPREFIX.
     mkdir -p $out/lib
-    cp Studies.dll $out/lib
+    cp Studies_64.dll $out/lib
 
-    # Place any additional (non-study) DLLs in $out/system32
+    # Place any additional (non-study) 64-bit DLLs in $out/system32
     mkdir -p $out/system32
-    ln -s ${mcfgthread}/bin/mcfgthread-12.dll $out/system32/mcfgthread-12.dll
+    cp ${mcfgthread}/bin/mcfgthread-12.dll $out/system32/mcfgthread-12.dll
   '';
 
   meta = with lib; {
