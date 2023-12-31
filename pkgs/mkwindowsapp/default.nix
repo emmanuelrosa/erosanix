@@ -32,6 +32,7 @@
 , enabledWineSymlinks ? { }
 , ... } @ attrs:
 let
+  api = "1"; # IMPORTANT: Make sure this corresponds with WA_API in libwindowsapp.bash
   libwindowsapp = ./libwindowsapp.bash;
 
   # OpenGL or Vulkan rendering support
@@ -78,18 +79,21 @@ let
 
   fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
   persistFilesScript = withFileMap (dest: src: ''persist_file "${src}" "${dest}"'');
- 
-  inputHashScript = {
-    "store-path" = ''
-      WIN_LAYER_HASH=$(printf "%s %s" ${wine} $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-      APP_LAYER_HASH=$(printf "%s %s" $MY_PATH $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-    '';
 
-    "version" = ''
-      WIN_LAYER_HASH=$(printf "%s %s" $($WINE --version) $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-      APP_LAYER_HASH=$(printf "%s %s" "${name}" $WA_API | sha256sum | sed -r 's/(.{64}).*/\1/')
-    '';
+  winLayerHash = {
+    "store-path" = builtins.hashString "sha256" "${wine} ${api}";
+    "version" = builtins.hashString "sha256" "${wine.version} ${api}";
   }."${inputHashMethod}";
+
+  appLayerHash = {
+    "store-path" = "@APP_LAYER_HASH@";
+    "version" = builtins.hashString "sha256" "${name} ${api}";
+  }."${inputHashMethod}";
+
+  inputHashScript = '' 
+    WIN_LAYER_HASH=${winLayerHash}
+    APP_LAYER_HASH=${appLayerHash}
+  '';
 
   wineUserProfileSymlinkScript = let
     dirs = { "desktop" = "Desktop";
@@ -120,8 +124,8 @@ let
     ARGS="$@"
     WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "${wine}/bin/wine64" else "${wine}/bin/wine"}
     ${inputHashScript}
-    RUN_LAYER_HASH=$(printf "%s %s" $WIN_LAYER_HASH $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
-    BUILD_HASH=$(printf "%s %s %s" $WIN_LAYER_HASH $APP_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
+    RUN_LAYER_HASH=@RUN_LAYER_HASH@
+    BUILD_HASH=$(printf "%s %s %s" ${winLayerHash} @APP_LAYER_HASH@ $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
     needs_cleanup="1"
 
@@ -299,9 +303,16 @@ let
 in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" "enabledWineSymlinks" ]) // {
 
   preInstall = ''
+    APP_LAYER_HASH=${if appLayerHash == "@APP_LAYER_HASH@" then ''$(printf "%s %s" "$out/bin/.launcher" "${api}" | sha256sum | sed -r "s/(.{64}).*/\1/")'' else appLayerHash}
+    RUN_LAYER_HASH=$(printf "%s %s" ${winLayerHash} $APP_LAYER_HASH | sha256sum | sed -r 's/(.{64}).*/\1/')
+
     mkdir -p $out/bin
 
     cp ${launcher} $out/bin/.launcher
-    substituteInPlace $out/bin/.launcher --subst-var-by MY_PATH $out/bin/.launcher --subst-var out
+    substituteInPlace $out/bin/.launcher \
+      --subst-var-by MY_PATH $out/bin/.launcher \
+      --subst-var out \
+      --subst-var APP_LAYER_HASH \
+      --subst-var RUN_LAYER_HASH
   '';
 })
