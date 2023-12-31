@@ -125,7 +125,7 @@ let
     WINE=${if (builtins.pathExists "${wine}/bin/wine64") then "${wine}/bin/wine64" else "${wine}/bin/wine"}
     ${inputHashScript}
     RUN_LAYER_HASH=@RUN_LAYER_HASH@
-    BUILD_HASH=$(printf "%s %s %s" ${winLayerHash} @APP_LAYER_HASH@ $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
+    BUILD_HASH=$(printf "%s %s" $RUN_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
     needs_cleanup="1"
 
