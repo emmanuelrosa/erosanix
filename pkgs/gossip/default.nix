@@ -13,7 +13,7 @@
 , pipewire
 }: stdenv.mkDerivation rec {
   name = "gossip";
-  version = "0.8.2"; #:version:
+  version = "0.9.0"; #:version:
 
   nativeBuildInputs = [ dpkg copyDesktopIcons autoPatchelfHook stdenv.cc.cc.libgcc ];
   runtimeDependencies = [ xorg.libX11 
@@ -35,7 +35,7 @@
 
   src = fetchurl {
     url = "https://github.com/mikedilger/gossip/releases/download/v${version}/gossip_${version}_amd64.deb";
-    sha256 = "18vwxj2cxv5dlmrm9kwn2nrmm9z54qa68zdbiqsrkxm224lkgd95"; #:hash:
+    sha256 = "0b6jkz6wggck8smrhkcjlcb2h6q4b2hp7kmx0vm0npyn1b60lxl3"; #:hash:
   };
 
   unpackPhase = ''
