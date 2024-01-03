@@ -92,20 +92,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        sierrachart-example-study = self.lib.x86_64-linux.mkSierraChartStudy {
-          name = "sierrachart-example-study";
-          dllName = "Studies_64.dll";
-
-          # Using an example set of studies which comes with Sierra Chart, as the source for this example.
-          sourceFiles = [ "${self.packages.x86_64-linux.sierrachart}/share/sierrachart/examples/Studies.cpp" ]; 
-        };
-
-        # This is to demonstrate how to install an instance of Sierra Chart using a Nix package to install a study.
-        sierrachart-with-example-study = self.packages.x86_64-linux.sierrachart.override { 
-          instanceName = "example-study";
-          studies = [ self.packages.x86_64-linux.sierrachart-example-study ]; 
-        };
-
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
