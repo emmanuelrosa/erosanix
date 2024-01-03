@@ -6,6 +6,7 @@ stdenv.mkDerivation {
   version = "1.1.0";
   src = pkg;
   dontUnpack = true;
+  meta = pkg.meta;
 
   installPhase = ''
     for f in $(find -L $src/bin)
