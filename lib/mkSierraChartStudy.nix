@@ -2,27 +2,22 @@
 , mcfgthread                      # The output DLL is linked to the mcfgthread-12 Windows DLL.
 , sierrachart }:
 { name ? "sierrachart-study"
-  , sourceFiles ? []              # A list of each individual source file to be compiled into a single DLL.
+  , src                           # The path to the study source code.
   , dllName                       # The name of the output DLL. Ex. MyStudies_64.dll
-}: let
-  cpFile = file: "cp ${file} ./";
-  cpSourcesScript = builtins.concatStringsSep "/n" (builtins.map cpFile sourceFiles);
-  sourceFilesString = builtins.concatStringsSep " " sourceFiles;
-in stdenv.mkDerivation {
-  inherit name;
-  src = sierrachart; # Dummy src.
-  dontUnpack = true; # Which is why I'm disabling source unpacking.
+}: stdenv.mkDerivation {
+  inherit name src;
+  dontUnpack = true;
 
   # This adds the /$out/include directory from the sierrachart package as a directory to include (-I) when compiling.
   # The sierrachart package stores the ACSIL header files (normally in ACS_Source) into $out/include.
   buildInputs = [ sierrachart ]; 
 
   buildPhase = ''
-    ${cpSourcesScript}
+    cp -r $src/. ./
 
     # Execute the compiler using the Nixpkgs CC/CXX Wrapper
     # The wrapper take care of including Windows headers and headers provided by buildInputs.
-    $CXX -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 ${sourceFilesString} -o ${dllName} -Wno-deprecated
+    $CXX -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 *.cpp *.h -o ${dllName} -Wno-deprecated
   '';
 
   installPhase = ''

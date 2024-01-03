@@ -27,7 +27,7 @@ Packaging a study and building it with Nix from source code is made easy using t
 my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
   name = "my-sierrachart-study";                  # The name of your Nix package.
   dllName = "MyStudy_64.dll";                     # The name of the output DLL.
-  sourceFiles = [ ./MyStudy.h ./MyStudy.cpp ];    # The source code for the study.
+  src = ./path/to/the/source/code;                    # The source code for the study.
 };
 ```
 
