@@ -69,5 +69,6 @@
     license = licenses.mit;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" ];
+    mainProgram = "gossip";
   };
 }
