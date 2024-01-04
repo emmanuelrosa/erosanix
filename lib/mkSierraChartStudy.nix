@@ -2,32 +2,48 @@
 , mcfgthread                      # The output DLL is linked to the mcfgthread-12 Windows DLL.
 , sierrachart }:
 { name ? "sierrachart-study"
-  , src                           # The path to the study source code.
+  , src                           # The path to a directory containing the study's source code, or the path to a single study DLL file.
   , dllName                       # The name of the output DLL. Ex. MyStudies_64.dll
-}: stdenv.mkDerivation {
-  inherit name src;
-  dontUnpack = true;
+}: let
+  derivation = if (builtins.readFileType src) == "directory" then sourceDerivation else dllDerivation;
 
-  # This adds the /$out/include directory from the sierrachart package as a directory to include (-I) when compiling.
-  # The sierrachart package stores the ACSIL header files (normally in ACS_Source) into $out/include.
-  buildInputs = [ sierrachart ]; 
+  sourceDerivation = stdenv.mkDerivation {
+    inherit name src;
+    dontUnpack = true;
 
-  buildPhase = ''
-    cp -r $src/. ./
+    # This adds the /$out/include directory from the sierrachart package as a directory to include (-I) when compiling.
+    # The sierrachart package stores the ACSIL header files (normally in ACS_Source) into $out/include.
+    buildInputs = [ sierrachart ]; 
 
-    # Execute the compiler using the Nixpkgs CC/CXX Wrapper
-    # The wrapper take care of including Windows headers and headers provided by buildInputs.
-    $CXX -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 *.cpp *.h -o ${dllName} -Wno-deprecated
-  '';
+    buildPhase = ''
+      cp -r $src/. ./
 
-  installPhase = ''
-    # Create a lib directory, and place the DLL(s) within.
-    # The sierrachart package will link the DLL(s) into the ACS_Source directory when creating the WINEPREFIX.
-    mkdir -p $out/lib
-    cp ${dllName} $out/lib
+      # Execute the compiler using the Nixpkgs CC/CXX Wrapper
+      # The wrapper take care of including Windows headers and headers provided by buildInputs.
+      $CXX -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++11 *.cpp *.h -o ${dllName} -Wno-deprecated
+    '';
 
-    # Place any additional (non-study) 64-bit DLLs in $out/system32
-    mkdir -p $out/system32
-    cp ${mcfgthread}/bin/mcfgthread-12.dll $out/system32/mcfgthread-12.dll
-  '';
-}
+    installPhase = ''
+      # Create a lib directory, and place the DLL(s) within.
+      # The sierrachart package will link the DLL(s) into the ACS_Source directory when creating the WINEPREFIX.
+      mkdir -p $out/lib
+      cp ${dllName} $out/lib
+
+      # Place any additional (non-study) 64-bit DLLs in $out/system32
+      mkdir -p $out/system32
+      cp ${mcfgthread}/bin/mcfgthread-12.dll $out/system32/mcfgthread-12.dll
+    '';
+  };
+
+  dllDerivation = stdenv.mkDerivation {
+    inherit name src;
+    dontUnpack = true;
+
+    installPhase = ''
+      # Create a lib directory, and place the DLL(s) within.
+      # The sierrachart package will link the DLL(s) into the ACS_Source directory when creating the WINEPREFIX.
+      mkdir -p $out/lib
+      cp ${src} $out/lib/${dllName}
+    '';
+  };
+in derivation

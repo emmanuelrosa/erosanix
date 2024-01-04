@@ -27,11 +27,19 @@ Packaging a study and building it with Nix from source code is made easy using t
 my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
   name = "my-sierrachart-study";                  # The name of your Nix package.
   dllName = "MyStudy_64.dll";                     # The name of the output DLL.
-  src = ./path/to/the/source/code;                    # The source code for the study.
+  src = ./path/to/the/source/code;                # The source code for the study.
 };
 ```
 
-To package a compiled DLL, simply use `mkDerivation` to copy the DLL to $out/lib and copy any additional dependent 64-bit DLLs to $out/system32.
+A study already compiled as a DLL can also be packaged with `mkSierraChartStudy`:
+
+```
+my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
+  name = "my-sierrachart-study";
+  dllName = "MyStudy_64.dll";
+  src = ./path/to/MyStudy_64.dll;
+};
+```
 
 Once the study is packaged, add it to the `studies` attribute when installing Sierra Chart:
 
@@ -42,8 +50,6 @@ Once the study is packaged, add it to the `studies` attribute when installing Si
 ```
 
 What effectively happens is that when you run Sierra Chart, the launcher script will symlink the study to your Sierra Chart "Data" directory. Then when you exit Sierra Chart, the study symlinks are removed.
-
-The end result is a study distribution mechanism which always provides studies compiled against the current version of Sierra Chart, keeping everything nice and fresh :)
 
 ## FAQ
 
