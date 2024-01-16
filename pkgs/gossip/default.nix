@@ -46,8 +46,8 @@
     inherit name;
 
     src = fetchurl {
-      url = "https://github.com/mikedilger/gossip/raw/v${version}/gossip.png";
-      sha256 = "12r5cxlxyj75yw6r1rbj17kxqfxgzcncqildih02b622k8qkwkvz";
+      url = "https://github.com/mikedilger/gossip/raw/v${version}/logo/gossip.png";
+      sha256 = "sha256-f08+MZpCmCUAjI1GzCz7rzvc5wly5ZAN9+VI32lnJYs=";
     };
   };
 
