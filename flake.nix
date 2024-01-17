@@ -92,6 +92,8 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
+        sierrachart-msvc-shim = callPackage ./pkgs/sierrachart-msvc-shim { };
+
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.full; 
