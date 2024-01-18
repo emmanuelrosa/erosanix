@@ -90,6 +90,7 @@
           wine = pkgs.wine64Packages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
+          msvcShim = self.packages.x86_64-linux.sierrachart-msvc-shim;
         };
 
         sierrachart-msvc-shim = callPackage ./pkgs/sierrachart-msvc-shim { };

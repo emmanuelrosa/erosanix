@@ -11,6 +11,8 @@
 , instanceName ? "default" # This should be alphanumeric, no spaces
 , studies ? []
 , symlinkJoin
+, msvcShim
+, enableCompilerShim ? false
 }: let
   version = "2587"; #:version:
   src = fetchurl {
@@ -99,6 +101,8 @@ in mkWindowsApp rec {
     then
       ln -s "$HOME/.local/share/sierrachart" "$HOME/.local/share/sierrachart-default" 
     fi
+
+    ${lib.optionalString enableCompilerShim msvcShim.installer}
   '';
 
   joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ (defaultStudies { inherit stdenv unzip; }) studies ]; };
