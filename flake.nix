@@ -94,6 +94,7 @@
         };
 
         sierrachart-zig-msvc-shim = callPackage ./pkgs/sierrachart-zig-msvc-shim { };
+        sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           mkWindowsApp = lib.mkWindowsApp;
