@@ -52,7 +52,7 @@
     ln -s ${shim} $WINEPREFIX/drive_c/windows/cl.exe
   '';
 in stdenv.mkDerivation {
-  name = "mingw-sierrachart-msvc-shim";
+  name = "sierrachart-mingw-msvc-shim";
   outputs = [ "out" "shim" "installer" ];
   src = ./.;
 
@@ -65,8 +65,8 @@ in stdenv.mkDerivation {
   '';
 
   meta = with lib; {
-    description = "A Microsoft Visual C++ compiler shim for Sierra Chart.";
-    longDescription = "Used with the Sierra Chart Nix package to substitute MSVC MingWG, to compile studies.";
+    description = "A Microsoft Visual C++ compiler shim for Sierra Chart, implemented with MinGW";
+    longDescription = "Used with the Sierra Chart Nix package to compile studies with MinGW.";
     homepage = "https://github.com/emmanuelrosa/erosanix";
     license = licenses.gpl2;
     maintainers = with maintainers; [ emmanuelrosa ];

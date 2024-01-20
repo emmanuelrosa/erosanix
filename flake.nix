@@ -92,7 +92,7 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        sierrachart-msvc-shim = callPackage ./pkgs/sierrachart-msvc-shim { };
+        sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           mkWindowsApp = lib.mkWindowsApp;
