@@ -72,6 +72,8 @@ int main(int argc, char* argv[]) {
     std::string command = R"(cmd.exe /c C:\msvc-shim\runner.sh)";
     bool collectSourceFiles = false;
     bool enableDebugging = false;
+    bool runnerStarted = false;
+    bool runnerFinished = false;
 
     for(int i = 0; i != argc; i++) {
         std::string arg(argv[i]);
@@ -115,9 +117,17 @@ int main(int argc, char* argv[]) {
     std::cout << "Waiting on runner to start..." << std::endl;
 
     for(int i = 0; i < RUNNER_START_RETRY; i++) {
-        if(std::filesystem::exists(pidFilePath)) break;
+        if(std::filesystem::exists(pidFilePath)) {
+            runnerStarted = true;
+            break;
+        }
         std::this_thread::sleep_for(RUNNER_START_DELAY);
     }
+
+    if(!runnerStarted) {
+        std::cout << "ERROR: Runner failed to start within the allotted time!" << std::endl;
+        return 1;
+    };
 
     std::string pid = readFile(PID_FILE);
     std::string runnerProcessPathStr = R"(Z:\proc\)";
@@ -126,9 +136,18 @@ int main(int argc, char* argv[]) {
     std::cout << "Waiting on runner to finish (" << runnerProcessPath.string() << ")..." << std::endl;
 
     for(int i = 0; i < RUNNER_END_RETRY; i++) {
-        if(!std::filesystem::exists(runnerProcessPath)) break;
+        if(!std::filesystem::exists(runnerProcessPath)) {
+            runnerFinished = true;
+            break;
+        }
+
         std::this_thread::sleep_for(RUNNER_END_DELAY);
     }
+
+    if(!runnerFinished) {
+        std::cout << "ERROR: Runner failed to finish within the allotted time!" << std::endl;
+        return 1;
+    };
 
     std::cout << readFile(OUTPUT_FILE);
 }
