@@ -61,12 +61,12 @@ int main(int argc, char* argv[]) {
     const std::filesystem::path pidFilePath{PID_FILE};
 
     // Give the runner a maximum of 4 seconds to start.
-    const std::chrono::duration RUNNER_START_DELAY = 125ms;
-    const int RUNNER_START_RETRY = 24;
+    const std::chrono::duration RUNNER_START_DELAY = 100ms;
+    const int RUNNER_START_RETRY = 40;
 
-    // Give the runner a maximum of 10 minutes to finish.
-    const std::chrono::duration RUNNER_END_DELAY = 250ms;
-    const int RUNNER_END_RETRY = 2400;
+    // Give the runner a maximum of 5 minutes to finish.
+    const std::chrono::duration RUNNER_END_DELAY = 100ms;
+    const int RUNNER_END_RETRY = 3000;
 
     std::vector<std::string> sourceFiles;
     std::string outputDll;
