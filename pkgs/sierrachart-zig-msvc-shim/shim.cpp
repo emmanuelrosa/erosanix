@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     }
 
     command.append(" ");
-    if(enableDebugging) command.append("-v ");
+    if(enableDebugging) command.append("-v -d ");
     command.append(" -o ").append(quote(outputDll));
     command.append(" ");
 
@@ -110,12 +110,12 @@ int main(int argc, char* argv[]) {
     command.append(" > ").append(OUTPUT_FILE).append(" 2>&1");
 
     std::cout << "Sierra Chart MSVC shim (Zig/Clang implementation)" << std::endl;
-    printf("cmd: %s\n", command.c_str());
+    if(enableDebugging) printf("cmd: %s\n", command.c_str());
     std::remove(PID_FILE.c_str());
     std::remove(OUTPUT_FILE.c_str());
 
     std::system(command.c_str());
-    std::cout << "Waiting on runner to start..." << std::endl;
+    if(enableDebugging) std::cout << "Waiting on runner to start..." << std::endl;
 
     for(int i = 0; i < RUNNER_START_RETRY; i++) {
         if(std::filesystem::exists(pidFilePath)) {
@@ -134,7 +134,7 @@ int main(int argc, char* argv[]) {
     std::string runnerProcessPathStr = R"(Z:\proc\)";
     runnerProcessPathStr.append(pid);
     std::filesystem::path runnerProcessPath = std::filesystem::path(runnerProcessPathStr);
-    std::cout << "Waiting on runner to finish (" << runnerProcessPath.string() << ")..." << std::endl;
+    if(enableDebugging) std::cout << "Waiting on runner to finish (" << runnerProcessPath.string() << ")..." << std::endl;
 
     for(int i = 0; i < RUNNER_END_RETRY; i++) {
         if(!std::filesystem::exists(runnerProcessPath)) {

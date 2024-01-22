@@ -22,13 +22,14 @@
   # converts the Windows paths to unix paths, and executes the cross compiler.
   runner = writeScript "sierrachart-zig-msvc-shim-runner.sh" ''
     #!${bash}/bin/bash
-    # USAGE: zig-msvc-shim-runner [-v] -o outputDLL -s sourceFile1 -s sourceFile2 ...
+    # USAGE: zig-msvc-shim-runner [-v] [-d] -o outputDLL -s sourceFile1 -s sourceFile2 ...
 
     pid=$$
     pidFile="$WINEPREFIX/drive_c/windows/temp/msvc-shim.pid"
     dllFile=""
     sourceFiles=""
     verbose=""
+    debug=""
 
     # Convert paths like C:\SierraChart\ACS_Souce\file.cpp to $WINEPREFIX/drive_c/SierraChart/ACS_Source/file.cpp
     function convertPath() {
@@ -38,22 +39,29 @@
       echo "$WINEPREFIX/drive_c$c"
     }
 
+    function echoWhenVerbose() {
+      if [ -n "$verbose" ]
+      then
+        echo "zig-msvc-shim-runner: Source files: $sourceFiles"
+      fi
+    }
+
     echo -n $pid > $pidFile
 
-    while getopts :vo:s: flag
+    while getopts :vdo:s: flag
     do
       case "''${flag}" in
         v) verbose="--verbose";;
+        d) debug="-g";;
         o) dllFile=$(convertPath ''${OPTARG});;
         s) sourceFiles="$sourceFiles $(convertPath ''${OPTARG})";;
       esac
     done
 
-    echo "zig-msvc-shim-runner: Source files: $sourceFiles"
-    echo "zig-msvc-shim-runner: DLL file: $dllFile"
-    echo "zig-msvc-shim-runner: verbose flag: $verbose"
+    echoWhenVerbose "zig-msvc-shim-runner: Source files: $sourceFiles"
+    echoWhenVerbose "zig-msvc-shim-runner: DLL file: $dllFile"
 
-    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $sourceFiles -o $dllFile 2>&1
+    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $debug $sourceFiles -o $dllFile 2>&1
   '';
 
   # The Sierra Chart Nix package will execute this installer
