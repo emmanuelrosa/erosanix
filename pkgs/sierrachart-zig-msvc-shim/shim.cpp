@@ -55,6 +55,7 @@ std::string readFile(const std::string s) {
 int main(int argc, char* argv[]) {
     using namespace std::chrono_literals;
 
+    const std::string SEPARATOR = "*************************************************************";
     const std::string OUTPUT_FILE = R"(C:\windows\temp\msvc-shim-output.txt)";
     const std::string PID_FILE = R"(C:\windows\temp\msvc-shim.pid)";
     const std::filesystem::path pidFilePath{PID_FILE};
@@ -149,5 +150,7 @@ int main(int argc, char* argv[]) {
         return 1;
     };
 
+    std::cout << SEPARATOR << std::endl;
+    std::cout << SEPARATOR << std::endl;
     std::cout << readFile(OUTPUT_FILE);
 }
