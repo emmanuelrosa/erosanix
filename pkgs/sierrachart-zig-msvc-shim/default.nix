@@ -4,6 +4,7 @@
 , writeScript
 , bash
 , zig
+, git
 }: let
   shim-cpp = ./shim.cpp;
 
@@ -30,6 +31,8 @@
     sourceFiles=""
     verbose=""
     debug=""
+    gitCommitHash=""
+    macros=""
 
     # Convert paths like C:\SierraChart\ACS_Souce\file.cpp to $WINEPREFIX/drive_c/SierraChart/ACS_Source/file.cpp
     function convertPath() {
@@ -58,10 +61,17 @@
       esac
     done
 
+    if [ -d $WINEPREFIX/drive_c/SierraChart/ACS_Source/.git ]
+    then
+      gitCommitHash=$(${git}/bin/git -C $WINEPREFIX/drive_c/SierraChart/ACS_Source/ rev-parse --short HEAD)
+      macros="-DSHORT_COMMIT_HASH=\"$gitCommitHash\""
+    fi
+
     echoWhenVerbose "zig-msvc-shim-runner: Source files: $sourceFiles"
     echoWhenVerbose "zig-msvc-shim-runner: DLL file: $dllFile"
+    echoWhenVerbose "zig-msvc-shim-runner: GIT commit hash: $gitCommitHash"
 
-    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $debug $sourceFiles -o $dllFile 2>&1
+    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $debug $macros $sourceFiles -o $dllFile 2>&1
   '';
 
   # The Sierra Chart Nix package will execute this installer
