@@ -18,6 +18,7 @@ The erosanix Nix flake contains a Nix package for Sierra Chart. The package uses
  * Up to 9 sub instances are supported. Each sub instance is saved to $HOME/.local/share/INSTANCE_NAME-instance/SierraChartInstance_#. Therefore, to delete a sub instance, exit Sierra Chart and then delete the corresponding sub instance directory.
  * Uses your default text editor to open [ACSIL](https://www.sierrachart.com/index.php?page=doc/Contents.php#AdvancedCustomStudySystemInterfaceandLanguage) study source code.
  * Supports using ACSIL studies packaged using Nix. Although you can also just save your study DLLs in the Sierra Chart "Data" directory.
+ * Supports compiling studies locally from within Sierra Chart; A shim is used as a substitute for Microsoft Visual C++ to cross-compile the studies.
 
 ## Packaging a custom ACSIL study
 
@@ -50,6 +51,31 @@ Once the study is packaged, add it to the `studies` attribute when installing Si
 ```
 
 What effectively happens is that when you run Sierra Chart, the launcher script will symlink the study to your Sierra Chart "Data" directory. Then when you exit Sierra Chart, the study symlinks are removed.
+
+## Compiling studies locally from within Sierra Chart
+
+Sierra Chart has the ability to compile studies locally using Microsoft Visual C++. To enable the same functionality on Linux, the Sierra Chart Nix package comes with option to install a fake MSVC compiler (cl.exe), which in turn calls a compiler which runs well in Linux.
+
+There are currently two implementations of this fake compiler (aka. shim):
+
+- `sierrachart-mingw-msvc-shim`
+- `sierrachart-zig-msvc-shim`
+
+The MingW implementation executes the Windows version of the compiler within Wine; Therefore there's no cross-compiling with this implementation. This was the first implementation of this shim and I'm keeping it around for the time being. However, my focus is on the Zig implementation.
+
+The Zig implementation uses Clang under-the-hood to cross-compile studies. Meaning, the shim is executed within Wine by Sierra Chart, but it calls out to a "runner" on Linux to run the Zig/Clang compiler outside of Wine. The main advantage the Zig implementation has over the MingW implementation is that Zig has a build cache which makes builds faster.
+
+Nevertheless, this shim is disabled by default. To enable the Zig imeplentation of the shim, override the SierraChart Nix package:
+
+```
+(sierrachart.override { enableCompilerShim = true; })
+```
+
+Using the MingW implementation is similar:
+
+```
+(sierrachart.override { msvcShim = erosanix.packages.x86_64-linux.sierrachart-mingw-msvc-shim; enableCompilerShim = true; })
+```
 
 ## FAQ
 
