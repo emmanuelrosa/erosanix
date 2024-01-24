@@ -39,8 +39,12 @@
       compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
 
-      mkSierraChartStudy = pkgs.pkgsCross.mingwW64.callPackage ./lib/mkSierraChartStudy.nix { 
+      mkSierraChartStudyFromSrc = pkgs.pkgsCross.mingwW64.callPackage ./lib/mkSierraChartStudyFromSrc.nix { 
         mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads_pre_gcc_13;
+        sierrachart = self.packages.x86_64-linux.sierrachart;
+      };
+
+      mkSierraChartStudyFromDLL = pkgs.callPackage ./lib/mkSierraChartStudyFromDLL.nix { 
         sierrachart = self.packages.x86_64-linux.sierrachart;
       };
     };

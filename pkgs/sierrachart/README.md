@@ -21,7 +21,7 @@ The erosanix Nix flake contains a Nix package for Sierra Chart. The package uses
 
 ## Packaging a custom ACSIL study
 
-Packaging a study and building it with Nix from source code is made easy using the function `mkSierraChartStudy`: 
+Packaging a study and building it with Nix from source code is made easy using the function `mkSierraChartStudyFromSrc`: 
 
 ```
 my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
@@ -34,7 +34,7 @@ my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
 A study already compiled as a DLL can also be packaged with `mkSierraChartStudy`:
 
 ```
-my-study = erosanix.lib.x86_64-linux.mkSierraChartStudy {
+my-study = erosanix.lib.x86_64-linux.mkSierraChartStudyFromDLL {
   name = "my-sierrachart-study";
   dllName = "MyStudy_64.dll";
   src = ./path/to/MyStudy_64.dll;
