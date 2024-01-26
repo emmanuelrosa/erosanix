@@ -19,8 +19,7 @@
   # The shim can't execute the compiler directly because it's a Linux ELF executable.
   # Instead, it calls a BASH script which the Wine cmd.exe implementation
   # recognizes as a Linux executable, and is able to execute.
-  # This 'runner" accepts parameters via the command-line,
-  # converts the Windows paths to unix paths, and executes the cross compiler.
+  # This 'runner" accepts parameters via the command-line and executes the cross compiler.
   runner = writeScript "sierrachart-zig-msvc-shim-runner.sh" ''
     #!${bash}/bin/bash
     # USAGE: zig-msvc-shim-runner [-v] [-d] -o outputDLL -s sourceFile1 -s sourceFile2 ...
@@ -33,14 +32,6 @@
     debug=""
     gitCommitHash=""
     macros=""
-
-    # Convert paths like C:\SierraChart\ACS_Souce\file.cpp to $WINEPREFIX/drive_c/SierraChart/ACS_Source/file.cpp
-    function convertPath() {
-      a=$(echo ''${1/#C:/})
-      b=$(echo ''${a/#Z:/})
-      c=$(echo ''${b//\\//})
-      echo "$WINEPREFIX/drive_c$c"
-    }
 
     function echoWhenVerbose() {
       if [ -n "$verbose" ]
@@ -56,8 +47,8 @@
       case "''${flag}" in
         v) verbose="--verbose";;
         d) debug="-g";;
-        o) dllFile=$(convertPath ''${OPTARG});;
-        s) sourceFiles="$sourceFiles $(convertPath ''${OPTARG})";;
+        o) dllFile=$(eval echo ''${OPTARG});;
+        s) sourceFiles="$sourceFiles $(eval echo ''${OPTARG})";;
       esac
     done
 

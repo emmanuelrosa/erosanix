@@ -26,6 +26,7 @@
 #include <chrono>
 #include <thread>
 #include <filesystem>
+#include <regex>
 
 /* shim.cpp
  * 
@@ -39,17 +40,26 @@
  * call the Zig compiler to compile the Sierra Chart study.
  */
 
-std::string quote(const std::string& s) {
-    std::ostringstream ss;
-    ss << std::quoted(s);
-
-    return ss.str();
-}
-
 std::string readFile(const std::string s) {
     std::ifstream file(s);
     std::istreambuf_iterator<char> it(file), end;
     return {it, end};
+}
+
+/* Converts the given Windows path into a UNIX path,
+ * while rooting the C: drive in the $WINEPREFIX/drive_c
+ * and the Z: drive in the UNIX / directory.
+ */
+std::string convertToUnixPath(const std::string path) {
+    std::regex slashRegex(R"(\\)");
+    std::regex cDriveRegex("C:");
+    std::regex zDriveRegex("Z:");
+
+    std::string out = std::regex_replace(path, slashRegex, R"(/)");
+    out = std::regex_replace(out, cDriveRegex, R"($WINEPREFIX/drive_c)");
+    out = std::regex_replace(out, zDriveRegex, R"()");
+
+    return out;
 }
 
 int main(int argc, char* argv[]) {
@@ -100,11 +110,11 @@ int main(int argc, char* argv[]) {
 
     command.append(" ");
     if(enableDebugging) command.append("-v -d ");
-    command.append(" -o ").append(quote(outputDll));
+    command.append(" -o ").append(convertToUnixPath(outputDll));
     command.append(" ");
 
     for(std::string file : sourceFiles) {
-        command.append(" -s ").append(quote(file));
+        command.append(" -s ").append(convertToUnixPath(file));
     }
 
     command.append(" > ").append(OUTPUT_FILE).append(" 2>&1");
