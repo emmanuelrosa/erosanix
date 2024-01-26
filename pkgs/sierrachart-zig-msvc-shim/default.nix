@@ -36,7 +36,7 @@
     function echoWhenVerbose() {
       if [ -n "$verbose" ]
       then
-        echo "zig-msvc-shim-runner: Source files: $sourceFiles"
+        echo "zig-msvc-shim-runner: $1"
       fi
     }
 
@@ -58,9 +58,9 @@
       macros="-DSHORT_COMMIT_HASH=\"$gitCommitHash\""
     fi
 
-    echoWhenVerbose "zig-msvc-shim-runner: Source files: $sourceFiles"
-    echoWhenVerbose "zig-msvc-shim-runner: DLL file: $dllFile"
-    echoWhenVerbose "zig-msvc-shim-runner: GIT commit hash: $gitCommitHash"
+    echoWhenVerbose "Source files: $sourceFiles"
+    echoWhenVerbose "DLL file: $dllFile"
+    echoWhenVerbose "GIT commit hash: $gitCommitHash"
 
     ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $debug $macros $sourceFiles -o $dllFile 2>&1
   '';
