@@ -8,6 +8,7 @@
 , copyDesktopItems
 , copyDesktopIcons
 , unzip
+, gnutar
 , instanceName ? "default" # This should be alphanumeric, no spaces
 , studies ? []
 , symlinkJoin
@@ -175,8 +176,7 @@ in mkWindowsApp rec {
     if [ "$needs_acs_update" == "1" ]
     then
       echo "Updating ACS_Source."
-      cp -a "$OUT_PATH/include/." "$WINEPREFIX/drive_c/SierraChart/ACS_Source/";
-      cp -an "$OUT_PATH/share/sierrachart/examples/." "$WINEPREFIX/drive_c/SierraChart/ACS_Source/";
+      ${gnutar}/bin/tar -xf $OUT_PATH/share/sierrachart/ACS_Source.tar -C "$WINEPREFIX/drive_c/SierraChart/ACS_Source/"
       mkdir -p $(dirname "$cached_version_file")
       echo "${version}" > "$cached_version_file"
     fi
@@ -206,6 +206,14 @@ in mkWindowsApp rec {
     # Copy Sierra Chart ACSIL example code.
     mkdir -p $out/share/sierrachart/examples
     cp -a ACS_Source/*.cpp $out/share/sierrachart/examples
+
+    # Archive Sierra Chart ACS_Source.
+    # The archive is used to update the user's ACS_Source;
+    # Using an archive avoid extracting read-only files to the user's ACS_Source.
+    mkdir -p $out/share/sierrachart/examples
+    pushd ACS_Source
+    ${gnutar}/bin/tar -cf $out/share/sierrachart/ACS_Source.tar *
+    popd
 
     runHook postInstall
   '';
