@@ -202,12 +202,10 @@ in mkWindowsApp rec {
     # Copy Sierra Chart ACSIL, except for example code.
     mkdir -p $out/include
     cp -a ACS_Source/*.h $out/include
-    cp ACS_Source/SCStudyFunctions.cpp $out/include
 
     # Copy Sierra Chart ACSIL example code.
     mkdir -p $out/share/sierrachart/examples
     cp -a ACS_Source/*.cpp $out/share/sierrachart/examples
-    rm $out/share/sierrachart/examples/SCStudyFunctions.cpp
 
     runHook postInstall
   '';
