@@ -29,7 +29,7 @@
     dllFile=""
     sourceFiles=""
     verbose=""
-    debug=""
+    extra="-O2"
     gitCommitHash=""
     macros=""
 
@@ -42,11 +42,10 @@
 
     echo -n $pid > $pidFile
 
-    while getopts :vdo:s: flag
+    while getopts :do:s: flag
     do
       case "''${flag}" in
-        v) verbose="--verbose";;
-        d) debug="-g";;
+        d) extra="-g --verbose";;
         o) dllFile=$(eval echo ''${OPTARG});;
         s) sourceFiles="$sourceFiles $(eval echo ''${OPTARG})";;
       esac
@@ -62,7 +61,7 @@
     echoWhenVerbose "DLL file: $dllFile"
     echoWhenVerbose "GIT commit hash: $gitCommitHash"
 
-    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows $verbose $debug $macros $sourceFiles -o $dllFile 2>&1
+    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows -ffp-model=precise $extra $macros $sourceFiles -o $dllFile 2>&1
   '';
 
   # The Sierra Chart Nix package will execute this installer

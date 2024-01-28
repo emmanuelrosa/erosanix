@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
     }
 
     command.append(" ");
-    if(enableDebugging) command.append("-v -d ");
+    if(enableDebugging) command.append("-d ");
     command.append(" -o ").append(convertToUnixPath(outputDll));
     command.append(" ");
 
