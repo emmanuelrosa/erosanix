@@ -64,6 +64,7 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 - **composeAndApply** - Composes a list of functions (see `compose` above) and then applies them to the argument. Ex. `composeAndApply [ mkmupen64plus nvidia-offload-wrapper ] {...}`
 - **mkSierraChartStudyFromSrc** - A simple derivation function to cross-compile studies (indicators) for the Sierra Chart trading platform.
 - **mkSierraChartStudyFromDLL** - A simple derivation function install studies DLL's (indicators) for the Sierra Chart trading platform.
+- **torsocks** - Uses `torsocks` to allow you to use most applications in a safe way with Tor. Beware that torsocks it has its limits.
 
 ### NixOS modules
 

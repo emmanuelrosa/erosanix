@@ -47,6 +47,10 @@
       mkSierraChartStudyFromDLL = pkgs.callPackage ./lib/mkSierraChartStudyFromDLL.nix { 
         sierrachart = self.packages.x86_64-linux.sierrachart;
       };
+
+      torsocks = callPackage ./lib/torsocks.nix { 
+        genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
+      };
     };
 
     lib.i686-linux = let
@@ -66,6 +70,11 @@
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
       compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
+      genericBinWrapper = callPackage ./lib/generic-bin-wrapper.nix { };
+
+      torsocks = callPackage ./lib/torsocks.nix { 
+        genericBinWrapper = self.lib.i686-linux.genericBinWrapper;
+      };
     };
 
     packages.x86_64-linux = let
@@ -408,6 +417,12 @@
         genericBinWrapper = import ./lib/generic-bin-wrapper.nix { stdenv = pkgs.stdenv; };
         writeShellScript = pkgs.writeShellScript;
         nvidia-offload = self.packages.x86_64-linux.nvidia-offload;
+      };
+
+      torsocks = import ./lib/torsocks.nix { 
+        genericBinWrapper = import ./lib/generic-bin-wrapper.nix { stdenv = pkgs.stdenv; };
+        writeShellScript = pkgs.writeShellScript;
+        torsocks = pkgs.torsocks;
       };
     };
   };
