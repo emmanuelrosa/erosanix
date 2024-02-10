@@ -226,6 +226,10 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
+        gossip-full = callPackage ./pkgs/gossip-full/default.nix { 
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+        };
+
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
           inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
