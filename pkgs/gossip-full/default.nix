@@ -1,7 +1,6 @@
 { lib
 , rustPlatform
 , fetchFromGitHub
-, fetchurl
 , cmake
 , git
 , pkg-config
@@ -13,10 +12,6 @@
 , dbus
 , pipewire
 , autoPatchelfHook
-, makeDesktopItem
-, copyDesktopItems
-, makeDesktopIcon
-, copyDesktopIcons
 , enableVideoPlayback ? true
 , enableCJKFonts ? true
 }:
@@ -63,8 +58,6 @@ rustPlatform.buildRustPackage rec {
     git
     pkg-config
     rustPlatform.bindgenHook
-    copyDesktopItems
-    copyDesktopIcons
     autoPatchelfHook
   ];
 
@@ -95,26 +88,12 @@ rustPlatform.buildRustPackage rec {
     openssl
   ];
 
-  desktopItems = [
-    (makeDesktopItem {
-      name = pname;
-      exec = pname;
-      icon = pname;
-      desktopName = "Gossip";
-      categories = [ "Network" "InstantMessaging" ];
-      mimeTypes = [ "x-scheme-handler/nostr" ];
-    })
-  ];
-
-  desktopIcon = makeDesktopIcon {
-    name = pname;
-
-    src = fetchurl {
-      name = "gossip.png";
-      url = "https://github.com/mikedilger/gossip/blob/${version}/logo/gossip.png?raw=true";
-      sha256 = "sha256-f08+MZpCmCUAjI1GzCz7rzvc5wly5ZAN9+VI32lnJYs=";
-    };
-  };
+  postInstall = ''
+    mkdir -p $out/share/applications
+    mkdir -p $out/share/icons/hicolor/128x128/apps
+    cp packaging/debian/${pname}.desktop $out/share/applications/
+    cp logo/${pname}.png $out/share/icons/hicolor/128x128/apps/
+  '';
 
   meta = with lib; {
     description = "Desktop client for nostr, an open social media protocol";
