@@ -11,6 +11,6 @@ libupdate.mkUpdateScript {
     versionConverter = "${pkgs.gnused}/bin/sed 's/release_//'";
   };
 
-  getRemoteHash = libupdate.prefetchUrl "https://github.com/Blockstream/green_qt/releases/download/release_$version/BlockstreamGreen_Linux_x86_64.tar.gz";
+  getRemoteHash = libupdate.prefetchUrl "https://github.com/Blockstream/green_qt/releases/download/release_$version/BlockstreamGreen-Linux-x86_64.tar.gz";
 
 }

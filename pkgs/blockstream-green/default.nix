@@ -18,13 +18,14 @@
 , gst_all_1
 , pulseaudio
 , hwi
+, xcb-util-cursor
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
-  version = "1.2.9"; #:version:#
+  version = "2.0.0"; #:version:#
 
   src = fetchurl {
-    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen_Linux_x86_64.tar.gz";
-    sha256 = "08j8hjp6pgc6yl2vpv98w7sqd7mwr9yddi0q92wixkvs6sal1qhr"; #:hash:
+    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen-Linux-x86_64.tar.gz";
+    sha256 = "1m8v5437iz61chrx4k4m0xlbhsj4n0bgha4b5sgsqx96hv5qkglk"; #:hash:
   };
 
   setSourceRoot = ''
@@ -44,6 +45,7 @@
     glib
     dbus
     libxkbcommon
+    xcb-util-cursor
   ] ++ (with xorg; [
     libX11
     libxcb
