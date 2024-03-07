@@ -240,6 +240,14 @@
           zenity = pkgs.gnome.zenity;
         };
 
+        microcap = callPackage ./pkgs/microcap.nix { 
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.wineWowPackages.stableFull; 
+          wineArch = "win64";
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
+        };
+
         wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
           wine = pkgs.wine64Packages.stableFull; 
@@ -376,6 +384,14 @@
           wine = pkgs.winePackages.stableFull;
           wineArch = "win32";
           rbxfpsunlocker = null;
+        };
+
+        microcap = callPackage ./pkgs/microcap.nix { 
+          mkWindowsApp = lib.mkWindowsApp;
+          wine = pkgs.winePackages.stableFull; 
+          wineArch = "win32";
+          copyDesktopIcons = lib.copyDesktopIcons;
+          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         wineshell-wine = callPackage ./pkgs/wineshell/default.nix {
