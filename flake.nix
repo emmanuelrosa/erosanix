@@ -215,7 +215,7 @@
 
         sparrow-unwrapped = callPackage ./pkgs/sparrow/default.nix {
           openimajgrabber = callPackage ./pkgs/sparrow/openimajgrabber.nix {};
-          openjdk = pkgs.openjdk.override { enableJavaFX = true; };
+          openjdk = pkgs.openjdk21.override { enableJavaFX = true; };
         };
 
         sparrow = callPackage ./pkgs/sparrow/fhsenv.nix { 
