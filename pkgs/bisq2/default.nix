@@ -33,11 +33,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "bisq2";
-  version = "2.0.1";
+  version = "2.0.2";
 
   src = fetchurl {
-    url = "https://github.com/bisq-network/bisq2/releases/download/v{$version}/Bisq-64bit-${version}.deb";
-    sha256 = "1p7560si05x69jzfma2wjjhfnh30dzbq2w4l7azc4j8v7vip3qn9";
+    url = "https://github.com/bisq-network/bisq2/releases/download/v{$version}/Bisq-${version}.deb";
+    sha256 = "048g93qcrn3da6h2hxhqkk0cjpbg2qymgqx2i2m41nk85lr2pkzj";
   };
 
   nativeBuildInputs = [
