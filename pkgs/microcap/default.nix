@@ -46,9 +46,9 @@ in mkWindowsApp rec {
     cp -rf "${src}/."     "$WINEPREFIX/drive_c/microcap"
     ls                    "$WINEPREFIX/drive_c/microcap"
     $WINE                 "$WINEPREFIX/drive_c/microcap/setup.exe" /s /sms
+    wineserver -w         # Wait for the above wine process to finish
     chmod -R 777          "$WINEPREFIX/drive_c/microcap"
     rm -rf                "$WINEPREFIX/drive_c/microcap"
-    wineserver -w
   '';
 
   winAppRun = winAppRuns."${wineArch}";
