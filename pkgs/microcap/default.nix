@@ -41,12 +41,15 @@ in mkWindowsApp rec {
   issFile = ./setup.iss;
   
   winAppInstall = ''
-    cp "${issFile}" "$WINEPREFIX/drive_c/"
-    cp "${src}/setup.exe" "$WINEPREFIX/drive_c/"
-    $WINE "$WINEPREFIX/drive_c/setup.exe" /s /sms
+    mkdir                 "$WINEPREFIX/drive_c/microcap"
+    cp "${issFile}"       "$WINEPREFIX/drive_c/microcap/setup.iss"
+    cp -rf "${src}/."     "$WINEPREFIX/drive_c/microcap"
+    ls                    "$WINEPREFIX/drive_c/microcap"
+    $WINE                 "$WINEPREFIX/drive_c/microcap/setup.exe" /s /sms
+    chmod -R 777          "$WINEPREFIX/drive_c/microcap"
+    rm -rf                "$WINEPREFIX/drive_c/microcap"
     wineserver -w
   '';
-  #$WINE "${src}/setup.exe"
 
   winAppRun = winAppRuns."${wineArch}";
 
