@@ -324,6 +324,10 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
           openjdk = pkgs.openjdk.override { enableJavaFX = true; };
         };
+
+        bisq2 = callPackage ./pkgs/bisq2/default.nix { 
+          openjdk = pkgs.openjdk.override { enableJavaFX = true; };
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
