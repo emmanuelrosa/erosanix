@@ -35,7 +35,9 @@ in mkWindowsApp rec {
 
   fileMap = {
     # This file is changed on runtime, so we'll have to link it
-    "$HOME/.config/Micro-Cap/mcap.dat" = "drive_c/MC12/MCAP.dat";
+    "$HOME/.config/Micro-Cap/mcap.dat" = "drive_c/MC12/mcap.dat";
+    "$HOME/.config/Micro-Cap/DATA" = "drive_c/MC12/DATA"; # User files.
+    "$HOME/.cache/Micro-Cap/LIBRARY" = "drive_c/MC12/LIBRARY"; # Cached files.
   };
   
   issFile = ./setup.iss;
@@ -44,7 +46,7 @@ in mkWindowsApp rec {
     mkdir                 "$WINEPREFIX/drive_c/microcap"
     cp "${issFile}"       "$WINEPREFIX/drive_c/microcap/setup.iss"
     cp -rf "${src}/."     "$WINEPREFIX/drive_c/microcap"
-    ls                    "$WINEPREFIX/drive_c/microcap"
+    winetricks winxp
     $WINE                 "$WINEPREFIX/drive_c/microcap/setup.exe" /s /sms
     wineserver -w         # Wait for the above wine process to finish
     chmod -R 777          "$WINEPREFIX/drive_c/microcap"
