@@ -1,6 +1,6 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
 { stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, unionfs-fuse
-, libnotify, dxvk, mangohud, util-linux }:
+, libnotify, dxvk, mangohud, util-linux, coreutils }:
 { wine
 , wineArch ? "win32"
 , winAppRun
@@ -118,7 +118,7 @@ let
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
-    PATH="$PATH:${makeBinPath [ wine winetricks cabextract gnused unionfs-fuse libnotify util-linux ]}"
+    PATH="${makeBinPath [ coreutils wine winetricks cabextract gnused unionfs-fuse libnotify util-linux ]}:$PATH"
     MY_PATH="@MY_PATH@"
     OUT_PATH="@out@"
     ARGS="$@"
