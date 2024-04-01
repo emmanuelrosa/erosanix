@@ -240,7 +240,7 @@
           zenity = pkgs.gnome.zenity;
         };
 
-        microcap = callPackage ./pkgs/microcap.nix { 
+        microcap = callPackage ./pkgs/microcap { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.wineWowPackages.stableFull; 
           wineArch = "win64";
@@ -390,7 +390,7 @@
           rbxfpsunlocker = null;
         };
 
-        microcap = callPackage ./pkgs/microcap.nix { 
+        microcap = callPackage ./pkgs/microcap { 
           mkWindowsApp = lib.mkWindowsApp;
           wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";

@@ -11,7 +11,7 @@
 , copyDesktopIcons
 , ... }: let
   pname = "microcap";
-  version = "12.2.0.2"; # The final version, I suppose
+  version = "12.2.0.5"; # The final version, I suppose
 
   # Press 'F' for Spectrum Software
   src = fetchzip {
@@ -37,11 +37,16 @@ in mkWindowsApp rec {
     # This file is changed on runtime, so we'll have to link it
     "$HOME/.config/Micro-Cap/mcap.dat" = "drive_c/MC12/MCAP.dat";
   };
-
+  
+  issFile = ./setup.iss;
+  
   winAppInstall = ''
-    $WINE "${src}/setup.exe"
+    cp "${issFile}" "$WINEPREFIX/drive_c/"
+    cp "${src}/setup.exe" "$WINEPREFIX/drive_c/"
+    $WINE "$WINEPREFIX/drive_c/setup.exe" /s /sms
     wineserver -w
   '';
+  #$WINE "${src}/setup.exe"
 
   winAppRun = winAppRuns."${wineArch}";
 
