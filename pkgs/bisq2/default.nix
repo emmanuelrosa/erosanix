@@ -11,6 +11,7 @@
 , bash
 , tor
 , zip
+, gnupg
 }:
 
 let
@@ -30,6 +31,10 @@ let
 
     exec ${tor}/bin/tor "$@"
   '';
+
+  # Alejandro Garcia's public key was obtained from 
+  # https://bisq.network/pubkey/E222AA02.asc
+  publicKey = ./pubkey.asc;
 in
 stdenv.mkDerivation rec {
   pname = "bisq2";
@@ -40,12 +45,18 @@ stdenv.mkDerivation rec {
     sha256 = "048g93qcrn3da6h2hxhqkk0cjpbg2qymgqx2i2m41nk85lr2pkzj";
   };
 
+  signature = fetchurl {
+    url = "https://github.com/bisq-network/bisq2/releases/download/v{$version}/Bisq-${version}.deb.asc";
+    sha256 = "1p8q7zfnd73if6xnwvy5vy3vd5hpb8ldakpxwk54kvql38vwniav";
+  };
+
   nativeBuildInputs = [
     copyDesktopItems
     dpkg
     imagemagick
     makeWrapper
     zip
+    gnupg
   ];
 
   desktopItems = [
@@ -69,6 +80,18 @@ stdenv.mkDerivation rec {
   ];
 
   unpackPhase = ''
+    # Verify the upstream Debian package prior to extraction.
+    # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
+    # This ensures that a successful build of this Nix package requires the Debian
+    # package to pass verification.
+    export GNUPGHOME=$(mktemp -d)
+    cp $src $GNUPGHOME/Bisq-${version}.deb
+    cp $signature $GNUPGHOME/signature.asc
+    gpg --import ${publicKey}
+    pushd $GNUPGHOME
+    gpg --batch --verify signature.asc Bisq-${version}.deb
+    popd
+
     dpkg -x $src .
   '';
 
