@@ -23,6 +23,8 @@ let
     # whereas Nix only scans for hashes in uncompressed text.
     # ${bisq-tor}
 
+    rm -fR $HOME/.local/share/Bisq2/tor
+
     exec "${openjdk}/bin/java" -Djpackage.app-version=@version@ -classpath @out@/lib/app/desktop-app-launcher.jar:@out@/lib/app/* ${args} bisq.desktop_app_launcher.DesktopAppLauncher "$@"
   '';
 
