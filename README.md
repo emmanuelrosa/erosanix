@@ -1,4 +1,5 @@
-# erosanix unless you run the garbage collector periodically. See the documentation at sds(http://local).
+# erosanix
+ 
 This repository includes misc. Nix packages, NixOS modules, and Nix functions. This repo also functions as a Nix User Repository (NUR), and replaces my old NUR `emmanuelrosa`.
 
 ## Setup as a Nix Flake
