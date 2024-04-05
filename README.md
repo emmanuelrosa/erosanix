@@ -1,4 +1,4 @@
-# erosanix
+# erosanix unless you run the garbage collector periodically. See the documentation at sds(http://local).
 This repository includes misc. Nix packages, NixOS modules, and Nix functions. This repo also functions as a Nix User Repository (NUR), and replaces my old NUR `emmanuelrosa`.
 
 ## Setup as a Nix Flake
@@ -83,6 +83,8 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 This repo has quite a variety of packages.
 
 #### Wine-compatible Windows applications 
+
+*WARNING:* The following Wine-compatible applications utilize my Nix derivation function `mkWindowsApp`, which creates something similar to the Nix store at `$HOME/.cache/mkWindowsApp`. Like the Nix store, this storage location will consume a lot of disk space over time unless you run the garbage collector periodically. See the [documentation](pkgs/mkwindowsapp/).
 
 - **caustic** - A music creation tool inspired by rack-mount synthesizers / samplers rigs.
 - **amazon-kindle** - Buy once, read everywhere. Sign in with an Amazon account, and sync Kindle books across all your devices that have the Kindle app installed and across any Kindle device.
