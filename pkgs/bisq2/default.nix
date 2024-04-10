@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenvNoCC
 , lib
 , makeWrapper
 , fetchurl
@@ -38,7 +38,7 @@ let
   # https://bisq.network/pubkey/E222AA02.asc
   publicKey = ./pubkey.asc;
 in
-stdenv.mkDerivation rec {
+stdenvNoCC.mkDerivation rec {
   pname = "bisq2";
   version = "2.0.3";
 
