@@ -88,7 +88,7 @@
       hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
-        er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
+        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsApp;
@@ -178,7 +178,7 @@
           wrapper = pkgs.writeShellScript "qutebrowser-hardware-accelerated" ''
             "@EXECUTABLE@" --qt-flag ignore-gpu-backlist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag enable-accelerated-video-decode "$@"
           '';
-        in self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper;
+        in pkgs.lib.trivial.warn "qutebrowser-hardware-accelerated will be removed from the erosanix flake." (self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper);
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
           inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
@@ -205,9 +205,9 @@
           zenity = pkgs.gnome.zenity;
         };
 
-        specter-desktop = callPackage ./pkgs/specter-desktop/default.nix {
+        specter-desktop = pkgs.lib.trivial.warn "specter-desktop will be removed from the erosanix flake." (callPackage ./pkgs/specter-desktop/default.nix {
           inherit (lib) makeDesktopIcon copyDesktopIcons;
-        };
+        });
 
         blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
@@ -226,7 +226,7 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        gossip-full = callPackage ./pkgs/gossip-full/default.nix { };
+        gossip-full = pkgs.lib.trivial.warn "gossip-full will be removed from the erosanix flake." (callPackage ./pkgs/gossip-full/default.nix { });
 
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
           inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
@@ -339,7 +339,7 @@
       callPackage = pkgs.callPackage;
       hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
-        er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
+        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.i686-linux = let
@@ -352,7 +352,7 @@
       hsCallPackage = pkgs.haskellPackages.callPackage;
       lib = self.lib.i686-linux;
       in {
-        er-wallpaper = hsCallPackage ./pkgs/er-wallpaper.nix { };
+        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
@@ -363,10 +363,10 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        vim-desktop = callPackage ./pkgs/vim-desktop.nix {
+        vim-desktop = pkgs.lib.trivial.warn "vim-desktop will be removed from the erosanix flake." (callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
           copyDesktopIcons = lib.copyDesktopIcons;
-        };
+        });
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           mkWindowsApp = lib.mkWindowsApp;

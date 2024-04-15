@@ -7,7 +7,7 @@ in {
   options = {
 
     services.electrum-personal-server = {
-      enable = mkEnableOption "Enable the Electrum Personal Server as a systemd user service. Requires services.bitcoind";
+      enable = lib.trivial.warm "services.electrum-personal-server will be removed from the erosanix flake." (mkEnableOption "Enable the Electrum Personal Server as a systemd user service. Requires services.bitcoind");
 
       configFile = mkOption {
         type = types.str;
