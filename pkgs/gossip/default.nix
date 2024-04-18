@@ -11,9 +11,10 @@
 , fontconfig
 , dbus
 , pipewire
+, libxkbcommon
 }: stdenv.mkDerivation rec {
   name = "gossip";
-  version = "0.9.0"; #:version:
+  version = "0.10.0"; #:version:
 
   nativeBuildInputs = [ dpkg copyDesktopIcons autoPatchelfHook stdenv.cc.cc.libgcc ];
   runtimeDependencies = [ xorg.libX11 
@@ -26,6 +27,7 @@
                           xorg.libXext
                           xorg.libXfixes
                           xorg.libXrender
+                          libxkbcommon
                           dbus
                           pipewire
                           libGL
@@ -34,8 +36,9 @@
                         ];
 
   src = fetchurl {
-    url = "https://github.com/mikedilger/gossip/releases/download/v${version}/gossip_${version}_amd64.deb";
-    sha256 = "0b6jkz6wggck8smrhkcjlcb2h6q4b2hp7kmx0vm0npyn1b60lxl3"; #:hash:
+    url = "https://github.com/mikedilger/gossip/releases/download/v${version}/gossip_${version}-1_amd64.deb";
+    sha256 = "sha256-QeZx6lcYWfwARVdjdnVKNFWoLaXKQHFzAk4TybUuh14=
+"; #:hash:
   };
 
   unpackPhase = ''
