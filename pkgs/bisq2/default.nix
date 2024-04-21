@@ -40,16 +40,16 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "bisq2";
-  version = "2.0.2";
+  version = "2.0.3";
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "048g93qcrn3da6h2hxhqkk0cjpbg2qymgqx2i2m41nk85lr2pkzj";
+    sha256 = "sha256-Fh0A3mfjkmLcTqb0u0CXXeTtt2dNnmIPtDbR9mhajyM=";
   };
 
   signature = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb.asc";
-    sha256 = "1p8q7zfnd73if6xnwvy5vy3vd5hpb8ldakpxwk54kvql38vwniav";
+    sha256 = "sha256-tWX90ZCmIDZx1bgLo8gra5JIyn+BKQB1R9TbkqSG+dQ=";
   };
 
   nativeBuildInputs = [
