@@ -45,6 +45,25 @@ stdenv.mkDerivation rec {
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
     sha256 = "sha256-Fh0A3mfjkmLcTqb0u0CXXeTtt2dNnmIPtDbR9mhajyM=";
+
+    # Verify the upstream Debian package prior to extraction.
+    # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
+    # This ensures that a successful build of this Nix package requires the Debian
+    # package to pass verification.
+    nativeBuildInputs = [ gnupg ];
+    downloadToTemp = true;
+
+    postFetch = ''
+      pushd $(mktemp -d)
+      export GNUPGHOME=./gnupg
+      mkdir -m 700 -p $GNUPGHOME
+      ln -s $downloadedFile ./Bisq-${version}.deb
+      ln -s ${signature} ./signature.asc
+      gpg --import ${publicKey}
+      gpg --batch --verify signature.asc Bisq-${version}.deb
+      popd
+      mv $downloadedFile $out
+    '';
   };
 
   signature = fetchurl {
@@ -82,18 +101,6 @@ stdenv.mkDerivation rec {
   ];
 
   unpackPhase = ''
-    # Verify the upstream Debian package prior to extraction.
-    # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
-    # This ensures that a successful build of this Nix package requires the Debian
-    # package to pass verification.
-    export GNUPGHOME=$(mktemp -d)
-    cp $src $GNUPGHOME/Bisq-${version}.deb
-    cp $signature $GNUPGHOME/signature.asc
-    gpg --import ${publicKey}
-    pushd $GNUPGHOME
-    gpg --batch --verify signature.asc Bisq-${version}.deb
-    popd
-
     dpkg -x $src .
   '';
 
