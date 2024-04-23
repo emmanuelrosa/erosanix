@@ -11,5 +11,5 @@ libupdate.mkUpdateScript {
     versionConverter = "${pkgs.gnused}/bin/sed 's/v//'";
   };
 
-  getRemoteHash = libupdate.prefetchUrl "https://github.com/mikedilger/gossip/releases/download/v$version/gossip_$version_amd64.deb";
+  getRemoteHash = libupdate.prefetchUrl "https://github.com/mikedilger/gossip/releases/download/v$version/gossip_$version-1_amd64.deb";
 }
