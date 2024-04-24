@@ -13,11 +13,11 @@ mkWindowsApp rec {
   inherit wine;
 
   pname = "line";
-  version = "8.5.3.3252"; #:version:
+  version = "8.7.0.3302"; #:version:
 
   src = fetchurl {
     url = "https://desktop.line-scdn.net/win/new/LineInst.exe";
-    sha256 = "1qnxawxm56pggnwznn8wl1b007ilak5i49m2qnjxh5243immwb0h"; #:hash:
+    sha256 = "0drhafb68kg6qr1m0r2d68grwvda87l80vv9cd32gpj00j95d59r"; #:hash:
   };
 
   dontUnpack = true;
@@ -39,7 +39,7 @@ mkWindowsApp rec {
   '';
 
   winAppRun = '' 
-    $WINE start /unix "$WINEPREFIX/drive_c/users/$USER/AppData/Local/LINE/bin/${version}/LineLauncher.exe"
+    $WINE start /unix "$WINEPREFIX/drive_c/users/$USER/AppData/Local/LINE/bin/LineLauncher.exe"
   '';
 
   installPhase = ''
