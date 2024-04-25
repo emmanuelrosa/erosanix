@@ -1,4 +1,5 @@
 { stdenv
+, stdenvNoCC
 , lib
 , makeWrapper
 , fetchurl
@@ -31,9 +32,9 @@ let
     # nativeBuildInputs, downloadToTemp, and postFetch are used to verify the signed upstream package.
     # The signature is not a self-contained file. Instead the SHA256 of the package is added to a manifest file.
     # The manifest file is signed by the owner of the public key, Craig Raw.
-    # Thus to verify the signed package, the manifest is verified with the public key, 
+    # Thus to verify the signed package, the manifest is verified with the public key,
     # and then the package is verified against the manifest.
-    # The public key is obtained from https://keybase.io/craigraw/pgp_keys.asc 
+    # The public key is obtained from https://keybase.io/craigraw/pgp_keys.asc
     # and is included in this repo to provide reproducibility.
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -111,7 +112,7 @@ let
     exec ${tor}/bin/tor "$@"
   '';
 
-  jdk-modules = stdenv.mkDerivation {
+  jdk-modules = stdenvNoCC.mkDerivation {
     name = "jdk-modules";
     nativeBuildInputs = [ openjdk ];
     dontUnpack = true;
@@ -132,7 +133,7 @@ let
     '';
   };
 
-  sparrow-modules = stdenv.mkDerivation {
+  sparrow-modules = stdenvNoCC.mkDerivation {
     pname = "sparrow-modules";
     inherit version src;
     nativeBuildInputs = [ makeWrapper gzip gnugrep openjdk autoPatchelfHook stdenv.cc.cc.lib zlib ];
@@ -187,7 +188,6 @@ let
       # with one from Nixpkgs.
       gzip -c ${torWrapper}  > tor.gz
       cp tor.gz modules/kmp.tor.binary.linuxx64/kmptor/linux/x64/tor.gz
-      find modules
     '';
 
     installPhase = ''
@@ -199,7 +199,7 @@ let
     '';
   };
 in
-stdenv.mkDerivation rec {
+stdenvNoCC.mkDerivation rec {
   inherit version src;
   pname = "sparrow-unwrapped";
   nativeBuildInputs = [ makeWrapper copyDesktopItems ];
@@ -217,7 +217,7 @@ stdenv.mkDerivation rec {
     })
   ];
 
-  sparrow-icons = stdenv.mkDerivation {
+  sparrow-icons = stdenvNoCC.mkDerivation {
     inherit version src;
     pname = "sparrow-icons";
     nativeBuildInputs = [ imagemagick ];
