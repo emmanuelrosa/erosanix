@@ -1,21 +1,11 @@
 { stdenv
 , lib
-, runCommand
 , writeScript
 , bash
 , zig
 , git
+, shim
 }: let
-  shim-cpp = ./shim.cpp;
-
-  # It can take a while to build the shim with Zig/clang due to the need to build some Windows libraries first.
-  # Therefore, I put the shim build in a separate derivation.
-  shim = runCommand "cl.exe" { } ''
-    export ZIG_GLOBAL_CACHE_DIR=$(mktemp -d)
-    export ZIG_LOCAL_CACHE_DIR=$(mktemp -d)
-    ${zig}/bin/zig c++ -x c++ -std=c++20 -target x86_64-windows ${shim-cpp} -o $out
-  '';
-
   # The shim can't execute the compiler directly because it's a Linux ELF executable.
   # Instead, it calls a BASH script which the Wine cmd.exe implementation
   # recognizes as a Linux executable, and is able to execute.

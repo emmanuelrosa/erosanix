@@ -106,7 +106,13 @@
           msvcShim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim;
         };
 
-        sierrachart-zig-msvc-shim = callPackage ./pkgs/sierrachart-zig-msvc-shim { };
+        sierrachart-zig-msvc-shim-exec = callPackage ./pkgs/sierrachart-zig-msvc-shim/shim.nix { };
+        sierrachart-zig-msvc-shim-bin-exec = callPackage ./pkgs/sierrachart-zig-msvc-shim/shim-bin.nix { };
+
+        sierrachart-zig-msvc-shim = callPackage ./pkgs/sierrachart-zig-msvc-shim { 
+            shim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim-exec;
+        };
+
         sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
