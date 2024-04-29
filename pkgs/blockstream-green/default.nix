@@ -19,6 +19,7 @@
 , pulseaudio
 , hwi
 , xcb-util-cursor
+, gnupg
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
   version = "2.0.4"; #:version:#
@@ -26,6 +27,31 @@
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen-Linux-x86_64.tar.gz";
     sha256 = "0qhy2qnanq0mfhhcq8n46c52ncacwynf499v6wr91yqrjg1fclrm"; #:hash:
+
+    nativeBuildInputs = [ gnupg ];
+    downloadToTemp = true;
+
+    postFetch = ''
+      pushd $(mktemp -d)
+      export GNUPGHOME=./gnupg
+      mkdir -m 700 -p $GNUPGHOME
+      ln -s $downloadedFile ./BlockstreamGreen-Linux-x86_64.tar.gz
+      ln -s ${manifest} ./manifest.asc
+      gpg --import ${publicKey}
+      gpg --verify manifest.asc
+      sha256sum -c --ignore-missing manifest.asc
+      popd
+      mv $downloadedFile $out
+    '';
+  };
+
+  # Blockstream's GPG key was obtained from 
+  # https://blockstream.com/pgp.txt
+  publicKey = ./pubkey.asc;
+
+  manifest = fetchurl {
+    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
+    sha256 = "sha256-VVsYPXCltw/R1g4HOA+9l9PzxWGKKAO2NbVOzYjb2Mg=";
   };
 
   setSourceRoot = ''
