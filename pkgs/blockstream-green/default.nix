@@ -111,7 +111,7 @@
     name = pname;
     src = fetchurl {
       url = "https://github.com/Blockstream/green_qt/raw/release_${version}/assets/icons/green.png";
-      sha256 = "0y808kcv53bvlkw2ha9w8a8fnl01y24i5jgfmw54iv9hlskr7l65";
+      sha256 = "sha256-xdCTp6Yw7UgKr+7JEonwAVDrkEI8KSj4pHuNstlEAHk=";
     };
   };
 
