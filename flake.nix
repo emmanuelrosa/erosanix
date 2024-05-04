@@ -22,6 +22,11 @@
         makeBinPath = pkgs.lib.makeBinPath; 
       };
 
+      mkWindowsAppNoCC = callPackage ./pkgs/mkwindowsapp { 
+        stdenv = pkgs.stdenvNoCC;
+        makeBinPath = pkgs.lib.makeBinPath; 
+      };
+
       copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
 
@@ -66,6 +71,11 @@
         makeBinPath = pkgs.lib.makeBinPath; 
       };
 
+      mkWindowsAppNoCC = callPackage ./pkgs/mkwindowsapp { 
+        stdenv = pkgs.stdenvNoCC;
+        makeBinPath = pkgs.lib.makeBinPath; 
+      };
+
       copyDesktopIcons = pkgs.makeSetupHook { name = "copyDesktopIcons"; } ./hooks/copy-desktop-icons.sh;
       makeDesktopIcon = callPackage ./lib/makeDesktopIcon.nix {};
       compose = trivial.compose;
@@ -91,7 +101,7 @@
         er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full; 
           wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -99,7 +109,7 @@
         };
 
         sierrachart = callPackage ./pkgs/sierrachart { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
@@ -116,14 +126,14 @@
         sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         send-to-kindle = callPackage ./pkgs/send-to-kindle.nix { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
@@ -138,7 +148,7 @@
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -146,7 +156,8 @@
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          inherit (lib) copyDesktopIcons makeDesktopIcon;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full;
           wineArch = "win64";
           rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
@@ -155,27 +166,29 @@
         rbxfpsunlocker = callPackage ./pkgs/rbxfpsunlocker.nix { };
 
         rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full;
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         line = callPackage ./pkgs/line.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         sable = callPackage ./pkgs/sable/default.nix { 
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          inherit (lib) copyDesktopIcons makeDesktopIcon;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         lego-builders-journey = callPackage ./pkgs/lego-builders-journey/default.nix { 
-          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull;
           zenity = pkgs.gnome.zenity;
         };
@@ -187,26 +200,29 @@
         in pkgs.lib.trivial.warn "qutebrowser-hardware-accelerated will be removed from the erosanix flake." (self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper);
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
-          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.stableFull;
           zenity = pkgs.gnome.zenity;
         };
 
         caustic = callPackage ./pkgs/caustic/default.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         chess-ultra = callPackage ./pkgs/chess-ultra/default.nix {
-          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         tunche = callPackage ./pkgs/tunche/default.nix {
-          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
@@ -235,19 +251,21 @@
         gossip-full = pkgs.lib.trivial.warn "gossip-full will be removed from the erosanix flake." (callPackage ./pkgs/gossip-full/default.nix { });
 
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
-          inherit (lib) mkWindowsApp makeDesktopIcon copyDesktopIcons;
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         black-book = callPackage ./pkgs/black-book/default.nix { 
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          inherit (lib) copyDesktopIcons makeDesktopIcon;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         microcap = callPackage ./pkgs/microcap { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.stableFull; 
           wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -362,7 +380,7 @@
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -375,7 +393,7 @@
         });
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
@@ -383,21 +401,22 @@
         };
 
         caustic = callPackage ./pkgs/caustic/default.nix {
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          inherit (lib) copyDesktopIcons makeDesktopIcon;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull;
           wineArch = "win32";
           rbxfpsunlocker = null;
         };
 
         microcap = callPackage ./pkgs/microcap { 
-          mkWindowsApp = lib.mkWindowsApp;
+          mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;

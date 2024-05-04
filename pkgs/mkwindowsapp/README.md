@@ -20,6 +20,13 @@ These layers are stored not in the Nix store, but rather in `$HOME/.cache/mkWind
 
 ## FAQ
 
+### What is mkWindowsAppNoCC?
+
+There are two variants of the mkWindowsApp function:
+
+1. `mkWindowsApp` - This is the original version and it uses Nixpkgs' `stdenv`, which includes the `gcc` compiler.
+2. `mkWindowsAppNoCC - This is the same as `mkWindowsApp` except that it uses Nixpkgs' `stdenvNoCC`, therefore it doesn't include the `gcc` compiler. This reduces the number of dependencies, making the derivation "lighter." You can probably use this variant and it will work just fine.
+
 ### Since Wine Bottles are temporary, what happens to files created when a Windows application is running? 
  
 -Any files not saved outside of the Wine Bottle are discarded as well. Therefore, package maintainers must account for where important files are stored, such as configuration files, to ensure they are stored outside of the Wine Bottle; See the section [How to persist settings](#how-to-persist-settings). In addition, users must ensure to use the Z:\ drive when saving important information. 
