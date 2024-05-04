@@ -23,10 +23,11 @@
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
   version = "2.0.4"; #:version:#
+  archiveName = "BlockstreamGreen-linux-x86_64.tar.gz";
 
   src = fetchurl {
-    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/BlockstreamGreen-Linux-x86_64.tar.gz";
-    sha256 = "0qhy2qnanq0mfhhcq8n46c52ncacwynf499v6wr91yqrjg1fclrm"; #:hash:
+    url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
+    sha256 = "sha256-NVPmwpMZ+5AyNzsl4qznTDErCjPEIswgdBVgqywWHmI="; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -35,7 +36,7 @@
       pushd $(mktemp -d)
       export GNUPGHOME=./gnupg
       mkdir -m 700 -p $GNUPGHOME
-      ln -s $downloadedFile ./BlockstreamGreen-Linux-x86_64.tar.gz
+      ln -s $downloadedFile ./${archiveName}
       ln -s ${manifest} ./manifest.asc
       gpg --import ${publicKey}
       gpg --verify manifest.asc
@@ -45,8 +46,9 @@
     '';
   };
 
-  # Blockstream's GPG key was obtained from 
-  # https://blockstream.com/pgp.txt
+  # Blockstream's GPG key was obtained as follows: 
+  # gpg --keyserver keyserver.ubuntu.com --recv-keys "04BE BF2E 35A2 AF2F FDF1 FA5D E7F0 54AA 2E76 E792"
+  # See https://help.blockstream.com/hc/en-us/articles/900002174043-How-do-I-verify-the-Blockstream-Green-binaries
   publicKey = ./pubkey.asc;
 
   manifest = fetchurl {
