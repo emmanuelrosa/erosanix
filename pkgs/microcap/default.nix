@@ -89,8 +89,8 @@ in mkWindowsApp rec {
     name = pname;
     icoIndex = 0;
     src = fetchurl {
-      url = "https://web.archive.org/web/20230214034930if_/http://www.spectrum-soft.com/favicon.ico";
-      sha256 = "sha256-VdV81naOG9o0wVZNZj6n5sl39/TPzy0Zofk2DDZXZYk=";
+      url = "https://upload.wikimedia.org/wikipedia/en/7/76/Micro-Cap12.JPG";
+      sha256 = "sha256-GPmiKeKoGVpIzvhPK1awaRscUtUbg58dBr3TtVQ7gvc=";
     };
   };
 
