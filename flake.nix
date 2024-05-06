@@ -132,13 +132,13 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        send-to-kindle = callPackage ./pkgs/send-to-kindle.nix { 
+        send-to-kindle = pkgs.lib.trivial.warn "send-to-kindle will be removed from the erosanix flake. Instead, use https://www.amazon.com/sendtokindle" (callPackage ./pkgs/send-to-kindle.nix { 
           mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
           zenity = pkgs.gnome.zenity;
-        };
+        });
 
         vim-desktop = callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
