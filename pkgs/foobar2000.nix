@@ -17,6 +17,7 @@ mkWindowsApp rec {
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
   fileMapDuringAppInstall = true;
+  enableMonoBootPrompt = false;
 
   src = {
     win32 = fetchurl {
