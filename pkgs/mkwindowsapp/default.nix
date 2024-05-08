@@ -30,6 +30,11 @@
   # Acceptable attributes, all of which default to the boolean value 'true', are:
   # desktop, documents, downloads, music, pictures, and videos.
 , enabledWineSymlinks ? { }
+
+  # By default, when a Wine prefix is first created Wine will produce a warning prompt if Mono is not installed.
+  # This doesn't happen with the Wine "full" packages, but it does happen with the "base" packages.
+  # When this option is set to 'false', DLL overrides are used when the Wine prefix is created, to bypass the prompt.
+, enableMonoBootPrompt ? true
 , ... } @ attrs:
 let
   api = "1"; # IMPORTANT: Make sure this corresponds with WA_API in libwindowsapp.bash
@@ -80,9 +85,14 @@ let
   fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
   persistFilesScript = withFileMap (dest: src: ''persist_file "${src}" "${dest}"'');
 
+  # Wine DLL overrides which are used *only* when the Wine prefix is created.
+  # It may be useful to expose this as an argument to mkWindowsApp.
+  # But for now it's only used internally.
+  bootDLLOverrides = if enableMonoBootPrompt then "" else "mscoree=d;mshtml=d";
+
   winLayerHash = {
-    "store-path" = builtins.hashString "sha256" "${wine} ${api}";
-    "version" = builtins.hashString "sha256" "${wine.version} ${api}";
+    "store-path" = builtins.hashString "sha256" "${wine} ${bootDLLOverrides} ${api}";
+    "version" = builtins.hashString "sha256" "${wine.version} ${bootDLLOverrides} ${api}";
   }."${inputHashMethod}";
 
   appLayerHash = {
@@ -270,7 +280,7 @@ let
       fi
 
       bottle=$(wa_init_bottle $win_layer $app_layer)
-      wa_with_bottle $bottle "" "mk_windows_layer"
+      wa_with_bottle $bottle "${bootDLLOverrides}" "mk_windows_layer"
       wa_remove_bottle $bottle
       wa_close_layer $WIN_LAYER_HASH
 
