@@ -110,7 +110,7 @@
 
         sierrachart = callPackage ./pkgs/sierrachart { 
           mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.wine64Packages.stableFull; 
+          wine = pkgs.wine64Packages.base; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
           msvcShim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim;

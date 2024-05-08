@@ -50,6 +50,7 @@ in mkWindowsApp rec {
   dontUnpack = true;
   wineArch = "win64";
   persistRegistry = true;
+  enableMonoBootPrompt = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
   fileMap = { "$HOME/.local/share/${pname}/Data" = "drive_c/SierraChart/Data"; 
