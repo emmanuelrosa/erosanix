@@ -140,10 +140,10 @@
           zenity = pkgs.gnome.zenity;
         });
 
-        vim-desktop = callPackage ./pkgs/vim-desktop.nix {
+        vim-desktop = pkgs.lib.trivial.warn "vim-desktop will be removed from the erosanix flake." (callPackage ./pkgs/vim-desktop.nix {
           makeDesktopIcon = lib.makeDesktopIcon;
           copyDesktopIcons = lib.copyDesktopIcons;
-        };
+        });
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
@@ -430,7 +430,7 @@
           wineFlavor = "wine";
         };
 
-        wineshell-wine-vulkan = self.packages.x86-linux.wineshell-wine.override {
+        wineshell-wine-vulkan = self.packages.i686-linux.wineshell-wine.override {
           enableVulkan = true;
         };
 
@@ -441,7 +441,7 @@
           wineFlavor = "wine";
         };
 
-        winerun-wine-vulkan = self.packages.x86-linux.winerun-wine.override {
+        winerun-wine-vulkan = self.packages.i686-linux.winerun-wine.override {
           enableVulkan = true;
         };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
