@@ -102,7 +102,7 @@
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.wineWowPackages.full; 
+          wine = pkgs.wineWowPackages.base; 
           wineArch = "win64";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
@@ -381,7 +381,7 @@
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.winePackages.stableFull; 
+          wine = pkgs.winePackages.base; 
           wineArch = "win32";
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
