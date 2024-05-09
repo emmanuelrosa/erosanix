@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     const std::string OUTPUT_FILE = R"(C:\msvc-shim-output.txt)";
     std::string sourceFiles;
     std::string outputDll;
-    std::string command = R"(C:\mingw\bin\g++.exe -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -fno-exceptions -std=gnu++17 -Wno-deprecated )"; 
+    std::string command = R"(C:\mingw\bin\g++.exe -D _WIN64 -U NOMINMAX -march=x86-64 -mtune=x86-64 -O2 -shared -static -static-libgcc -static-libstdc++ -s -fno-rtti -std=gnu++17 -fexceptions -Wno-deprecated )"; 
     bool collectSourceFiles = false;
     bool enableDebugging = false;
 
