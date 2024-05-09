@@ -19,9 +19,14 @@
     ${zig}/bin/zig c++ -x c++ -std=c++20 -target x86_64-windows ${shim-cpp} -o $out
   '';
 
-  mingw-src = fetchurl {
-    url = "https://github.com/brechtsanders/winlibs_mingw/releases/download/13.1.0-11.0.0-msvcrt-r5/winlibs-x86_64-mcf-seh-gcc-13.1.0-mingw-w64msvcrt-11.0.0-r5.zip";
-    sha256 = "1qal22px4bs3p52c1kqxf7m15hbk2kfd0wi7hgljx2ava9cnb8cw";
+  mingw-src = let
+    gccVersion = "14.1.0";
+    llvmVersion = "18.1.5";
+    mingwVersion = "11.0.1";
+    release = "r1";
+  in fetchurl {
+    url = "https://github.com/brechtsanders/winlibs_mingw/releases/download/${gccVersion}posix-${llvmVersion}-${mingwVersion}-ucrt-${release}/winlibs-x86_64-posix-seh-gcc-${gccVersion}-mingw-w64ucrt-${mingwVersion}-${release}.7z";
+    sha256 = "sha256-tAWTLUeJ7hppotzjBqtmcmgdjWNR3TIXVVzMS+pViUE=";
   };
 
   mingw = runCommand "mingw" { } ''
