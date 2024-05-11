@@ -35,7 +35,7 @@
     while getopts :do:s: flag
     do
       case "''${flag}" in
-        d) extra="-O0 -g --verbose";;
+        d) extra="-g -gdwarf-2 -O0 --verbose";;
         o) dllFile=$(eval echo ''${OPTARG});;
         s) sourceFiles="$sourceFiles $(eval echo ''${OPTARG})";;
       esac

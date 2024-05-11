@@ -70,7 +70,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    if(enableDebugging) command.append("-O0 -g --verbose ");
+    if(enableDebugging) command.append("-g -gdwarf-2 -O0 --verbose ");
     command.append(sourceFiles).append(" -o ").append(outputDll);
     command.append(" > ").append(OUTPUT_FILE).append(" 2>&1");
 
