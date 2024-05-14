@@ -152,7 +152,6 @@ let
     send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
-    rbxfpsunlocker = ./updaters/rbxfpsunlocker.nix;
     rtrader-pro = ./updaters/rtrader-pro.nix;
     line = ./updaters/line.nix;
     specter-desktop = ./updaters/specter-desktop.nix;
