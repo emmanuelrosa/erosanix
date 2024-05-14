@@ -155,16 +155,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) copyDesktopIcons makeDesktopIcon;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.wineWowPackages.full;
-          wineArch = "win64";
-          rbxfpsunlocker = self.packages.x86_64-linux.rbxfpsunlocker;
-        };
-
-        rbxfpsunlocker = callPackage ./pkgs/rbxfpsunlocker.nix { };
-
         rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
           mkWindowsApp = lib.mkWindowsAppNoCC;
           wine = pkgs.wineWowPackages.full;
@@ -405,14 +395,6 @@
           wine = pkgs.winePackages.stableFull; 
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
-        };
-
-        roblox = callPackage ./pkgs/roblox/default.nix {
-          inherit (lib) copyDesktopIcons makeDesktopIcon;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.winePackages.stableFull;
-          wineArch = "win32";
-          rbxfpsunlocker = null;
         };
 
         microcap = callPackage ./pkgs/microcap { 

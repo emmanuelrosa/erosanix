@@ -96,7 +96,6 @@ This repo has quite a variety of packages.
 - **line** - LINE is new level of communication, and the very infrastructure of your life.
 - **notepad++** - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
 - **rbxfpsunlocker** - FPS Unlocker for Roblox
-- **roblox** - An online game platform and game creation system developed by Roblox Corporation that allows users to program games and play games created by other users.
 - **rtrader** - Rithmic professional trading software.
 - **sable** - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
 - **send-to-kindle** - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
