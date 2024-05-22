@@ -176,12 +176,6 @@
           zenity = pkgs.gnome.zenity;
         };
 
-        qutebrowser-hardware-accelerated = let
-          wrapper = pkgs.writeShellScript "qutebrowser-hardware-accelerated" ''
-            "@EXECUTABLE@" --qt-flag ignore-gpu-backlist --qt-flag enable-gpu-rasterization --qt-flag enable-native-gpu-memory-buffers --qt-flag enable-accelerated-video-decode "$@"
-          '';
-        in pkgs.lib.trivial.warn "qutebrowser-hardware-accelerated will be removed from the erosanix flake." (self.lib.x86_64-linux.genericBinWrapper pkgs.qutebrowser wrapper);
-
         duskers = callPackage ./pkgs/duskers/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
           mkWindowsApp = lib.mkWindowsAppNoCC;
