@@ -154,7 +154,6 @@ let
     notepad-plus-plus = ./updaters/notepad++.nix;
     rtrader-pro = ./updaters/rtrader-pro.nix;
     line = ./updaters/line.nix;
-    specter-desktop = ./updaters/specter-desktop.nix;
     blockstream-green = ./updaters/blockstream-green.nix;
     gossip = ./updaters/gossip.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 

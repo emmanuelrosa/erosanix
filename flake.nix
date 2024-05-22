@@ -217,10 +217,6 @@
           zenity = pkgs.gnome.zenity;
         };
 
-        specter-desktop = pkgs.lib.trivial.warn "specter-desktop will be removed from the erosanix flake." (callPackage ./pkgs/specter-desktop/default.nix {
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-        });
-
         blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
