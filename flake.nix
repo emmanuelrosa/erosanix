@@ -130,14 +130,6 @@
           makeDesktopIcon = lib.makeDesktopIcon;
         };
 
-        send-to-kindle = pkgs.lib.trivial.warn "send-to-kindle will be removed from the erosanix flake. Instead, use https://www.amazon.com/sendtokindle" (callPackage ./pkgs/send-to-kindle.nix { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
-          wine = pkgs.wineWowPackages.full; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
-          zenity = pkgs.gnome.zenity;
-        });
-
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {

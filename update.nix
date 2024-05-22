@@ -149,7 +149,6 @@ let
     sierrachart = ./updaters/sierrachart.nix;
     battery-icons-font = ./updaters/battery-icons-font.nix;
     trace-font = ./updaters/trace-font.nix;
-    send-to-kindle = ./updaters/send-to-kindle.nix;
     foobar2000 = ./updaters/foobar2000.nix;
     notepad-plus-plus = ./updaters/notepad++.nix;
     rtrader-pro = ./updaters/rtrader-pro.nix;
@@ -179,7 +178,7 @@ let
       quick = pkgs.writeScript "update-quick.bash" ''
         #!${pkgs.bash}/bin/bash
 
-        ${script (builtins.removeAttrs updaters [ "send-to-kindle" "battery-icons-font" "trace-font" "rtrader-pro" "line" ])}
+        ${script (builtins.removeAttrs updaters [ "battery-icons-font" "trace-font" "rtrader-pro" "line" ])}
       '';
     };
   };
