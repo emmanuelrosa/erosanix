@@ -95,10 +95,8 @@
 
       callPackage = pkgs.callPackage;
       lib = self.lib.x86_64-linux;
-      hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
-        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
           mkWindowsApp = lib.mkWindowsAppNoCC;
@@ -347,9 +345,7 @@
       };
 
       callPackage = pkgs.callPackage;
-      hsCallPackage = pkgs.haskellPackages.callPackage;
       in {
-        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.i686-linux = let
@@ -359,10 +355,8 @@
       };
 
       callPackage = pkgs.callPackage;
-      hsCallPackage = pkgs.haskellPackages.callPackage;
       lib = self.lib.i686-linux;
       in {
-        er-wallpaper = pkgs.lib.trivial.warn "er-wallpaper will be removed from the erosanix flake." (hsCallPackage ./pkgs/er-wallpaper.nix { });
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
