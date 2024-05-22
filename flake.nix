@@ -138,11 +138,6 @@
           zenity = pkgs.gnome.zenity;
         });
 
-        vim-desktop = pkgs.lib.trivial.warn "vim-desktop will be removed from the erosanix flake." (callPackage ./pkgs/vim-desktop.nix {
-          makeDesktopIcon = lib.makeDesktopIcon;
-          copyDesktopIcons = lib.copyDesktopIcons;
-        });
-
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
@@ -366,11 +361,6 @@
           copyDesktopIcons = lib.copyDesktopIcons;
           makeDesktopIcon = lib.makeDesktopIcon;
         };
-
-        vim-desktop = pkgs.lib.trivial.warn "vim-desktop will be removed from the erosanix flake." (callPackage ./pkgs/vim-desktop.nix {
-          makeDesktopIcon = lib.makeDesktopIcon;
-          copyDesktopIcons = lib.copyDesktopIcons;
-        });
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           mkWindowsApp = lib.mkWindowsAppNoCC;
