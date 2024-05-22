@@ -221,8 +221,6 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        gossip-full = pkgs.lib.trivial.warn "gossip-full will be removed from the erosanix flake." (callPackage ./pkgs/gossip-full/default.nix { });
-
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
           inherit (lib) makeDesktopIcon copyDesktopIcons;
           mkWindowsApp = lib.mkWindowsAppNoCC;
