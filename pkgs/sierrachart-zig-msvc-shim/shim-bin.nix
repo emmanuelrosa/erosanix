@@ -4,8 +4,7 @@
 # Using this shim package avoids the long compilation time by using a compiled copy
 # of the shim already stored in this Nix flake.
 # This shim package is NOT the default; For transparency, the source-based shim package is the default.
-{ stdenv
-, runCommand
+{ runCommand
 }:runCommand "cl.exe" { } ''
     cp ${./shim.exe} $out
   ''

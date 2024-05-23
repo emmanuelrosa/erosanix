@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenvNoCC
 , lib
 , writeScript
 , bash
@@ -75,7 +75,7 @@
     ln -s ${shim} $WINEPREFIX/drive_c/windows/cl.exe
     ln -s ${runner} $WINEPREFIX/drive_c/msvc-shim/runner.sh
   '';
-in stdenv.mkDerivation {
+in stdenvNoCC.mkDerivation {
   name = "sierrachart-zig-msvc-shim";
   outputs = [ "out" "shim" "installer" ];
   src = ./.;

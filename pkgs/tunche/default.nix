@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , makeDesktopItem
@@ -16,7 +15,7 @@ let
   gameDir = "$HOME/Games/${title}";
   wineGameDir = "drive_c/Program Files/Epic Games/${title}";
   exePath = "$WINEPREFIX/${wineGameDir}/${title}.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableHUD enableVulkan;
 
   pname = "tunche";

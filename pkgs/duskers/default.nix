@@ -1,9 +1,8 @@
 # NOTE: If you don't run the game in "windowed mode" then you may need to use your window manager to bring the game into focus
 # before it will accept keyboard input.
 # Vulkan implementations of D3D (ex. Wine's Vulkan, DXVK) don't work.
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , dxvk
@@ -19,7 +18,7 @@ let
   gameDir = "$HOME/Games/${title}";
   wineGameDir = "drive_c/Program Files/Epic Games/${title}";
   exePath = "$WINEPREFIX/${wineGameDir}/${title}.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableHUD;
 
   pname = "duskers";

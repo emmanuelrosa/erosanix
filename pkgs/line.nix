@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , findutils
@@ -9,7 +8,7 @@
 , copyDesktopItems
 , copyDesktopIcons
 }:
-mkWindowsApp rec {
+mkWindowsAppNoCC rec {
   inherit wine;
 
   pname = "line";

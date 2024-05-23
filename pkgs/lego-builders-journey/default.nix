@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , makeDesktopItem
 , makeDesktopIcon
@@ -13,7 +12,7 @@
 let
   gameDir = "$HOME/Games/LEGOBuildersJourney";
   exePath = "${gameDir}/Builder's Journey.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableVulkan enableHUD;
 
   pname = "lego-builders-journey";

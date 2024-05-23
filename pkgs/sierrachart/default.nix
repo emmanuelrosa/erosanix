@@ -1,6 +1,6 @@
-{ stdenv
+{ stdenvNoCC
 , lib
-, mkWindowsApp
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , makeDesktopItem
@@ -22,9 +22,9 @@
   };
 
   defaultStudies = {
-    stdenv
+    stdenvNoCC
     , unzip
-    }: stdenv.mkDerivation {
+    }: stdenvNoCC.mkDerivation {
       inherit src;
       name = "sierrachart-default-studies";
       buildInputs = [ unzip ];
@@ -44,7 +44,7 @@
         cp Data/UserContributedStudies_64.dll $out/lib
       '';
     };
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine src version;
   pname = "sierrachart-${instanceName}";
   dontUnpack = true;
@@ -106,7 +106,7 @@ in mkWindowsApp rec {
     ${lib.optionalString enableCompilerShim msvcShim.installer}
   '';
 
-  joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ (defaultStudies { inherit stdenv unzip; }) studies ]; };
+  joinedStudies = symlinkJoin { name = "sierrachart-studies"; paths = [ (defaultStudies { inherit stdenvNoCC unzip; }) studies ]; };
 
   installStudyDeps = ''
     # Create symlinks to Sierra Chart studies dependencies

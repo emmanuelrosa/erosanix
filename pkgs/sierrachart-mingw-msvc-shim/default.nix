@@ -1,4 +1,4 @@
-{ stdenv
+{ stdenvNoCC
 , lib
 , runCommand
 , fetchurl
@@ -56,7 +56,7 @@
     ln -s ${mingw} $WINEPREFIX/drive_c/mingw
     ln -s ${shim} $WINEPREFIX/drive_c/windows/cl.exe
   '';
-in stdenv.mkDerivation {
+in stdenvNoCC.mkDerivation {
   name = "sierrachart-mingw-msvc-shim";
   outputs = [ "out" "shim" "installer" ];
   src = ./.;

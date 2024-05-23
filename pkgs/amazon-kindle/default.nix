@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , makeDesktopItem
@@ -11,7 +10,7 @@
 let
   # settings.reg disables auto updates and sets the content dir to C:\KindleContent
   settings = ./settings.reg;
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine;
 
   pname = "amazon-kindle";

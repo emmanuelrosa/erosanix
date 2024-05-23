@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , dxvk
@@ -17,7 +16,7 @@ let
   gameDir = "$HOME/Games/Sable";
   wineGameDir = "drive_c/Program Files/Epic Games/Sable";
   exePath = "$WINEPREFIX/${wineGameDir}/Sable.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableVulkan enableHUD;
 
   pname = "sable";

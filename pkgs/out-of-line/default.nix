@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , dxvk
@@ -17,7 +16,7 @@ let
   gameDir = "$HOME/Games/OutofLine";
   wineGameDir = "drive_c/Program Files/Epic Games/OutofLine";
   exePath = "$WINEPREFIX/${wineGameDir}/Out of Line.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableVulkan enableHUD;
 
   pname = "out-of-line";

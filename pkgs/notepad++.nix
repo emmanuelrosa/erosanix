@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , wineArch
 , fetchurl
@@ -23,7 +22,7 @@ let
       sha256 = "1jck9n4i55c4h25hv6s47bs8zj464lgzqwfpi3czi4yp3632yqc1"; #:hash32:
     };
   };
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit version wine wineArch;
 
   pname = "notepad-plus-plus-${wineArch}";

@@ -1,6 +1,5 @@
-{ stdenv
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , fetchurl
 , makeDesktopItem
@@ -15,7 +14,7 @@ let
   gameDir = "$HOME/Games/BlackBook";
   wineGameDir = "drive_c/Program Files/Epic Games/BlackBook";
   exePath = "$WINEPREFIX/${wineGameDir}/Black Book.exe";
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit wine enableVulkan enableHUD;
 
   pname = "black-book";

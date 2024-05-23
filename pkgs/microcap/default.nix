@@ -1,6 +1,5 @@
-{ pkgs
-, lib
-, mkWindowsApp
+{ lib
+, mkWindowsAppNoCC
 , wine
 , wineArch
 , fetchzip
@@ -28,7 +27,7 @@
       wine "$WINEPREFIX/drive_c/MC12/mc12_64.exe" "$ARGS"
     '';
   };
-in mkWindowsApp rec {
+in mkWindowsAppNoCC rec {
   inherit pname src version wine wineArch;
 
   name = pname;

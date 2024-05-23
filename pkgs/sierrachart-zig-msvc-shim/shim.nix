@@ -1,5 +1,4 @@
-{ stdenv
-, runCommand
+{ runCommand
 , zig
 }:runCommand "cl.exe" { } ''
     export ZIG_GLOBAL_CACHE_DIR=$(mktemp -d)

@@ -1,7 +1,6 @@
-{ stdenv
-, lib
+{ lib
 , fetchurl
-, mkWindowsApp
+, mkWindowsAppNoCC
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
@@ -9,7 +8,7 @@
 , wine
 , instanceName ? "default" # This should be alphanumeric, no spaces
 }:
-mkWindowsApp rec {
+mkWindowsAppNoCC rec {
   inherit wine;
 
   pname = "rtrader-pro-${instanceName}";

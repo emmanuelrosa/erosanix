@@ -99,18 +99,14 @@
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.base; 
           wineArch = "win64";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         sierrachart = callPackage ./pkgs/sierrachart { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.base; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
           msvcShim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim;
         };
 
@@ -124,74 +120,59 @@
         sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.full; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.base; 
           wineArch = "win64";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.full;
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         line = callPackage ./pkgs/line.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.full; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         sable = callPackage ./pkgs/sable/default.nix { 
-          inherit (lib) copyDesktopIcons makeDesktopIcon;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         lego-builders-journey = callPackage ./pkgs/lego-builders-journey/default.nix { 
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull;
           zenity = pkgs.gnome.zenity;
         };
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wineWowPackages.stableFull;
           zenity = pkgs.gnome.zenity;
         };
 
         caustic = callPackage ./pkgs/caustic/default.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.stableFull; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         chess-ultra = callPackage ./pkgs/chess-ultra/default.nix {
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         tunche = callPackage ./pkgs/tunche/default.nix {
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
@@ -214,25 +195,21 @@
         };
 
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         black-book = callPackage ./pkgs/black-book/default.nix { 
-          inherit (lib) copyDesktopIcons makeDesktopIcon;
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
 
         microcap = callPackage ./pkgs/microcap { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.stableFull; 
           wineArch = "win64";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
@@ -302,7 +279,7 @@
         };
 
         out-of-line = callPackage ./pkgs/out-of-line/default.nix { 
-          inherit (lib) mkWindowsApp copyDesktopIcons makeDesktopIcon;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
           zenity = pkgs.gnome.zenity;
         };
@@ -339,34 +316,26 @@
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
 
         notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.base; 
           wineArch = "win32";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.base; 
           wineArch = "win32";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         caustic = callPackage ./pkgs/caustic/default.nix {
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.stableFull; 
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         microcap = callPackage ./pkgs/microcap { 
-          mkWindowsApp = lib.mkWindowsAppNoCC;
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";
-          copyDesktopIcons = lib.copyDesktopIcons;
-          makeDesktopIcon = lib.makeDesktopIcon;
         };
 
         wineshell-wine = callPackage ./pkgs/wineshell/default.nix {
