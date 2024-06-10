@@ -139,7 +139,7 @@ stdenvNoCC.mkDerivation rec {
     homepage = "https://bisq.network";
     sourceProvenance = with sourceTypes; [ binaryBytecode ];
     license = licenses.mit;
-    maintainers = with maintainers; [ juaningan emmanuelrosa ];
+    maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" ];
   };
 }
