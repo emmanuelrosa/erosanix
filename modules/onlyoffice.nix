@@ -9,7 +9,7 @@ let
   x11Fonts = pkgs.runCommand "X11-fonts" { preferLocalBuild = true; } ''
     mkdir -p "$out"
     font_regexp='.*\.\(ttf\|ttc\|otf\|pcf\|pfa\|pfb\|bdf\)\(\.gz\)?'
-    find ${toString config.fonts.fonts} -regex "$font_regexp" \
+    find ${toString config.fonts.packages} -regex "$font_regexp" \
       -exec cp '{}' "$out" \;
     cd "$out"
     ${pkgs.gzip}/bin/gunzip -f *.gz
