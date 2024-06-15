@@ -12,6 +12,7 @@
 , dbus
 , pipewire
 , libxkbcommon
+, wayland
 }: stdenv.mkDerivation rec {
   name = "gossip";
   version = "0.10.1"; #:version:
@@ -33,6 +34,7 @@
                           libGL
                           openssl 
                           fontconfig 
+                          wayland
                         ];
 
   src = fetchurl {
