@@ -78,6 +78,7 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 - **onlyoffice** - Sets up ONLYOFFICE such that it can access your system fonts. 
 - **protonvpn** - Facade for Wireguard's "quick" to easily connect to a ProvonVPN server.
 - **sendtome** - Sets up a simple `sendmail` implementation which copies messages to a Maildir directory.
+- **udiskie** - Sets up a systemd user service to start udiskie. Also enables `services.udisks2`.
 
 ### Packages
 
