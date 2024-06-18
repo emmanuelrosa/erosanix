@@ -5,4 +5,5 @@
   pdf2png = ./pkgs/pdf2png.nix;
   rofi-menu = ./pkgs/rofi-menu.nix;
   bitcoin-onion-nodes = ./pkgs/bitcoin-onion-nodes.nix;
+  baby-plums-font = ./pkgs/baby-plums-font/default.nix;
 }
