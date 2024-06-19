@@ -7,4 +7,5 @@
   bitcoin-onion-nodes = ./pkgs/bitcoin-onion-nodes.nix;
   baby-plums-font = ./pkgs/baby-plums-font/default.nix;
   uchrony-circle-slab-font = ./pkgs/uchrony-circle-slab-font/default.nix;
+  kg-counting-stars-font = ./pkgs/kg-counting-stars-font/default.nix;
 }
