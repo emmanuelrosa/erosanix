@@ -12,11 +12,11 @@ mkWindowsAppNoCC rec {
   inherit wine;
 
   pname = "line";
-  version = "8.7.0.3302"; #:version:
+  version = "9.0.1.3361"; #:version:
 
   src = fetchurl {
     url = "https://desktop.line-scdn.net/win/new/LineInst.exe";
-    sha256 = "0drhafb68kg6qr1m0r2d68grwvda87l80vv9cd32gpj00j95d59r"; #:hash:
+    sha256 = "1w8apqfkr4m4r1k85pan776dvjlysxdbyilpl6ypykiqh1dclg2k"; #:hash:
   };
 
   dontUnpack = true;
