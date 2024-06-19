@@ -1,6 +1,6 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
 { stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, unionfs-fuse
-, libnotify, dxvk, mangohud, util-linux, coreutils }:
+, libnotify, dxvk, mangohud, util-linux, coreutils, writeScript, rsync }:
 { wine
 , wineArch ? "win32"
 , winAppRun
@@ -152,58 +152,7 @@ let
       ${if enableInstallNotification then "notify-send -i $icon \"$msg\"" else "echo 'Notifications are disabled. Ignoring.'"}
     }
 
-    map_file () {
-      local s=$1
-      local d="$WINEPREFIX/$2"
-
-      echo "Mapping $s to $d"
-
-       if [ -e "$d" ]
-       then
-         local base_dir=$(dirname "$s")
-
-         mkdir -p "$base_dir"
-
-         if [ -f "$d" ]
-         then
-           cp -v -n "$d" "$s"
-         fi
-
-         if [ -d "$d" ]
-         then
-           cp -v -r -n "$d" "$base_dir"
-         fi
-       fi
-
-       if [ -e "$s" ]
-       then
-         local base_dir=$(dirname "$d")
-         local base_name=$(basename "$d")
-
-         mv -v "$d" "$base_dir/$base_name.$(uuidgen | head -c 8)"
-         mkdir -p "$base_dir"
-         ln -s -v "$s" "$d"
-       fi
-    }
-
-    persist_file () {
-      local s="$WINEPREFIX/$1"
-      local d="$2"
-      local base_dir=$(dirname "$d")
-
-      echo "Persisting $s to $d"
-      mkdir -p "$base_dir"
-
-      if [ -f "$s" ]
-      then
-        cp -v -n "$s" "$d"
-      fi
-
-      if [ -d "$s" ]
-      then
-        cp -v -r -n "$s" "$base_dir"
-      fi
-    }
+    ${builtins.readFile (import ./filemap.nix { inherit writeScript rsync; })}
 
     mk_windows_layer () {
       echo "Building a Windows $WINEARCH layer at $WINEPREFIX..."
