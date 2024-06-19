@@ -20,8 +20,6 @@ stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    ls -l
-    find .
     mkdir -p $out/share/fonts/${pname}
     mkdir -p $out/share/doc/${pname}
 
