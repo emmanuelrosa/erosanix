@@ -17,7 +17,7 @@
 }: let
   version = "2647"; #:version:
   src = fetchurl {
-    url = "https://www.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
+    url = "https://download2.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
     sha256 = "02s9hc58wp89iynspcalp7qvqhzgl61na08lmckg1if9gkbiahik"; #:hash:
   };
 
