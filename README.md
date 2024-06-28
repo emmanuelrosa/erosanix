@@ -66,6 +66,7 @@ The NUR-based setup differs from a normal NUR because this repo is not published
 - **mkSierraChartStudyFromSrc** - A simple derivation function to cross-compile studies (indicators) for the Sierra Chart trading platform.
 - **mkSierraChartStudyFromDLL** - A simple derivation function install studies DLL's (indicators) for the Sierra Chart trading platform.
 - **torsocks** - Uses `torsocks` to allow you to use most applications in a safe way with Tor. Beware that torsocks it has its limits.
+- **nanogl** - Used to run OpenGL applications on Linux distributions other than NixOS, using Mesa drivers; NVIDIA drivers are not included. Based on [nixGL](https://github.com/nix-community/nixGL).
 
 ### NixOS modules
 

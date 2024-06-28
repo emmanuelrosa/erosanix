@@ -56,6 +56,10 @@
       torsocks = callPackage ./lib/torsocks.nix { 
         genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
       };
+
+      nanogl = callPackage ./lib/nanogl.nix { 
+        genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
+      };
     };
 
     lib.i686-linux = let
