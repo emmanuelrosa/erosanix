@@ -15,10 +15,10 @@
 , msvcShim
 , enableCompilerShim ? false
 }: let
-  version = "2653"; #:version:
+  version = "2654"; #:version:
   src = fetchurl {
     url = "https://download2.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip";
-    sha256 = "0g4d986zcjhg44iwc62b4v526h7ffn1jicjzrgjh7326dr9hbc6q"; #:hash:
+    sha256 = "1wwrjdpk1dzx9zv9dqv9jm0wdv4wpkll6g2j4hhj0ng7yk7hgkih"; #:hash:
   };
 
   defaultStudies = {
