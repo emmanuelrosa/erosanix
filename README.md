@@ -97,11 +97,8 @@ This repo has quite a variety of packages.
 - **lego-builders-journey** - A puzzle game developed by Light Brick Studio and published by Lego Games.
 - **line** - LINE is new level of communication, and the very infrastructure of your life.
 - **notepad++** - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
-- **rbxfpsunlocker** - FPS Unlocker for Roblox
 - **rtrader** - Rithmic professional trading software.
 - **sable** - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
-- **send-to-kindle** - Send your personal and business documents to read them anytime, everywhere on Kindle devices and reading apps.
-- **sierrachart** - A professional desktop Trading and Charting platform for the financial markets, supporting connectivity to various exchanges and backend trading platform services.
 - **tunche** - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
 - **horizon-chase-turbo** - A racing game inspired by the great hits of the 80's and 90's: Out Run, Lotus Turbo Challenge, Top Gear (SNES), Rush, among others. Each curve and each lap in Horizon Chase Turbo recreates classic arcade gameplay and offers you unbound speed limits of fun. Full throttle on and enjoy!
 - **black-book** - A dark RPG Adventure, based on Slavic mythology, in which you play as a young sorceress. Battle evil forces, aid commonfolk and travel across the rural countryside, where humans live alongside mythological creatures.
@@ -115,21 +112,22 @@ This repo has quite a variety of packages.
 - **nvidia-offload** - A script to run the specified program using NVIDIA offload rendering.
 - **pdf2png** - A simple pdf to png converter.
 - **rofi-menu** - My custom rofi menu scripts.
-- **vim-desktop** - A .desktop file to execute VIM using alacritty.
 - **gossip** - A desktop client for nostr.
-- **gossip-full** - A desktop client for nostr. Built from source, and enables video playback and CJK fonts.
 - **alice3** - An innovative block-based programming environment that makes it easy to create animations, build interactive narratives, or program simple games in 3D.
 
 #### Bitcoin utilities
   
 - **electrum-personal-server** - An lightweight, single-user implementation of the Electrum server protocol.
-- **specter-desktop** - A desktop GUI for Bitcoin Core optimised to work with hardware wallets.
 - **bitcoin-onion-nodes** - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
 - **blockstream-green** - A multi-platform, feature-rich Bitcoin and Liquid wallet.
 - **bisq2** - A decentralized bitcoin exchange network.
 
 #### Fonts
 
-- **battery-icons-font** - A font containing nothing but batteries.
-- **century-gothic** - Century Gothic font.
-- **trace-font** - Trace font.
+- battery-icons-font
+- century-gothic
+- trace-font
+- baby-plums-font
+- bubble-dance-monogram-font
+- kg-counting-stars-font
+- uchrony-circle-slab-font
