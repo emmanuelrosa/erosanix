@@ -15,7 +15,7 @@
 , wayland
 }: stdenv.mkDerivation rec {
   name = "gossip";
-  version = "0.10.1"; #:version:
+  version = "0.11"; #:version:
 
   nativeBuildInputs = [ dpkg copyDesktopIcons autoPatchelfHook stdenv.cc.cc.libgcc ];
   runtimeDependencies = [ xorg.libX11 
@@ -38,9 +38,8 @@
                         ];
 
   src = fetchurl {
-    url = "https://github.com/mikedilger/gossip/releases/download/v${version}/gossip_${version}-1_amd64.deb";
-    sha256 = "sha256-baFXKQX2lYqkBqu7nw9HG2uyEQF1eLADvGBWP9qbLDs=
-"; #:hash
+    url = "https://github.com/mikedilger/gossip/releases/download/v${version}/gossip_${version}.0-1_amd64.deb";
+    sha256 = "sha256-BsvkhNcaQwlaQZiTJ19g3/C+1S0/bTegIxSEsach0Bg="; #:hash
   };
 
   unpackPhase = ''
