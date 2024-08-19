@@ -40,11 +40,11 @@ let
 in
 stdenvNoCC.mkDerivation rec {
   pname = "bisq2";
-  version = "2.0.4";
+  version = "2.1.0";
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "sha256-eqn1feQyjKRoHcPSaO8FUlCCYxJNy1jue0upewvDaUg=";
+    sha256 = "sha256-nvJy7V0Jh0gWpDtj9tq4yjd/npOcy+wTo8YKAOJUOJs=";
 
     # Verify the upstream Debian package prior to extraction.
     # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
@@ -68,7 +68,7 @@ stdenvNoCC.mkDerivation rec {
 
   signature = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb.asc";
-    sha256 = "sha256-PkhIxI9IuMHWeu1JQHyhLHq+/L8hoeSUv7p4AnNKvKU=";
+    sha256 = "sha256-D8hLTTXTnoC75sePBZu2SO4I6DldwWNaxJCSDH+OElE=";
   };
 
   nativeBuildInputs = [
@@ -127,7 +127,7 @@ stdenvNoCC.mkDerivation rec {
 
     for n in 16 24 32 48 64 96 128 256; do
       size=$n"x"$n
-      convert opt/bisq2/lib/Bisq_2.png -resize $size bisq2.png
+      magick convert opt/bisq2/lib/Bisq2.png -resize $size bisq2.png
       install -Dm644 -t $out/share/icons/hicolor/$size/apps bisq2.png
     done;
 
