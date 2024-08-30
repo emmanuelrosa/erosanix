@@ -15,14 +15,21 @@ Setting up this repo as a Nix flake is no different than setting up any other fl
   ouputs = { self, nixpkgs, erosanix, ...}: {
     nixosConfigurations.blah = nixpkgs.lib.nixosSystem {
       ...
-      modules = [ erosanix.nixosModules.someModule ];
+      modules = [ erosanix.nixosModules.someModule ./configuration.nix ];
       ... 
-      environment.systemPackages = with pkgs; [
-        erosanix.packages.x86_64-linux.somePackage
-      ];
     };
   };
 };
+```
+
+*configuration.nix*
+```
+{ self, config, pkgs, lib, erosanix, ...}:
+{
+  environment.systemPackages = with pkgs; [
+    erosanix.packages.x86_64-linux.somePackage
+  ];
+}
 ```
 
 ## Setup as a NUR
