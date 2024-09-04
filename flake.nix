@@ -132,7 +132,7 @@
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wine64Packages.base; 
+          wine = pkgs.wine64Packages.stableFull; 
           wineArch = "win64";
         };
 
@@ -327,7 +327,7 @@
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.winePackages.base; 
+          wine = pkgs.winePackages.stableFull; 
           wineArch = "win32";
         };
 
