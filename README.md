@@ -32,34 +32,6 @@ Setting up this repo as a Nix flake is no different than setting up any other fl
 }
 ```
 
-## Setup as a NUR
-
-The NUR-based setup differs from a normal NUR because this repo is not published. Frankly, it's easier to set it up this way:
-
-*configuration.nix*
-```
-  ...
-  erosanixSrc = builtins.fetchTarball {
-    url = "https://github.com/emmanuelrosa/erosanix/archive/cb7298b0361716f4948424d9909312e9529b8b39.tar.gz";
-    sha256 = "0fckfx5sib3d4rjv6qzghlnkyrkcac9c9z1g84w9n6nkhy3h7s7b";
-  };
-  
-  # This is for NixOS modules
-  erosanixWithoutPkgs = import erosanixSrc { };
-  
-  # And this is for packages
-  erosanixPkgs = import erosanixSrc { inherit pkgs; };
-  ...
-  
-  imports =
-    [ erosanixWithoutPkgs.modules.someModule 
-    ];
-  
-  environment.systemPackages = with pkgs; [
-    erosanixPkgs.somePackage
-  ];
-```
-
 ## What's included?
 
 ### Library functions
