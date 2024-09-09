@@ -155,6 +155,7 @@ let
     line = ./updaters/line.nix;
     blockstream-green = ./updaters/blockstream-green.nix;
     gossip = ./updaters/gossip.nix;
+    bisq2 = ./updaters/bisq2.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     electrum-personal-server = { 
       derivationPath = ./pkgs/electrum-personal-server.nix;

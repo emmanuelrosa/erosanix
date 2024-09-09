@@ -40,11 +40,11 @@ let
 in
 stdenvNoCC.mkDerivation rec {
   pname = "bisq2";
-  version = "2.1.0";
+  version = "2.1.0"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "sha256-nvJy7V0Jh0gWpDtj9tq4yjd/npOcy+wTo8YKAOJUOJs=";
+    sha256 = "sha256-nvJy7V0Jh0gWpDtj9tq4yjd/npOcy+wTo8YKAOJUOJs="; #:hash:#
 
     # Verify the upstream Debian package prior to extraction.
     # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
