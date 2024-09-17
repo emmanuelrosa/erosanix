@@ -149,19 +149,19 @@
         sable = callPackage ./pkgs/sable/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         lego-builders-journey = callPackage ./pkgs/lego-builders-journey/default.nix { 
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull;
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wineWowPackages.base;
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         caustic = callPackage ./pkgs/caustic/default.nix {
@@ -172,13 +172,13 @@
         chess-ultra = callPackage ./pkgs/chess-ultra/default.nix {
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         tunche = callPackage ./pkgs/tunche/default.nix {
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         blockstream-green = callPackage ./pkgs/blockstream-green/default.nix { 
@@ -201,13 +201,13 @@
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         black-book = callPackage ./pkgs/black-book/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         microcap = callPackage ./pkgs/microcap { 
@@ -285,7 +285,7 @@
         out-of-line = callPackage ./pkgs/out-of-line/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.stableFull; 
-          zenity = pkgs.gnome.zenity;
+          zenity = pkgs.zenity;
         };
 
         alice3 = callPackage ./pkgs/alice/alice3.nix {
