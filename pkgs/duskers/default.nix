@@ -11,7 +11,7 @@
 , copyDesktopIcons
 , zenity
 , enableHUD ? false
-, gameDir ? "$HOME/Games/Duskers";
+, gameDir ? "$HOME/Games/Duskers"
 }:
 let
   title = "Duskers";
