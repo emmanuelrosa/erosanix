@@ -160,7 +160,7 @@
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
-          wine = pkgs.wineWowPackages.stableFull;
+          wine = pkgs.wineWowPackages.base;
           zenity = pkgs.gnome.zenity;
         };
 

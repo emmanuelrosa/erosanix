@@ -5,17 +5,16 @@
 , mkWindowsAppNoCC
 , wine
 , fetchurl
-, dxvk
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
 , copyDesktopIcons
 , zenity
 , enableHUD ? false
+, gameDir ? "$HOME/Games/Duskers";
 }:
 let
   title = "Duskers";
-  gameDir = "$HOME/Games/${title}";
   wineGameDir = "drive_c/Program Files/Epic Games/${title}";
   exePath = "$WINEPREFIX/${wineGameDir}/${title}.exe";
 in mkWindowsAppNoCC rec {
@@ -25,6 +24,7 @@ in mkWindowsAppNoCC rec {
   version = "unknown"; #:version:
   wineArch = "win64";
   persistRegistry = true;
+  enableMonoBootPrompt = false;
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
