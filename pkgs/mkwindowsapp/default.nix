@@ -74,7 +74,7 @@ let
                             "$HOME/.config/mkWindowsApp/${attrs.pname}/system.reg" = "system.reg";
     };
 
-    extraFileMap = if persistRegistry then defaultExtraFileMap else {};
+    extraFileMap = if persistRegistry then (if enableVulkan then abort "The mkWindowsApp function attributes 'persistRegistry' can't be used along with 'enableVulkan' (DXVK) at this time because it would lead to a failed DXVK installation." else defaultExtraFileMap) else {};
   in f: builtins.concatStringsSep "\n" (builtins.attrValues (builtins.mapAttrs f (fileMap // extraFileMap)));
 
   fileMappingScript = withFileMap (src: dest: ''map_file "${src}" "${dest}"'');
