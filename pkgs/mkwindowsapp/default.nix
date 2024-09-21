@@ -52,12 +52,7 @@ let
     wine-vulkan = setWineRenderer "vulkan";
     dxvk-vulkan = ''
       ${setWineRenderer "gl"}
-      ${dxvk}/bin/setup_dxvk.sh install
-
-      for dll in d3d9.dll d3d10.dll d3d10_1.dll d3d10core.dll d3d11.dll dxgi.dll mcfgthread-12.dll
-      do
-        $WINE reg add 'HKEY_CURRENT_USER\Software\Wine\DllOverrides' /v "$dll" /d native /f
-      done
+      ${dxvk}/bin/setup_dxvk.sh install --with-d3d10 --symlink
     '';
   }."${renderer}";
 
