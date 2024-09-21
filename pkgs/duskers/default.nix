@@ -1,6 +1,5 @@
 # NOTE: If you don't run the game in "windowed mode" then you may need to use your window manager to bring the game into focus
 # before it will accept keyboard input.
-# Vulkan implementations of D3D (ex. Wine's Vulkan, DXVK) don't work.
 { lib
 , mkWindowsAppNoCC
 , wine
@@ -10,6 +9,7 @@
 , copyDesktopItems
 , copyDesktopIcons
 , zenity
+, enableVulkan ? false
 , enableHUD ? false
 , gameDir ? "$HOME/Games/Duskers"
 }:
@@ -18,12 +18,11 @@ let
   wineGameDir = "drive_c/Program Files/Epic Games/${title}";
   exePath = "$WINEPREFIX/${wineGameDir}/${title}.exe";
 in mkWindowsAppNoCC rec {
-  inherit wine enableHUD;
+  inherit wine enableVulkan enableHUD;
 
   pname = "duskers";
   version = "unknown"; #:version:
   wineArch = "win64";
-  persistRegistry = true;
   enableMonoBootPrompt = false;
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
