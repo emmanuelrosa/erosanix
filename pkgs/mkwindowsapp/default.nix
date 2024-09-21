@@ -158,7 +158,7 @@ let
     mk_app_layer () {
       echo "Building an app layer at $WINEPREFIX..."
       show_notification "drive-harddisk" "Installing ${attrs.pname}..."
-      ${lib.optionalString fileMapDuringAppInstall fileMappingScript}
+      ${lib.optionalString fileMapDuringAppInstall (lib.warn "The mkWindowsApp fileMapDuringAppInstall attribute is deprecated." fileMappingScript)}
       ${setupRendererScript}
       ${wineUserProfileSymlinkScript}
       ${winAppInstall}
