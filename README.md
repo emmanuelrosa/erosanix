@@ -1,6 +1,6 @@
 # erosanix
  
-This repository includes misc. Nix packages, NixOS modules, and Nix functions. This repo also functions as a Nix User Repository (NUR), and replaces my old NUR `emmanuelrosa`.
+This repository includes misc. Nix packages, NixOS modules, and Nix functions.
 
 ## Setup as a Nix Flake
 
@@ -91,7 +91,7 @@ This repo has quite a variety of packages.
 - **nvidia-offload** - A script to run the specified program using NVIDIA offload rendering.
 - **pdf2png** - A simple pdf to png converter.
 - **rofi-menu** - My custom rofi menu scripts.
-- **gossip** - A desktop client for nostr.
+- **gossip** - A desktop client for Nostr.
 - **alice3** - An innovative block-based programming environment that makes it easy to create animations, build interactive narratives, or program simple games in 3D.
 
 #### Bitcoin utilities
@@ -100,6 +100,7 @@ This repo has quite a variety of packages.
 - **bitcoin-onion-nodes** - A list of over 1,000 Bitcoin Core nodes running as Tor v3 onion services or I2P nodes.
 - **blockstream-green** - A multi-platform, feature-rich Bitcoin and Liquid wallet.
 - **bisq2** - A decentralized bitcoin exchange network.
+_ **sparrow** - A Bitcoin wallet. 
 
 #### Fonts
 
