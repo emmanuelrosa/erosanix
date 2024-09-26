@@ -82,6 +82,7 @@ This repo has quite a variety of packages.
 - **horizon-chase-turbo** - A racing game inspired by the great hits of the 80's and 90's: Out Run, Lotus Turbo Challenge, Top Gear (SNES), Rush, among others. Each curve and each lap in Horizon Chase Turbo recreates classic arcade gameplay and offers you unbound speed limits of fun. Full throttle on and enjoy!
 - **black-book** - A dark RPG Adventure, based on Slavic mythology, in which you play as a young sorceress. Battle evil forces, aid commonfolk and travel across the rural countryside, where humans live alongside mythological creatures.
 - **microcap** - An integrated schematic editor and mixed analog/digital simulator.
+- **TOEM** -Set off on a delightful expedition and use your photographic eye to uncover the mysteries of the magical TOEM in this hand-drawn adventure game. Chat with quirky characters and solve their problems by snapping neat photos! 
 
 #### Misc utilities
   
