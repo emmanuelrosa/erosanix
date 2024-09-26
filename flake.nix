@@ -237,6 +237,30 @@
           wineFlavor = "wine";
         };
 
+        wineshell-wine64-base = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wine64Packages.base; 
+          wineArch = "win64";
+          wineFlavor = "wine64";
+          enableMonoBootPrompt = false;
+        };
+
+        wineshell-wineWow64-base = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.wineWowPackages.base;
+          wineArch = "win64";
+          wineFlavor = "wineWow64";
+          enableMonoBootPrompt = false;
+        };
+
+        wineshell-wine-base = callPackage ./pkgs/wineshell/default.nix {
+          inherit (lib) mkWindowsApp;
+          wine = pkgs.winePackages.base;
+          wineArch = "win32";
+          wineFlavor = "wine";
+          enableMonoBootPrompt = false;
+        };
+
         wineshell-wine64-vulkan = self.packages.x86_64-linux.wineshell-wine64.override {
           enableVulkan = true;
         };
@@ -246,6 +270,18 @@
         };
 
         wineshell-wine-vulkan = self.packages.x86_64-linux.wineshell-wine.override {
+          enableVulkan = true;
+        };
+
+        wineshell-wine64-base-vulkan = self.packages.x86_64-linux.wineshell-wine64-base.override {
+          enableVulkan = true;
+        };
+
+        wineshell-wineWow64-base-vulkan = self.packages.x86_64-linux.wineshell-wineWow64-base.override {
+          enableVulkan = true;
+        };
+
+        wineshell-wine-base-vulkan = self.packages.x86_64-linux.wineshell-wine-base.override {
           enableVulkan = true;
         };
 
