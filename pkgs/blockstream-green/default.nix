@@ -22,12 +22,12 @@
 , gnupg
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
-  version = "2.0.11"; #:version:#
+  version = "2.0.12"; #:version:#
   archiveName = "BlockstreamGreen-linux-x86_64.tar.gz";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "1j4s8js7hsi9rglmj2c66iqa2g45xszvaa7y0rikz65fw5cmz904"; #:hash:
+    sha256 = "03p1jxkrshbz4wj1pxb5kmwagnli8z1ks7pxdza7jnsqms2lc0bj"; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -53,7 +53,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-2SfwasZd+chZ5IJmEoT8a1gysP4Ly4WzvacuRkL7FX0=";
+    sha256 = "sha256-7pe9ry02gwf+WDKxFHq7lgWVojTHVN0509Xa1JmNiOI=";
   };
 
   setSourceRoot = ''
