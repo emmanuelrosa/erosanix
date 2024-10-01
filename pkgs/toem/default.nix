@@ -63,7 +63,7 @@ in mkWindowsAppNoCC rec {
       exec = pname;
       icon = pname;
       desktopName = "TOEM";
-      categories = [ "Game" "StrategyGame" ];
+      categories = [ "Game" "AdventureGame" ];
     })
   ];
 
