@@ -40,11 +40,11 @@ let
 in
 stdenvNoCC.mkDerivation rec {
   pname = "bisq2";
-  version = "2.1.0"; #:version:#
+  version = "2.1.2"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "sha256-nvJy7V0Jh0gWpDtj9tq4yjd/npOcy+wTo8YKAOJUOJs="; #:hash:#
+    sha256 = "0zgv70xlz3c9mrwmiaa1dgagbc441ppk2vrkgard8zjrvk8rg7va"; #:hash:
 
     # Verify the upstream Debian package prior to extraction.
     # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
@@ -68,7 +68,7 @@ stdenvNoCC.mkDerivation rec {
 
   signature = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb.asc";
-    sha256 = "sha256-D8hLTTXTnoC75sePBZu2SO4I6DldwWNaxJCSDH+OElE=";
+    sha256 = "sha256-WZhI8RDmb7nQqpCQJM86vrp8qQNg+mvRVdSPcDqgzxE=";
   };
 
   nativeBuildInputs = [
