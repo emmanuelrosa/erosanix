@@ -158,6 +158,12 @@
           zenity = pkgs.zenity;
         };
 
+        the-spirit-and-the-mouse = callPackage ./pkgs/the-spirit-and-the-mouse/default.nix { 
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
+          wine = pkgs.wine64Packages.base; 
+          zenity = pkgs.zenity;
+        };
+
         lego-builders-journey = callPackage ./pkgs/lego-builders-journey/default.nix { 
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull;
