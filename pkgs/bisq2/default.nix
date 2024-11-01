@@ -1,53 +1,67 @@
-{ stdenvNoCC
-, lib
-, makeWrapper
-, fetchurl
-, makeDesktopItem
-, copyDesktopItems
-, imagemagick
-, openjdk
-, dpkg
-, writeScript
-, bash
-, tor
-, zip
-, gnupg
+{
+  stdenvNoCC,
+  lib,
+  makeWrapper,
+  runtimeShell,
+  fetchurl,
+  makeDesktopItem,
+  copyDesktopItems,
+  imagemagick,
+  openjdk,
+  dpkg,
+  writeScript,
+  bash,
+  tor,
+  zip,
+  gnupg,
 }:
 
 let
-  bisq-launcher = args: writeScript "bisq-launcher" ''
-    #! ${bash}/bin/bash
+  version = "2.1.2";
 
-    # This is just a comment to convince Nix that Tor is a
-    # runtime dependency; The Tor binary is in a *.jar file,
-    # whereas Nix only scans for hashes in uncompressed text.
-    # ${bisq-tor}
+  bisq-launcher =
+    args:
+    writeScript "bisq-launcher" ''
+      #! ${runtimeShell}
 
-    rm -fR $HOME/.local/share/Bisq2/tor
+      # This is just a comment to convince Nix that Tor is a
+      # runtime dependency; The Tor binary is in a *.jar file,
+      # whereas Nix only scans for hashes in uncompressed text.
+      # ${lib.getExe' tor "tor"}
 
-    exec "${openjdk}/bin/java" -Djpackage.app-version=@version@ -classpath @out@/lib/app/desktop-app-launcher.jar:@out@/lib/app/* ${args} bisq.desktop_app_launcher.DesktopAppLauncher "$@"
-  '';
+      rm -fR $HOME/.local/share/Bisq2/tor
 
-  bisq-tor = writeScript "bisq-tor" ''
-    #! ${bash}/bin/bash
+      exec "${lib.getExe openjdk}" -Djpackage.app-version=@version@ -classpath @out@/lib/app/desktop-app-launcher.jar:@out@/lib/app/* ${args} bisq.desktop_app_launcher.DesktopAppLauncher "$@"
+    '';
 
-    exec ${tor}/bin/tor "$@"
-  '';
+  # A given release will be signed by either Alejandro Garcia or Henrik Jannsen
+  # as indicated in the file
+  # https://github.com/bisq-network/bisq2/releases/download/v${version}/signingkey.asc
+  publicKey =
+    {
+      "E222AA02" = fetchurl {
+        url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/E222AA02.asc";
+        sha256 = "sha256-31uBpe/+0QQwFyAsoCt1TUWRm0PHfCFOGOx1M16efoE=";
+      };
 
-  # Alejandro Garcia's public key was obtained from 
-  # https://bisq.network/pubkey/E222AA02.asc
-  publicKey = ./pubkey.asc;
+      "387C8307" = fetchurl {
+        url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/387C8307.asc";
+        sha256 = "sha256-PrRYZLT0xv82dUscOBgQGKNf6zwzWUDhriAffZbNpmI=";
+      };
+    }
+    ."387C8307";
 in
 stdenvNoCC.mkDerivation rec {
+  inherit version;
+
   pname = "bisq2";
-  version = "2.1.2"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "0zgv70xlz3c9mrwmiaa1dgagbc441ppk2vrkgard8zjrvk8rg7va"; #:hash:
+    sha256 = "0zgv70xlz3c9mrwmiaa1dgagbc441ppk2vrkgard8zjrvk8rg7va";
 
     # Verify the upstream Debian package prior to extraction.
-    # See https://bisq.wiki/Downloading_and_installing#Verify_installer_file
+    # See https://bisq.wiki/Bisq_2#Installation
     # This ensures that a successful build of this Nix package requires the Debian
     # package to pass verification.
     nativeBuildInputs = [ gnupg ];
@@ -78,25 +92,32 @@ stdenvNoCC.mkDerivation rec {
     makeWrapper
     zip
     gnupg
+    makeWrapper
   ];
 
   desktopItems = [
     (makeDesktopItem {
-      name = "Bisq2";
+      name = "bisq2";
       exec = "bisq2";
       icon = "bisq2";
-      desktopName = "Bisq ${version}";
+      desktopName = "Bisq 2";
       genericName = "Decentralized bitcoin exchange";
-      categories = [ "Network" "P2P" ];
+      categories = [
+        "Network"
+        "P2P"
+      ];
     })
 
     (makeDesktopItem {
-      name = "Bisq2-hidpi";
+      name = "bisq2-hidpi";
       exec = "bisq2-hidpi";
       icon = "bisq2";
-      desktopName = "Bisq ${version} (HiDPI)";
+      desktopName = "Bisq 2 (HiDPI)";
       genericName = "Decentralized bitcoin exchange";
-      categories = [ "Network" "P2P" ];
+      categories = [
+        "Network"
+        "P2P"
+      ];
     })
   ];
 
@@ -108,7 +129,7 @@ stdenvNoCC.mkDerivation rec {
     # Replace the Tor binary embedded in tor.jar (which is in the zip archive tor.zip)
     # with the Tor binary from Nixpkgs.
 
-    cp ${bisq-tor} ./tor
+    makeWrapper ${lib.getExe' tor "tor"} ./tor
     zip tor.zip ./tor
     zip opt/bisq2/lib/app/tor.jar tor.zip
   '';
@@ -135,9 +156,12 @@ stdenvNoCC.mkDerivation rec {
   '';
 
   meta = with lib; {
-    description = "A decentralized bitcoin exchange network";
+    description = "Decentralized bitcoin exchange network";
     homepage = "https://bisq.network";
-    sourceProvenance = with sourceTypes; [ binaryBytecode ];
+    mainProgram = "bisq2";
+    sourceProvenance = with sourceTypes; [
+      binaryBytecode
+    ];
     license = licenses.mit;
     maintainers = with maintainers; [ emmanuelrosa ];
     platforms = [ "x86_64-linux" ];
