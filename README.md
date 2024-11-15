@@ -83,6 +83,7 @@ This repo has quite a variety of packages.
 - **black-book** - A dark RPG Adventure, based on Slavic mythology, in which you play as a young sorceress. Battle evil forces, aid commonfolk and travel across the rural countryside, where humans live alongside mythological creatures.
 - **microcap** - An integrated schematic editor and mixed analog/digital simulator.
 - **TOEM** -Set off on a delightful expedition and use your photographic eye to uncover the mysteries of the magical TOEM in this hand-drawn adventure game. Chat with quirky characters and solve their problems by snapping neat photos! 
+- **Snakebird Complete** - Embark on an extraordinary puzzle-solving adventure bringing together hit classic Snakebird and Snakebird Primer.
 
 #### Misc utilities
   
