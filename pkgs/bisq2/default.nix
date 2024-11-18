@@ -7,9 +7,9 @@
   makeDesktopItem,
   copyDesktopItems,
   imagemagick,
-  openjdk,
+  jdk23,
   dpkg,
-  writeScript,
+  writeShellScript,
   bash,
   tor,
   zip,
@@ -19,11 +19,11 @@
 let
   version = "2.1.2"; #:version:#
 
+  jdk = jdk23.override { enableJavaFX = true; };
+
   bisq-launcher =
     args:
-    writeScript "bisq-launcher" ''
-      #! ${runtimeShell}
-
+    writeShellScript "bisq-launcher" ''
       # This is just a comment to convince Nix that Tor is a
       # runtime dependency; The Tor binary is in a *.jar file,
       # whereas Nix only scans for hashes in uncompressed text.
@@ -31,7 +31,7 @@ let
 
       rm -fR $HOME/.local/share/Bisq2/tor
 
-      exec "${lib.getExe openjdk}" -Djpackage.app-version=@version@ -classpath @out@/lib/app/desktop-app-launcher.jar:@out@/lib/app/* ${args} bisq.desktop_app_launcher.DesktopAppLauncher "$@"
+      exec "${lib.getExe jdk}" -Djpackage.app-version=@version@ -classpath @out@/lib/app/desktop-app-launcher.jar:@out@/lib/app/* ${args} bisq.desktop_app_launcher.DesktopAppLauncher "$@"
     '';
 
   # A given release will be signed by either Alejandro Garcia or Henrik Jannsen

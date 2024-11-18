@@ -347,9 +347,7 @@
           openjdk = pkgs.openjdk.override { enableJavaFX = true; };
         };
 
-        bisq2 = callPackage ./pkgs/bisq2/default.nix { 
-          openjdk = pkgs.jdk22.override { enableJavaFX = true; };
-        };
+        bisq2 = callPackage ./pkgs/bisq2/default.nix { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
