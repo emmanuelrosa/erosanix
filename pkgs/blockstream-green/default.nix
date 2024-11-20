@@ -16,18 +16,19 @@
 , xorg
 , libxkbcommon
 , gst_all_1
+, mesa
 , pulseaudio
 , hwi
 , xcb-util-cursor
 , gnupg
 }: stdenv.mkDerivation rec {
   pname = "blockstream-green";
-  version = "2.0.12"; #:version:#
+  version = "2.0.14"; #:version:#
   archiveName = "BlockstreamGreen-linux-x86_64.tar.gz";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "03p1jxkrshbz4wj1pxb5kmwagnli8z1ks7pxdza7jnsqms2lc0bj"; #:hash:
+    sha256 = "02mlfn7mmkm5ylfwprs0lpps12w21n0783a9zx1wbsp6vyz6lhh7"; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -53,7 +54,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-7pe9ry02gwf+WDKxFHq7lgWVojTHVN0509Xa1JmNiOI=";
+    sha256 = "sha256-gsEzazp+L0auYbF5fPTp0tlT09U/HYvXWpsQGRW83gg=";
   };
 
   setSourceRoot = ''
@@ -85,6 +86,7 @@
   ]) ++ (with gst_all_1; [
     gstreamer
     gst-plugins-base
+    mesa
   ]);
 
   installPhase = ''
