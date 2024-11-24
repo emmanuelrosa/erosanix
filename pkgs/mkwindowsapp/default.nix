@@ -132,6 +132,7 @@ let
     RUN_LAYER_HASH=@RUN_LAYER_HASH@
     BUILD_HASH=$(printf "%s %s" $RUN_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
     WA_RUN_APP=''${WA_RUN_APP:-1}
+    WA_CLEAN_APP=''${WA_CLEAN_APP:-0}
     needs_cleanup="1"
 
     show_notification () {
@@ -206,6 +207,24 @@ let
     echo "app layer: $app_layer"
     ${lib.optionalString persistRuntimeLayer "echo \"run_layer: $run_layer\""}
     echo "build hash: $BUILD_HASH"
+
+    if [ $WA_CLEAN_APP -eq 1 ]
+    then
+      if [ -d "$app_layer" ]
+      then
+        echo "Deleting the app layer..."
+        rm -fR $app_layer
+      fi
+
+      if [[ -n "$run_layer" && -d "$run_layer" ]]
+      then
+        echo "Deleting the run layer..."
+        rm -fR $run_layer
+      fi
+
+      echo "Cleaning complete."
+      exit
+    fi
 
     if [ -d "$win_layer" ]
     then
