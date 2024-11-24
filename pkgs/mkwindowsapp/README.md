@@ -88,4 +88,10 @@ NOTICE: By default, the Wine registry is not persisted, so if you want to use wi
 
 There's now an environment variable which can be used to get dropped into a shell after setting up the WINEPREFIX. Simply set the environment variable `WA_RUN_APP=0` before running the app (launcher). When `WA_RUN_APP` is not set to `1`, the WINEPREFIX is set up, but the app is not executed. Once in the shell, you can run Wine tools; The WINEPREFIX will already be set.
 
-[^1]: The script is based on [wrapWine](https://github.com/lucasew/nixcfg/blob/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix).
+## If my build fails during the winAppInstall phase, how can I clean things up?
+
+There's now an environment variable you can set to cause the launcher script to delete the app layer. Simply set the `WA_CLEAN_APP` environment variable to `1`. 
+
+Note that the Windows layer will not be deleted.
+
+[^1]: The script is conceptually based on [wrapWine](https://github.com/lucasew/nixcfg/blob/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix).
