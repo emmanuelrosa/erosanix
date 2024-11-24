@@ -131,6 +131,7 @@ let
     ${inputHashScript}
     RUN_LAYER_HASH=@RUN_LAYER_HASH@
     BUILD_HASH=$(printf "%s %s" $RUN_LAYER_HASH $USER | sha256sum | sed -r 's/(.{64}).*/\1/')
+    LOCKFILE="/tmp/$BUILD_HASH.lock"
     WA_RUN_APP=''${WA_RUN_APP:-1}
     WA_CLEAN_APP=''${WA_CLEAN_APP:-0}
     needs_cleanup="1"
@@ -197,6 +198,15 @@ let
       fi
     }
 
+    mkdir $LOCKFILE
+    lockstatus=$?
+
+    if [ "$lockstatus" == "1" ]
+    then
+      echo "ERROR: ${attrs.pname} has not finished installing."
+      exit
+    fi
+
     wa_init ${wineArch} $BUILD_HASH
     win_layer=$(wa_init_layer $WIN_LAYER_HASH $MY_PATH)
     app_layer=$(wa_init_layer $APP_LAYER_HASH $MY_PATH)
@@ -207,6 +217,7 @@ let
     echo "app layer: $app_layer"
     ${lib.optionalString persistRuntimeLayer "echo \"run_layer: $run_layer\""}
     echo "build hash: $BUILD_HASH"
+    echo "lock file: $LOCKFILE"
 
     if [ $WA_CLEAN_APP -eq 1 ]
     then
@@ -222,6 +233,7 @@ let
         rm -fR $run_layer
       fi
 
+      rmdir $LOCKFILE
       echo "Cleaning complete."
       exit
     fi
@@ -255,6 +267,7 @@ let
 
     ${lib.optionalString persistRuntimeLayer "wa_close_layer $RUN_LAYER_HASH \"1\""}
 
+    rmdir $LOCKFILE
     echo "Windows and app layers are initialized.";
 
     if [ $(wa_is_bottle_initialized $win_layer $app_layer) == "1" ]
