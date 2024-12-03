@@ -75,7 +75,6 @@ This repo has quite a variety of packages.
 - **foobar2000** - An advanced freeware audio player for the Windows platform.
 - **lego-builders-journey** - A puzzle game developed by Light Brick Studio and published by Lego Games.
 - **line** - LINE is new level of communication, and the very infrastructure of your life.
-- **notepad++** - A text editor and source code editor for use under Microsoft Windows. It supports around 80 programming languages with syntax highlighting and code folding. It allows working with multiple open files in a single window, thanks to its tabbed editing interface.
 - **rtrader** - Rithmic professional trading software.
 - **sable** - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
 - **tunche** - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.

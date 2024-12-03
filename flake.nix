@@ -102,12 +102,6 @@
       in {
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
 
-        notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.base; 
-          wineArch = "win64";
-        };
-
         sierrachart = callPackage ./pkgs/sierrachart { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.base; 
@@ -370,12 +364,6 @@
       lib = self.lib.i686-linux;
       in {
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
-
-        notepad-plus-plus = callPackage ./pkgs/notepad++.nix { 
-          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.winePackages.base; 
-          wineArch = "win32";
-        };
 
         foobar2000 = callPackage ./pkgs/foobar2000.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
