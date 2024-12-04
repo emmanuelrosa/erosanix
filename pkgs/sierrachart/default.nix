@@ -72,6 +72,7 @@ in mkWindowsAppNoCC rec {
               "$HOME/.local/share/${pname}/Images" = "drive_c/SierraChart/Images";
               "$HOME/.local/share/${pname}/SavedTradeActivity" = "drive_c/SierraChart/SavedTradeActivity";
               "$HOME/.local/share/${pname}/ACS_Source" = "drive_c/SierraChart/ACS_Source";
+              "$HOME/.local/share/${pname}/FuturesMargins" = "drive_c/SierraChart/FuturesMargins";
               "$HOME/.local/share/${pname}-instance/SierraChartInstance_2" = "drive_c/SierraChart/SierraChartInstance_2";
               "$HOME/.local/share/${pname}-instance/SierraChartInstance_3" = "drive_c/SierraChart/SierraChartInstance_3";
               "$HOME/.local/share/${pname}-instance/SierraChartInstance_4" = "drive_c/SierraChart/SierraChartInstance_4";
