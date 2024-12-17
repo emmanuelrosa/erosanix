@@ -15,7 +15,7 @@
 , msvcShim
 , enableCompilerShim ? false
 }: let
-  version = "2721"; #:version:
+  version = "2722"; #:version:
   src = fetchurl {
     urls = [
       "https://download1.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip"
