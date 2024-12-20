@@ -22,7 +22,7 @@
       "https://download2.sierrachart.com/downloads/ZipFiles/SierraChart${version}.zip"
     ];
 
-    sha256 = "1q8igs7xvl4pcjjsbzbzq8gni10r3qganag6jr7ly67fg7v6vgg5": #:hash:
+    sha256 = "1q8igs7xvl4pcjjsbzbzq8gni10r3qganag6jr7ly67fg7v6vgg5"; #:hash:
   };
 
   defaultStudies = {
