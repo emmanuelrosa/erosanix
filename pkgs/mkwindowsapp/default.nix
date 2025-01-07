@@ -7,6 +7,7 @@
 , winAppPreRun ? ""
 , winAppPostRun ? ""
 , winAppInstall ? ""
+, buildInputs ? [ ] # List of Nix packages (containing executables) to add to $PATH
 , name ? "${attrs.pname}-${attrs.version}"
 , enableInstallNotification ? true
 , fileMap ? {}
@@ -123,7 +124,7 @@ let
 
   launcher = writeShellScript "wine-launcher" ''
     source ${libwindowsapp}
-    PATH="${makeBinPath [ coreutils wine winetricks cabextract gnused unionfs-fuse libnotify util-linux ]}:$PATH"
+    PATH="${makeBinPath ([ coreutils wine winetricks cabextract gnused unionfs-fuse libnotify util-linux ] ++ buildInputs)}:$PATH"
     MY_PATH="@MY_PATH@"
     OUT_PATH="@out@"
     ARGS="$@"
