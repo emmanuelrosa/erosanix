@@ -53,7 +53,6 @@ in mkWindowsAppNoCC rec {
   pname = "sierrachart-${instanceName}";
   dontUnpack = true;
   wineArch = "win64";
-  persistRegistry = true;
   enableMonoBootPrompt = false;
   nativeBuildInputs = [ unzip copyDesktopItems copyDesktopIcons ];
 
