@@ -12,7 +12,7 @@
 , enableInstallNotification ? true
 , fileMap ? {}
 , fileMapDuringAppInstall ? false
-, persistRegistry ? false # Disabled by default for now because it's experimental.
+, persistRegistry ? false # Disabled by default because it hurts reproduceability.
 , persistRuntimeLayer ? false
 , enableVulkan ? false # Determines the DirectX rendering backend. Defaults to opengl.
 , rendererOverride ? null # Can be wine-opengl, wine-vulkan, or dxvk-vulkan. Used to override renderer selection. Avoid using.
@@ -71,8 +71,9 @@ let
   '';
 
   withFileMap = let
-    defaultExtraFileMap = { "$HOME/.config/mkWindowsApp/${attrs.pname}/user.reg" = "user.reg"; 
-                            "$HOME/.config/mkWindowsApp/${attrs.pname}/system.reg" = "system.reg";
+    wineMajorVersion = lib.versions.major wine.version;
+    defaultExtraFileMap = { "$HOME/.config/mkWindowsApp/${attrs.pname}/wine-${wineMajorVersion}/user.reg" = "user.reg"; 
+                            "$HOME/.config/mkWindowsApp/${attrs.pname}/wine-${wineMajorVersion}/system.reg" = "system.reg";
     };
 
     extraFileMap = if persistRegistry then (if enableVulkan then abort "The mkWindowsApp function attributes 'persistRegistry' can't be used along with 'enableVulkan' (DXVK) at this time because it would lead to a failed DXVK installation." else defaultExtraFileMap) else {};
