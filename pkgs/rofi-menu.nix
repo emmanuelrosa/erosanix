@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   pname = "rofi-menu";
-  version = "0.8.1";
+  version = "0.8.2";
 
   src = fetchFromGitHub {
     owner = "emmanuelrosa";
     repo = pname;
     rev = version; 
-    sha256 = "sha256-DwIheSCQfBxn0oa6Sz4uN05s+brXkO0IM/FGlJGJmEc=";
+    sha256 = "sha256-SU2/KUEFEG8Fs0rT25voDS15jPqjYntokEVGyIvZh3I=";
   };
 
   nativeBuildInputs = [ makeWrapper ];
