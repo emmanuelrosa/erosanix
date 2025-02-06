@@ -12,13 +12,14 @@
 , enableVulkan ? false
 , enableHUD ? false
 , gameDir ? "$HOME/Games/Duskers"
+, graphicsDriver ? "auto"
 }:
 let
   title = "Duskers";
   wineGameDir = "drive_c/Program Files/Epic Games/${title}";
   exePath = "$WINEPREFIX/${wineGameDir}/${title}.exe";
 in mkWindowsAppNoCC rec {
-  inherit wine enableVulkan enableHUD;
+  inherit wine enableVulkan enableHUD graphicsDriver;
 
   pname = "duskers";
   version = "unknown"; #:version:
