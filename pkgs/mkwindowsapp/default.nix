@@ -65,7 +65,7 @@ let
     wine-vulkan = setWineRenderer "vulkan";
     dxvk-vulkan = ''
       ${setWineRenderer "gl"}
-      ${dxvk}/bin/setup_dxvk.sh install --with-d3d10 --symlink
+      ${dxvk}/bin/setup_dxvk.sh install --symlink
     '';
   }."${renderer}";
 
