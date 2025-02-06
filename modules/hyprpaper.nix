@@ -15,5 +15,6 @@ in {
   config = lib.mkIf config.programs.hyprpaper.enable {
     environment.systemPackages = [ cfg.package ];
     systemd.packages = [ cfg.package ];
+    systemd.user.services.hyprpaper.path = [ config.programs.hyprland.package ];
   };
 }
