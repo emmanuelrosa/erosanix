@@ -415,6 +415,7 @@
     nixosModules.onlyoffice = import ./modules/onlyoffice.nix;
     nixosModules.udiskie = import ./modules/udiskie.nix;
     nixosModules.hyprpaper = import ./modules/hyprpaper.nix;
+    nixosModules.swaynotificationcenter = import ./modules/swaync.nix;
 
     bundlers.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
