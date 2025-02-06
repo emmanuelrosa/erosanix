@@ -8,21 +8,22 @@
 , copyDesktopItems
 , copyDesktopIcons
 , zenity
-, mangohud
 , enableVulkan ? false
 , enableHUD ? false
+, graphicsDriver ? "auto"
 }:
 let
   gameDir = "$HOME/Games/Sable";
   wineGameDir = "drive_c/Program Files/Epic Games/Sable";
   exePath = "$WINEPREFIX/${wineGameDir}/Sable.exe";
 in mkWindowsAppNoCC rec {
-  inherit wine enableVulkan enableHUD;
+  inherit wine enableVulkan enableHUD graphicsDriver;
 
   pname = "sable";
   version = "unknown"; #:version:
   wineArch = "win64";
   dontUnpack = true;
+  enableMonoBootPrompt = false;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
   # src is not used at all.
