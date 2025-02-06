@@ -71,6 +71,7 @@ in {
     systemd.user.services.udiskie = {
       description = "Automounter for udisks";
       wantedBy = [ "graphical-session.target" ];
+      after = [ "graphical-session.target" ];
       partOf = [ "graphical-session.target" ];
       serviceConfig.ExecStart = "${cfg.package}/bin/udiskie ${lib.optionalString (!cfg.automount.enable) "-A"} ${lib.optionalString (!cfg.notify.enable) "-N"} ${lib.optionalString cfg.tray.enable "-t"} ${lib.optionalString cfg.tray.autoHide "-s"} -f ${cfg.fileManager} ${lib.optionalString cfg.appIndicator.enable "--appindicator"} ${lib.optionalString (cfg.passwordCacheTimeoutMinutes > 0) "--password-cache ${cfg.passwordCacheTimeoutMinutes}"} ${lib.optionalString (cfg.eventHook != "") "--event-hook \"${cfg.eventHook}\""}";
     };
