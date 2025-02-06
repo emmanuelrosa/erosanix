@@ -36,10 +36,22 @@
   # This doesn't happen with the Wine "full" packages, but it does happen with the "base" packages.
   # When this option is set to 'false', DLL overrides are used when the Wine prefix is created, to bypass the prompt.
 , enableMonoBootPrompt ? true
+
+  # Starting with version 10, Wine uses Wayland if it's available. But, usually Wayland compositors enable xwayland,
+  # which causes Wine to default to X11. When `graphicsDriver` is set to "auto", this behaviour is retained.
+  # However, when set to "wayland" DISPLAY is unset prior to running Wine, causing it to use Wayland.
+, graphicsDriver ? "auto"
 , ... } @ attrs:
 let
   api = "1"; # IMPORTANT: Make sure this corresponds with WA_API in libwindowsapp.bash
   libwindowsapp = ./libwindowsapp.bash;
+
+  # Wayland support, starting with Wine 10.
+
+  graphicsDriverCmd = let
+    hasMinimumWineVersion = if !(lib.versionAtLeast wine.version "10") && graphicsDriver == "wayland" then abort "At least Wine 10 is required to use the wayland graphics driver." else lib.versionAtLeast wine.version "10"; 
+    enableWayland = hasMinimumWineVersion && graphicsDriver == "wayland";
+  in if enableWayland then "unset DISPLAY" else "";
 
   # OpenGL or Vulkan rendering support
   renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else "dxvk-vulkan");
@@ -137,6 +149,7 @@ let
     WA_RUN_APP=''${WA_RUN_APP:-1}
     WA_CLEAN_APP=''${WA_CLEAN_APP:-0}
     needs_cleanup="1"
+    ${graphicsDriverCmd}
 
     show_notification () {
       local fallback_icon=$1
