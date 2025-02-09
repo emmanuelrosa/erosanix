@@ -24,7 +24,6 @@ in {
       after = desiredTarget;
       wantedBy = desiredTarget;
       path = [ config.programs.hyprland.package ];
-      unitConfig.ConditionPathExists = [ "$XDG_CONFIG_HOME/hypr/hyprpaper.conf" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = lib.getExe cfg.package;
