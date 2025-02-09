@@ -14,7 +14,23 @@ in {
 
   config = lib.mkIf config.programs.hyprpaper.enable {
     environment.systemPackages = [ cfg.package ];
-    systemd.packages = [ cfg.package ];
-    systemd.user.services.hyprpaper.path = [ config.programs.hyprland.package ];
+
+    systemd.user.services.hyprpaper = let
+      desiredTarget =  [ "wayland-session@hyprland.desktop.target" ];
+    in {
+      enable = true;
+      description = "Fast, IPC-controlled wallpaper utility for Hyprland.";
+      documentation = [ "https://wiki.hyprland.org/Hypr-Ecosystem/hyprpaper/" ];
+      after = desiredTarget;
+      wantedBy = desiredTarget;
+      path = [ config.programs.hyprland.package ];
+      unitConfig.ConditionPathExists = [ "$XDG_CONFIG_HOME/hypr/hyprpaper.conf" ];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = lib.getExe cfg.package;
+        Slice = "background-graphical.slice";
+        Restart = "on-failure";
+      };
+    };
   };
 }
