@@ -15,15 +15,15 @@ in {
   config = lib.mkIf config.programs.hyprpaper.enable {
     environment.systemPackages = [ cfg.package ];
 
-    systemd.user.services.hyprpaper = let
-      desiredTarget =  [ "wayland-session@hyprland.desktop.target" ];
-    in {
+    systemd.user.services.hyprpaper = {
       enable = true;
       description = "Fast, IPC-controlled wallpaper utility for Hyprland.";
       documentation = [ "https://wiki.hyprland.org/Hypr-Ecosystem/hyprpaper/" ];
-      after = desiredTarget;
-      wantedBy = desiredTarget;
+      partOf = [ "graphical-session.desktop.target" ];
+      after = [ "graphical-session.desktop.target" ];
+      wantedBy = [ "graphical-session.desktop.target" ];
       path = [ config.programs.hyprland.package ];
+      unitConfig.ConditionPathExists = [ "$XDG_CONFIG_HOME/hypr/hyprpaper.conf" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = lib.getExe cfg.package;
