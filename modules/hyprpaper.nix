@@ -23,12 +23,15 @@ in {
       after = [ "graphical-session.desktop.target" ];
       wantedBy = [ "graphical-session.desktop.target" ];
       path = [ config.programs.hyprland.package ];
-      unitConfig.ConditionPathExists = [ "$XDG_CONFIG_HOME/hypr/hyprpaper.conf" ];
       serviceConfig = {
         Type = "simple";
         ExecStart = lib.getExe cfg.package;
         Slice = "background-graphical.slice";
         Restart = "on-failure";
+        ExecCondition = pkgs.writeScript "hyprpaper-execcondition" ''
+          #!/bin/sh
+          stat $XDG_CONFIG_HOME/hypr/hyprpaper.conf
+        '';
       };
     };
   };
