@@ -43,6 +43,10 @@
   # When set to "wayland", DISPLAY is unset prior to running Wine, causing it to use Wayland.
   # When set to "prefer-wayland", DISPLAY is unset only if WAYLAND_DISPLAY is set, causing Wine to use Wayland only when Wayland is available.
 , graphicsDriver ? "auto"
+
+  # When set to true, and if systemd-inhibit is found in $PATH, the launcher script will obtain an idle inhibit lock when executing the Windows app.
+  # An idle inhibit lock can prevent the screen from turning off. Thus, this is most useful for Windows games.
+, inhibitIdle ? false
 , ... } @ attrs:
 let
   api = "1"; # IMPORTANT: Make sure this corresponds with WA_API in libwindowsapp.bash
@@ -196,6 +200,7 @@ let
     }
 
     run_app () {
+      local inhibitcmd=""
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       ${dxvkCacheSetupScript}
 
@@ -208,9 +213,16 @@ let
 
       if [ $WA_RUN_APP -eq 1 ]
       then
+        ${lib.optionalString inhibitIdle "inhibitcmd=$(which systemd-inhibit)"}
         ${lib.optionalString enableHUD "export MANGOHUD=\"${hudCommand}\""}
         ${winAppRun}
-        wineserver -w
+
+        if [ -n "$inhibitcmd" ]
+        then
+          $inhibitcmd --no-ask-password --what=idle --who "${attrs.pname}" --why="To prevent the screen from turning off." --mode=block wineserver -w
+        else
+          wineserver -w
+        fi
       else
         echo "WA_RUN_APP is not set to 1. Starting a bash shell instead of running the app. When you're done, please exit the shell."
         bash
