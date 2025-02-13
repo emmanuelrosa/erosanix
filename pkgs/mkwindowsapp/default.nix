@@ -38,8 +38,10 @@
 , enableMonoBootPrompt ? true
 
   # Starting with version 10, Wine uses Wayland if it's available. But, usually Wayland compositors enable xwayland,
-  # which causes Wine to default to X11. When `graphicsDriver` is set to "auto", this behaviour is retained.
-  # However, when set to "wayland" DISPLAY is unset prior to running Wine, causing it to use Wayland.
+  # which causes Wine to default to X11.
+  # When `graphicsDriver` is set to "auto", Wine is allowed to determine whether to use Wayland or X11.
+  # When set to "wayland", DISPLAY is unset prior to running Wine, causing it to use Wayland.
+  # When set to "prefer-wayland", DISPLAY is unset only if WAYLAND_DISPLAY is set, causing Wine to use Wayland only when Wayland is available.
 , graphicsDriver ? "auto"
 , ... } @ attrs:
 let
@@ -49,9 +51,17 @@ let
   # Wayland support, starting with Wine 10.
 
   graphicsDriverCmd = let
-    hasMinimumWineVersion = if !(lib.versionAtLeast wine.version "10") && graphicsDriver == "wayland" then abort "At least Wine 10 is required to use the wayland graphics driver." else lib.versionAtLeast wine.version "10"; 
-    enableWayland = hasMinimumWineVersion && graphicsDriver == "wayland";
-  in if enableWayland then "unset DISPLAY" else "";
+    requiresWine10 = cmd: if (lib.versionAtLeast wine.version "10") then cmd else abort "At least Wine 10 is required to use the wayland graphics driver.";
+  in {
+      "auto" = "";
+      "wayland" = requiresWine10 "unset DISPLAY";
+      "prefer-wayland" = requiresWine10 ''
+        if [ -n "$WAYLAND_DISPLAY" ]
+        then
+            unset DISPLAY 
+        fi
+      '';
+  }."${graphicsDriver}";
 
   # OpenGL or Vulkan rendering support
   renderer = if rendererOverride != null then rendererOverride else (if !enableVulkan then "wine-opengl" else "dxvk-vulkan");
@@ -149,6 +159,7 @@ let
     WA_RUN_APP=''${WA_RUN_APP:-1}
     WA_CLEAN_APP=''${WA_CLEAN_APP:-0}
     needs_cleanup="1"
+
     ${graphicsDriverCmd}
 
     show_notification () {
