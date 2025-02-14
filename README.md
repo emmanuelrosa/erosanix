@@ -102,6 +102,7 @@ This repo has quite a variety of packages.
 - **blockstream-green** - A multi-platform, feature-rich Bitcoin and Liquid wallet.
 - **bisq2** - A decentralized bitcoin exchange network.
 - **sparrow** - A Bitcoin wallet. 
+- **sideswap** - A Liquid Bitcoin exchange and wallet.
 
 #### Fonts
 

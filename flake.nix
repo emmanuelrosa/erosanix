@@ -342,6 +342,10 @@
         };
 
         bisq2 = callPackage ./pkgs/bisq2/default.nix { };
+
+        sideswap = callPackage ./pkgs/sideswap/default.nix { 
+          inherit (lib) makeDesktopIcon copyDesktopIcons;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
