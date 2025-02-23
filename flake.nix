@@ -346,6 +346,8 @@
         sideswap = callPackage ./pkgs/sideswap/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
+
+        harmonoid = callPackage ./pkgs/harmonoid/default.nix { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
