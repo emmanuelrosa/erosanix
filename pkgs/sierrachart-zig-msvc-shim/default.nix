@@ -51,7 +51,7 @@
     echoWhenVerbose "DLL file: $dllFile"
     echoWhenVerbose "GIT commit hash: $gitCommitHash"
 
-    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++17 -target x86_64-windows -ffp-model=precise $extra $macros $sourceFiles -o $dllFile 2>&1
+    ${zig}/bin/zig c++ -x c++ -shared -static -std=c++20 -target x86_64-windows -ffp-model=precise $extra $macros $sourceFiles -o $dllFile 2>&1
   '';
 
   # The Sierra Chart Nix package will execute this installer
