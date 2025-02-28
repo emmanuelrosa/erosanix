@@ -197,13 +197,10 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        sparrow-unwrapped = callPackage ./pkgs/sparrow/default.nix {
-          openimajgrabber = callPackage ./pkgs/sparrow/openimajgrabber.nix {};
-          openjdk = pkgs.jdk23.override { enableJavaFX = true; };
-        };
+        openimajgrabber = callPackage ./pkgs/openimajgrabber/default.nix { };
 
-        sparrow = callPackage ./pkgs/sparrow/fhsenv.nix { 
-          sparrow-unwrapped = self.packages.x86_64-linux.sparrow-unwrapped;
+        sparrow = callPackage ./pkgs/sparrow/default.nix {
+          inherit (self.packages.x86_64-linux) openimajgrabber;
         };
 
         gossip = callPackage ./pkgs/gossip/default.nix { 
