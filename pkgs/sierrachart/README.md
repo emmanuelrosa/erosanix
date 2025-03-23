@@ -19,7 +19,6 @@ The erosanix Nix flake contains a Nix package for Sierra Chart. The package uses
  - Native-like integration with your desktop environment's Application menu.
  - Upgrade or rollback Sierra Chart just like any other Nix package.
  - Multiple (*named*) instances can be installed.
- - Limited support for up to 9 sub-instances.
  - Edit ACSIL study source code using your favorite text editor.
  - (Optionally) compile ACSIL studies locally from within Sierra Chart, using Clang/LLVM.
  - ACSIL studies can be packaged with Nix in DLL or source form, and automatically installed in a Sierra Chart instance.
@@ -51,10 +50,6 @@ environment.systemPackages = with pkgs; [
 The example above would create an executable named `sierrachart-dev`, reflecting the *dev* instance. Each instance is completely independent, with its own entry in the Application menu, seperate Wine prefix and data files.
 
 By the way, the Sierra Chart data files are saved at $HOME/.local/share/sierrachart-*INSTANCE_NAME*/.
-
-### Sub-instance support
-
-Although this Nix package provides support for sub-instances, it's not a well-tested feature. I don't recommend using it for anything important. The directories for each sub-instance are located at $HOME/.local/share/sierrachart-*INSTANCE_NAME*-instance/
 
 ### ASCIL study development
 
@@ -117,7 +112,6 @@ The `mkSierraChartStudyFromDLL` and `mkSierraChartStudyFromSrc` Nix functions cr
 The Sierra Chart Nix package has the following known limitations:
 
  - The Data directory must be `C:\SierraChart\Data`. This is the default and must not be changed.
- - Sub-instance support is very minimal. I don't recommend using it.
  - I intended `mkSierraChartStudyFromSrc` to provide assurance that the ASCIL source code is always compiled with the specific version of Sierra Chart they're installed with. In practice it does work that way in most cases, but due to it's current design it's possible to break such an assurance. I have every intention to address this nitpick.
 
 Since the Sierra Chart Nix package uses `mkWindowsApp` under-the-hood, it's important to become familiar with its functionality. Namely, `mkWindowsApp` uses Docker-like layers to build Wine prefixes. In practice, it mimics the Nix store, but it's user-specific. Like the Nix store, without periodic purging it will accumulate large amounts of disk space. There's already tooling to keep these layers trimmed, but it needs to be set up manually.
