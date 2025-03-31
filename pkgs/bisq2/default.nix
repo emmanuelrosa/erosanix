@@ -17,7 +17,7 @@
 }:
 
 let
-  version = "2.1.6"; #:version:#
+  version = "2.1.7"; #:version:#
 
   jdk = jdk23.override { enableJavaFX = true; };
 
@@ -49,7 +49,7 @@ let
         sha256 = "sha256-PrRYZLT0xv82dUscOBgQGKNf6zwzWUDhriAffZbNpmI=";
       };
     }
-    ."387C8307";
+    ."E222AA02";
 in
 stdenvNoCC.mkDerivation rec {
   inherit version;
@@ -58,7 +58,7 @@ stdenvNoCC.mkDerivation rec {
 
   src = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb";
-    sha256 = "0zgh79njb0i28w1dy3jmvgyvb4v162dkkx8vscxkc4rhvxk1fvg3"; #:hash:#
+    hash = "sha256-kNQbTZoHFR2qFw/Jjc9iaEews/oUOYoJanmbVH/vs44="; #:hash:#
 
     # Verify the upstream Debian package prior to extraction.
     # See https://bisq.wiki/Bisq_2#Installation
@@ -82,7 +82,7 @@ stdenvNoCC.mkDerivation rec {
 
   signature = fetchurl {
     url = "https://github.com/bisq-network/bisq2/releases/download/v${version}/Bisq-${version}.deb.asc";
-    sha256 = "sha256-17NjRIcDKlmqvX/zKVrahWd8qJEY+v25qP9yfFMPojw=";
+    hash = "sha256-Cl9EIp+ycD8Tp/bx5dXQK206jZzrYJkI/U9ItfXDRWw=";
   };
 
   nativeBuildInputs = [
