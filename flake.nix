@@ -345,6 +345,11 @@
         };
 
         harmonoid = callPackage ./pkgs/harmonoid/default.nix { };
+
+        zorro = pkgs.callPackage ./pkgs/zorro {
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
+          wine = pkgs.wineWowPackages.base;
+        };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
