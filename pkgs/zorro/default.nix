@@ -112,7 +112,7 @@ in mkWindowsAppNoCC rec {
   ];
 
   desktopIcon = makeDesktopIcon {
-    name = pname;
+    name = "zorro";
     icoIndex = 0;
     src = ./zorro.ico;
   };
