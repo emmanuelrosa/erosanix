@@ -197,11 +197,11 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        openimajgrabber = callPackage ./pkgs/openimajgrabber/default.nix { };
+        openimajgrabber = pkgs.lib.trivial.warn "openimajgrabber will be removed from erosanix. Use openimajgrabber from github:emmanuelrosa/btc-clients-nix instead." (callPackage ./pkgs/openimajgrabber/default.nix { });
 
-        sparrow = callPackage ./pkgs/sparrow/default.nix {
+        sparrow = pkgs.lib.trivial.warn "sparrow will be removed from erosanix. Use sparrow from github:emmanuelrosa/btc-clients-nix instead." (callPackage ./pkgs/sparrow/default.nix {
           inherit (self.packages.x86_64-linux) openimajgrabber;
-        };
+        });
 
         gossip = callPackage ./pkgs/gossip/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
