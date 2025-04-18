@@ -47,6 +47,7 @@ in mkWindowsAppNoCC rec {
   '';
 
   winAppPreRun = ''
+    excludes=""
     cache_dir=$(mktemp --suffix=zorro -d)
     mkdir -p "$HOME/.local/share/${pname}"
     rm "$HOME/.local/share/${pname}/Cache"
@@ -56,6 +57,11 @@ in mkWindowsAppNoCC rec {
     version_file="$HOME/.cache/${pname}/version.txt"
     needs_sync="1"
 
+    if [ -e "$version_file" ]
+    then
+      excludes="--exclude 'History/AssetsFix.csv'"
+    fi
+
     if [ "$(cat $version_file)" == "${version}" ]
     then
       needs_sync=0
@@ -64,7 +70,7 @@ in mkWindowsAppNoCC rec {
     if [ "$needs_sync" == "1" ]
     then
       echo "Synching Zorro installation..."
-      ${rsync}/bin/rsync -a --checksum --mkpath "$WINEPREFIX/drive_c/users/$USER/Zorro/" "$HOME/.local/share/${pname}/"
+      ${rsync}/bin/rsync -a --checksum --mkpath $excludes "$WINEPREFIX/drive_c/users/$USER/Zorro/" "$HOME/.local/share/${pname}/"
       echo "${version}" > "$version_file"
     fi
   '';
