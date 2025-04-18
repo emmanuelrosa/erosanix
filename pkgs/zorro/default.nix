@@ -76,7 +76,8 @@ in mkWindowsAppNoCC rec {
   '';
 
   winAppRun = ''
-    $WINE "$HOME/.local/share/${pname}/@executable@" "$ARGS"
+    cd "$HOME/.local/share/${pname}" 
+    $WINE "@executable@" "$ARGS"
   '';
 
   winAppPostRun = ''
