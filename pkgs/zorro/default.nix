@@ -70,7 +70,7 @@ in mkWindowsAppNoCC rec {
   '';
 
   winAppRun = ''
-    $WINE "$HOME/.local/share/${pname}/@zorro_exe@" "$ARGS"
+    $WINE "$HOME/.local/share/${pname}/@executable@" "$ARGS"
   '';
 
   winAppPostRun = ''
@@ -81,10 +81,7 @@ in mkWindowsAppNoCC rec {
     runHook preInstall
 
     ln -s $out/bin/.launcher $out/bin/zorro-${instanceName}
-    ln -s $out/bin/.launcher $out/bin/zorro64-${instanceName}
-
-    substituteInPlace $out/bin/zorro-${instanceName} --subst-var-by zorro_exe Zorro.exe
-    substituteInPlace $out/bin/zorro64-${instanceName} --subst-var-by zorro_exe Zorro64/Zorro64.exe
+    substituteInPlace $out/bin/zorro-${instanceName} --subst-var-by executable Zorro.exe
 
     runHook postInstall
   '';
@@ -100,14 +97,6 @@ in mkWindowsAppNoCC rec {
       name = "zorro";
       exec = "zorro-${instanceName}";
       desktopName = "Zorro (${instanceName})";
-    })
-
-    (makeDesktopItem {
-      inherit icon genericName categories;
-
-      name = "zorro64";
-      exec = "zorro64-${instanceName}";
-      desktopName = "Zorro 64 (${instanceName})";
     })
   ];
 
