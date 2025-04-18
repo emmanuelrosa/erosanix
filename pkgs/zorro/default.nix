@@ -80,8 +80,11 @@ in mkWindowsAppNoCC rec {
   installPhase = ''
     runHook preInstall
 
-    ln -s $out/bin/.launcher $out/bin/zorro-${instanceName}
+    cp $out/bin/.launcher $out/bin/zorro-${instanceName}
     substituteInPlace $out/bin/zorro-${instanceName} --subst-var-by executable Zorro.exe
+
+    cp $out/bin/.launcher $out/bin/zview-${instanceName}
+    substituteInPlace $out/bin/zview-${instanceName} --subst-var-by executable Zview.exe
 
     runHook postInstall
   '';
@@ -97,6 +100,17 @@ in mkWindowsAppNoCC rec {
       name = "zorro";
       exec = "zorro-${instanceName}";
       desktopName = "Zorro (${instanceName})";
+    })
+
+    (makeDesktopItem {
+      inherit icon;
+
+      genericName = "Image Viewer";
+      name = "zview";
+      exec = "zview-${instanceName}";
+      desktopName = "Zview (${instanceName})";
+      categories = [ "Graphics" "RasterGraphics" ];
+      mimeTypes = [ "image/png" ];
     })
   ];
 
