@@ -22,6 +22,7 @@ in mkWindowsAppNoCC rec {
   version = "unknown"; #:version:
   wineArch = "win64";
   enableMonoBootPrompt = false;
+  inhibitIdle = true;
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
