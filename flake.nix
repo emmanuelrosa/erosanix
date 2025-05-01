@@ -44,15 +44,6 @@
       compose = trivial.compose;
       composeAndApply = trivial.composeAndApply;
 
-      mkSierraChartStudyFromSrc = pkgs.pkgsCross.mingwW64.callPackage ./lib/mkSierraChartStudyFromSrc.nix { 
-        mcfgthread = pkgs.pkgsCross.mingwW64.windows.mcfgthreads_pre_gcc_13;
-        sierrachart = self.packages.x86_64-linux.sierrachart;
-      };
-
-      mkSierraChartStudyFromDLL = pkgs.callPackage ./lib/mkSierraChartStudyFromDLL.nix { 
-        sierrachart = self.packages.x86_64-linux.sierrachart;
-      };
-
       torsocks = callPackage ./lib/torsocks.nix { 
         genericBinWrapper = self.lib.x86_64-linux.genericBinWrapper;
       };
@@ -101,21 +92,6 @@
       lib = self.lib.x86_64-linux;
       in {
         nvidia-offload = callPackage ./pkgs/nvidia-offload.nix {};
-
-        sierrachart = callPackage ./pkgs/sierrachart { 
-          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wine64Packages.base; 
-          msvcShim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim;
-        };
-
-        sierrachart-zig-msvc-shim-exec = callPackage ./pkgs/sierrachart-zig-msvc-shim/shim.nix { };
-        sierrachart-zig-msvc-shim-bin-exec = callPackage ./pkgs/sierrachart-zig-msvc-shim/shim-bin.nix { };
-
-        sierrachart-zig-msvc-shim = callPackage ./pkgs/sierrachart-zig-msvc-shim { 
-            shim = self.packages.x86_64-linux.sierrachart-zig-msvc-shim-exec;
-        };
-
-        sierrachart-mingw-msvc-shim = callPackage ./pkgs/sierrachart-mingw-msvc-shim { };
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;

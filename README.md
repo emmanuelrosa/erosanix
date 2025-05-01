@@ -42,8 +42,6 @@ Setting up this repo as a Nix flake is no different than setting up any other fl
 - **mkmupen64plus** - Creates a launcher script to run a N64 game using *mupen64plus*. Also creates a corresponding menu item. Compose `mupen64plus` and `nvidia-offload-wrapper` using `compose` and you get a Nix package which launches a N64 game on your NVIDIA dGPU using offload rendering.
 - **compose** - Returns a function which when applied to an argument, applies the functions in the list, in the order provided. Ex 1. `myFunc = compose [ mkmupen64plus nvidia-offload-wrapper ];`. Ex 2. `(compose [ mkmupen64plus nvidia-offload-wrapper ]) {...}`
 - **composeAndApply** - Composes a list of functions (see `compose` above) and then applies them to the argument. Ex. `composeAndApply [ mkmupen64plus nvidia-offload-wrapper ] {...}`
-- **mkSierraChartStudyFromSrc** - A simple derivation function to cross-compile studies (indicators) for the Sierra Chart trading platform.
-- **mkSierraChartStudyFromDLL** - A simple derivation function install studies DLL's (indicators) for the Sierra Chart trading platform.
 - **torsocks** - Uses `torsocks` to allow you to use most applications in a safe way with Tor. Beware that torsocks it has its limits.
 - **nanogl** - Used to run OpenGL applications on Linux distributions other than NixOS, using Mesa drivers; NVIDIA drivers are not included. Based on [nixGL](https://github.com/nix-community/nixGL).
 
