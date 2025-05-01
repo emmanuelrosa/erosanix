@@ -129,6 +129,12 @@
           zenity = pkgs.zenity;
         };
 
+        super-space-club = callPackage ./pkgs/super-space-club/default.nix { 
+          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
+          wine = pkgs.wineWowPackages.base; 
+          zenity = pkgs.zenity;
+        };
+
         snakebird-complete = callPackage ./pkgs/snakebird/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wine64Packages.base; 

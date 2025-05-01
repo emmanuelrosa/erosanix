@@ -80,6 +80,7 @@ This repo has quite a variety of packages.
 - **microcap** - An integrated schematic editor and mixed analog/digital simulator.
 - **TOEM** -Set off on a delightful expedition and use your photographic eye to uncover the mysteries of the magical TOEM in this hand-drawn adventure game. Chat with quirky characters and solve their problems by snapping neat photos! 
 - **Snakebird Complete** - Embark on an extraordinary puzzle-solving adventure bringing together hit classic Snakebird and Snakebird Primer.
+- **Super Space Clube** - A colorful endless arcade gunner set to the backdrop of chill, lo-fi music.
 
 #### Misc utilities
   
