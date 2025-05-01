@@ -149,7 +149,6 @@ let
     battery-icons-font = ./updaters/battery-icons-font.nix;
     trace-font = ./updaters/trace-font.nix;
     foobar2000 = ./updaters/foobar2000.nix;
-    rtrader-pro = ./updaters/rtrader-pro.nix;
     line = ./updaters/line.nix;
     blockstream-green = ./updaters/blockstream-green.nix;
     gossip = ./updaters/gossip.nix;

@@ -106,11 +106,6 @@
           wineArch = "win64";
         };
 
-        rtrader-pro = callPackage ./pkgs/rtrader/rtrader-pro.nix {
-          inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.full;
-        };
-
         line = callPackage ./pkgs/line.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
           wine = pkgs.wineWowPackages.full; 

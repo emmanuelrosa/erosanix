@@ -73,7 +73,6 @@ This repo has quite a variety of packages.
 - **foobar2000** - An advanced freeware audio player for the Windows platform.
 - **lego-builders-journey** - A puzzle game developed by Light Brick Studio and published by Lego Games.
 - **line** - LINE is new level of communication, and the very infrastructure of your life.
-- **rtrader** - Rithmic professional trading software.
 - **sable** - Guide Sable through her Gliding; a rite of passage that will take her across vast deserts and mesmerizing landscapes, capped by the remains of spaceships and ancient wonders.
 - **tunche** - A charming, hand-drawn beat'em up hack and slash game with roguelike elements.
 - **horizon-chase-turbo** - A racing game inspired by the great hits of the 80's and 90's: Out Run, Lotus Turbo Challenge, Top Gear (SNES), Rush, among others. Each curve and each lap in Horizon Chase Turbo recreates classic arcade gameplay and offers you unbound speed limits of fun. Full throttle on and enjoy!
