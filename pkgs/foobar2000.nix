@@ -12,7 +12,7 @@ mkWindowsAppNoCC rec {
   inherit wine wineArch;
 
   pname = "foobar2000-${wineArch}";
-  version = "2.24.3"; #:version:
+  version = "2.24.4"; #:version:
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
   fileMapDuringAppInstall = true;
@@ -20,12 +20,12 @@ mkWindowsAppNoCC rec {
   src = {
     win32 = fetchurl {
       url = "https://www.foobar2000.org/files/foobar2000_v${version}.exe";
-      sha256 = "16vga7nhn9dapl0km90k3xsqay7biw8dh5dmp0jh3p4wa3g3asrd"; #:hash32:
+      sha256 = "1pbvfqcgcq6dprlxv9cwnrjjkrmpi7ivy5j44zfhrf6sjqgcyjn5"; #:hash32:
     };
 
     win64 = fetchurl {
       url = "https://www.foobar2000.org/files/foobar2000-x64_v${version}.exe";
-      sha256 = "1x3fhyv4121nb1f8zqjql52v5d3c23dp2a2kp6wiy8jvlwf30n91"; #:hash64:
+      sha256 = "173wryyqy3vvq3vlj479fq4kmk9m3jkd82s6rn2l09w98zr79gnb"; #:hash64:
     };
   }."${wineArch}";
 
