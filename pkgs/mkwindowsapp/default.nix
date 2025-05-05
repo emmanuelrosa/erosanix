@@ -1,6 +1,6 @@
 # Based on code from: https://raw.githubusercontent.com/lucasew/nixcfg/fd523e15ccd7ec2fd86a3c9bc4611b78f4e51608/packages/wrapWine.nix
 { stdenv, lib, makeBinPath, writeShellScript, winetricks, cabextract, gnused, unionfs-fuse
-, libnotify, dxvk, mangohud, util-linux, coreutils, writeScript, rsync }:
+, libnotify, dxvk, mangohud, util-linux, coreutils, writeScript, rsync, systemd }:
 { wine
 , wineArch ? "win32"
 , winAppRun
@@ -44,7 +44,7 @@
   # When set to "prefer-wayland", DISPLAY is unset only if WAYLAND_DISPLAY is set, causing Wine to use Wayland only when Wayland is available.
 , graphicsDriver ? "auto"
 
-  # When set to true, and if systemd-inhibit is found in $PATH, the launcher script will obtain an idle inhibit lock when executing the Windows app.
+  # When set to true, the launcher script will obtain an idle inhibit lock when executing the Windows app.
   # An idle inhibit lock can prevent the screen from turning off. Thus, this is most useful for Windows games.
 , inhibitIdle ? false
 , ... } @ attrs:
@@ -200,7 +200,6 @@ let
     }
 
     run_app () {
-      local inhibitcmd=""
       echo "Running Windows app with WINEPREFIX at $WINEPREFIX..."
       ${dxvkCacheSetupScript}
 
@@ -213,16 +212,9 @@ let
 
       if [ $WA_RUN_APP -eq 1 ]
       then
-        ${lib.optionalString inhibitIdle "inhibitcmd=$(which systemd-inhibit)"}
         ${lib.optionalString enableHUD "export MANGOHUD=\"${hudCommand}\""}
         ${winAppRun}
-
-        if [ -n "$inhibitcmd" ]
-        then
-          $inhibitcmd --no-ask-password --what=idle --who "${attrs.pname}" --why="To prevent the screen from turning off." --mode=block wineserver -w
-        else
-          wineserver -w
-        fi
+        ${lib.optionalString inhibitIdle "${systemd}/bin/systemd-inhibit --no-ask-password --what=idle --who=\"${attrs.pname}\" --why=\"To prevent the screen from turning off.\" --mode=block"} wineserver -w
       else
         echo "WA_RUN_APP is not set to 1. Starting a bash shell instead of running the app. When you're done, please exit the shell."
         bash
