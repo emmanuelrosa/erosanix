@@ -153,6 +153,7 @@ let
     blockstream-green = ./updaters/blockstream-green.nix;
     gossip = ./updaters/gossip.nix;
     bisq2 = ./updaters/bisq2.nix;
+    sideswap = ./updaters/sideswap.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
     electrum-personal-server = { 
       derivationPath = ./pkgs/electrum-personal-server.nix;
