@@ -57,8 +57,9 @@ mkWindowsAppNoCC rec {
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "Foobar2000";
-      categories = ["Audio" "Player"];
+      desktopName = "foobar2000";
+      comment = "Advanced Freeware Audio Player";
+      categories = ["Music" "Audio" "Player"];
       mimeTypes = builtins.map (s: "audio/" + s) [ "mpeg" "mp4" "aac" "x-vorbis+ogg" "x-opus+ogg" "flac" "x-wavpack" "x-wav" "x-aiff" "x-musepack" "x-speex" ];
     })
   ];
