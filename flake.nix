@@ -309,8 +309,6 @@
           openjdk = pkgs.openjdk.override { enableJavaFX = true; };
         };
 
-        bisq2 = pkgs.lib.trivial.warn "bisq2 will be removed from erosanix. Use bisq2 from github:emmanuelrosa/btc-clients-nix instead." (callPackage ./pkgs/bisq2/default.nix { });
-
         sideswap = callPackage ./pkgs/sideswap/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
