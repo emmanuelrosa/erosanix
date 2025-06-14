@@ -18,7 +18,7 @@ let
     cat $(find ${pkgs.xorg.fontalias}/ -name fonts.alias) >fonts.alias
   '';
 
-  mkFHSEnv = onlyofficeUnwrapped: pkgs.buildFHSUserEnvBubblewrap {
+  mkFHSEnv = onlyofficeUnwrapped: pkgs.buildFHSEnvBubblewrap {
     name = "onlyoffice";
     runScript = "DesktopEditors";
     extraBwrapArgs = [ "--tmpfs /usr/share"
