@@ -14,12 +14,12 @@
 , squashfsTools
 }: stdenv.mkDerivation rec {
   pname = "sideswap";
-  version = "1.8.0"; #:version:#
+  version = "1.8.1"; #:version:#
   appImageName = "SideSwap.AppImage";
 
   src = fetchurl {
     url = "https://github.com/sideswap-io/sideswapclient/releases/download/v${version}/${appImageName}";
-    hash = "sha256-aX91XuYry2vRTX9IJYfGLMUjRztaFNBU0k708HhGoAs="; #:hash:
+    sha256 = "1farkgphcfr8j485cdbdp1plp7pikvy65ziw3hmwl72bws3w7nhf"; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -50,7 +50,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/sideswap-io/sideswapclient/releases/download/v${version}/SHA256SUMS.asc";
-    hash = "sha256-FlWJNXkH06IjjHck/xhBP2p4ld87HSE8V6l5mV0KRsU=";
+    hash = "sha256-SGYU/NXiDrIaFFDxcwiChU3T35pu3ojbt4hGv0NHD2Y=";
   };
 
   nativeBuildInputs = [ gawk squashfsTools binutils autoPatchelfHook copyDesktopItems copyDesktopIcons ];
