@@ -5,9 +5,10 @@
 , wineArch
 , wineFlavor
 , enableVulkan ? false
+, enableMonoBootPrompt ? true
 }:
 mkWindowsApp rec {
-  inherit wine wineArch enableVulkan;
+  inherit wine wineArch enableVulkan enableMonoBootPrompt;
 
   pname = "winerun-${wineFlavor}";
   version = "0.1.0"; #:version:
