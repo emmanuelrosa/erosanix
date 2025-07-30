@@ -22,13 +22,13 @@
 , xcb-util-cursor
 , gnupg
 }: stdenv.mkDerivation rec {
-  pname = "blockstream-green";
-  version = "2.0.26"; #:version:#
-  archiveName = "BlockstreamGreen-linux-x86_64.tar.gz";
+  pname = "blockstream";
+  version = "2.0.27"; #:version:#
+  archiveName = "Blockstream-linux-x86_64.tar.gz";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "0sbnbmcl7m7jha67awjkps7iwq8brp24c44ywbz08f08zl8q5696"; #:hash:
+    sha256 = "sha256-LAr3F0w95bkhy7Mgkh2/RwF/YDxzVEZITgzafqHuSek="; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -54,12 +54,12 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-xLV5MT3WW+2rrxVgrn9Hv6wFz4qF6jZT4Dt7j30Ln/g=";
+    sha256 = "sha256-NvXVHWdxjqjqkt7iB2LwtrNKUnLhY1qwyOMtjak/8JQ=";
   };
 
   setSourceRoot = ''
     mkdir source
-    mv green source/
+    mv blockstream source/
     sourceRoot=source
   '';
 
@@ -95,7 +95,7 @@
 
     mkdir -p $out/bin
     mkdir -p $out/etc/udev/rules.d
-    install green $out/bin/${pname}
+    install blockstream $out/bin/${pname}
     cp ${hwi}/lib/python*/site-packages/hwilib/udev/55-usb-jade.rules $out/etc/udev/rules.d/
     cp ${hwi}/lib/python*/site-packages/hwilib/udev/20-hw1.rules $out/etc/udev/rules.d/
 
@@ -107,7 +107,7 @@
       name = pname;
       exec = pname;
       icon = pname;
-      desktopName = "Blockstream Green";
+      desktopName = "Blockstream";
       categories = ["Office" "Finance"];
     })
   ];
@@ -121,8 +121,8 @@
   };
 
   meta = with lib; {
-    description = "A multi-platform, feature-rich Bitcoin and Liquid wallet. Note: To use a Blockstream JADE or Ledger Nano S hardware wallet on NixOS you need to add the udev rules: `services.udev.packages = [ blockstream-green ]`";
-    homepage = "https://blockstream.com/green/";
+    description = "A multi-platform, feature-rich Bitcoin and Liquid wallet. Note: To use a Blockstream JADE or Ledger Nano S hardware wallet on NixOS you need to add the udev rules: `services.udev.packages = [ blockstream ]`";
+    homepage = "https://blockstream.com/app/";
     sourceProvenance = with sourceTypes; [
       binaryNativeCode
     ];
