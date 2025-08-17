@@ -22,9 +22,9 @@
 
       if [ "$ico_index" == "" ]
       then
-        convert $srcPath -resize $size $out/hicolor/$size/apps/${name}.png
+        convert "$srcPath" -resize $size "$out/hicolor/$size/apps/${name}.png"
       else
-        convert $srcPath\[$ico_index\] -resize $size $out/hicolor/$size/apps/${name}.png
+        convert "$srcPath\[$ico_index\]" -resize $size "$out/hicolor/$size/apps/${name}.png"
       fi
     done;
   '';
