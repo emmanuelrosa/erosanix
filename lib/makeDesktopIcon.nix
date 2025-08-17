@@ -5,9 +5,12 @@
 , src
 , pathWithinSrc ? ""
 , icoIndex ? null # For dealing with ico files.
-}: stdenv.mkDerivation {
+}:
+let escapedName = builtins.replaceStrings [" " "\n" "\t"] ["" "" ""] name;
+in
+stdenv.mkDerivation {
   inherit src;
-  name = "${name}-icons";
+  name = "${escapedName}-icons";
 
   nativeBuildInputs = [ imagemagick ];
   dontUnpack = if (builtins.stringLength pathWithinSrc) > 0 then false else true;
@@ -22,9 +25,9 @@
 
       if [ "$ico_index" == "" ]
       then
-        convert "$srcPath" -resize $size "$out/hicolor/$size/apps/${name}.png"
+        convert "$srcPath" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
       else
-        convert "$srcPath\[$ico_index\]" -resize $size "$out/hicolor/$size/apps/${name}.png"
+        convert "$srcPath\[$ico_index\]" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
       fi
     done;
   '';
