@@ -25,9 +25,9 @@ stdenv.mkDerivation {
 
       if [ "$ico_index" == "" ]
       then
-        convert "$srcPath" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
+        magick "$srcPath" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
       else
-        convert "$srcPath[$ico_index]" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
+        magick "$srcPath[$ico_index]" -resize $size "$out/hicolor/$size/apps/${escapedName}.png"
       fi
     done;
   '';
