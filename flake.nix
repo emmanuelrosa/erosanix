@@ -108,7 +108,7 @@
 
         line = callPackage ./pkgs/line.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.full; 
+          wine = pkgs.wineWowPackages.base; 
         };
 
         sable = callPackage ./pkgs/sable/default.nix { 

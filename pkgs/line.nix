@@ -21,9 +21,15 @@ mkWindowsAppNoCC rec {
   dontUnpack = true;
   wineArch = "win64";
   persistRegistry = false;
+  enableMonoBootPrompt = false;
+  graphicsDriver = "auto"; # Note: Does not work with Wayland
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
-  fileMap = { "$HOME/.local/share/line/Data" = "drive_c/users/$USER/AppData/Local/LINE/Data"; };
+  fileMap = {
+    "$HOME/.local/share/line/Data" = "drive_c/users/$USER/AppData/Local/LINE/Data";
+    "$HOME/.local/share/line/bin" = "drive_c/users/$USER/AppData/Local/LINE/bin";
+    "$HOME/.local/share/line-call/Data" = "drive_c/users/$USER/AppData/Local/LineCall/Data";
+  };
 
   enabledWineSymlinks = {
     desktop = false;
