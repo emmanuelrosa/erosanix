@@ -2,7 +2,6 @@
 , mkWindowsAppNoCC
 , wine
 , fetchurl
-, findutils
 , makeDesktopItem
 , makeDesktopIcon
 , copyDesktopItems
@@ -12,11 +11,11 @@ mkWindowsAppNoCC rec {
   inherit wine;
 
   pname = "line";
-  version = "9.0.1.3361"; #:version:
+  version = "9.2.0"; #:version:
 
   src = fetchurl {
-    url = "https://desktop.line-scdn.net/win/new/LineInst.exe";
-    sha256 = "1w8apqfkr4m4r1k85pan776dvjlysxdbyilpl6ypykiqh1dclg2k"; #:hash:
+    url = "https://dw.uptodown.net/dwn/d-j2hYrpH1l7Yai6-Sx1G1mqPZ5MdNdvZYHvkFptDlaA01rZdXIgXHjWINKSQ8LvppcrHM4GzCx27onCSeMKXZP59JAxTRumxrjU3pg7P5XAn7QPu6H9veP-q5sMFNJu/_pnWqtP0_KJFx2ijIPyobk_iET9Kaz7A7EFfUSyxdQLEVnr83cnXKgIqa69lhUh67ehKJSalm4XxanONZdLXlAPV-DPL2ugO2Lb3_WFKSYUkCKk5PkX_iOhoRK77ENC1/u3xGWdVjdntPmREAKX9emg6EGDshLP_15DrdnL4ERQMfh8qztNUCUJJtESyA9CERhmfg-flbf_9oUiLX72fyeg==/line-9-2-0-build-3431.exe";
+    sha256 = "469421829b4eda17af44236f1a684fe970899324677f741f22033a2218b40bf5"; #:hash:
   };
 
   dontUnpack = true;
