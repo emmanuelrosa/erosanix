@@ -15,6 +15,7 @@
 , persistRegistry ? false # Disabled by default because it hurts reproduceability.
 , persistRuntimeLayer ? false
 , enableVulkan ? false # Determines the DirectX rendering backend. Defaults to opengl.
+, dxvkOptions ? { } # Determines the DXVK installation options when using `enableVulkan`. See `dxvkDefaultOptions`.
 , rendererOverride ? null # Can be wine-opengl, wine-vulkan, or dxvk-vulkan. Used to override renderer selection. Avoid using.
 , enableHUD ? false # When enabled, use $MANGOHUD as the mangohud command.
 
@@ -74,12 +75,19 @@ let
     setWineRenderer = value: ''
       $WINE reg add 'HKCU\Software\Wine\Direct3D' /v renderer /d "${value}" /f
     '';
+
+    dxvkDefaultOptions = {
+      enableDXGI = true;
+      enableD3D10 = false;
+    };
+
+    dxvkAppliedOptions = dxvkDefaultOptions // dxvkOptions;
   in {
     wine-opengl = setWineRenderer "gl";
     wine-vulkan = setWineRenderer "vulkan";
     dxvk-vulkan = ''
       ${setWineRenderer "gl"}
-      ${dxvk}/bin/setup_dxvk.sh install --symlink
+      ${dxvk}/bin/setup_dxvk.sh install --symlink ${lib.optionalString (!dxvkAppliedOptions.enableDXGI) "--without-dxgi"} ${lib.optionalString dxvkAppliedOptions.enableD3D10 "--with-d3d10"}
     '';
   }."${renderer}";
 
@@ -316,7 +324,7 @@ let
       wa_remove_bottle $bottle
     fi
   '';
-in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" "enabledWineSymlinks" ]) // {
+in stdenv.mkDerivation ((builtins.removeAttrs attrs [ "fileMap" "enabledWineSymlinks" "dxvkOptions"]) // {
 
   preInstall = ''
     APP_LAYER_HASH=${if appLayerHash == "@APP_LAYER_HASH@" then ''$(printf "%s %s" "$out/bin/.launcher" "${api}" | sha256sum | sed -r "s/(.{64}).*/\1/")'' else appLayerHash}
