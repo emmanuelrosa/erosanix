@@ -66,7 +66,7 @@ in mkWindowsAppNoCC rec {
       exec = pname;
       icon = pname;
       desktopName = "Monument Valley";
-      categories = [ "Game" "RolePlaying" ];
+      categories = [ "Game" "LogicGame" ];
     })
   ];
 
