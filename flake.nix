@@ -9,6 +9,13 @@
 
   outputs = { self, nixpkgs, flake-compat }: {
 
+    templates = {
+      mkWindowsApp = {
+        path = ./templates/mkWindowsApp;
+        description = "Flake for installing a Microsoft Windows app using Wine";
+      };
+    };
+
     lib.x86_64-linux = let
       pkgs = import "${nixpkgs}" {
         system = "x86_64-linux";

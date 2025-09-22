@@ -62,6 +62,14 @@ Let's use Notepad++ as an example:
 
 I recommend studying the example [sumatrapdf-nix](https://github.com/emmanuelrosa/sumatrapdf-nix). It's a Nix Flake which uses `mkWindowsApp` to package SumatraPDF.
 
+You can also initialize a Nix flake using the `mkWindowsApp` template. It's quite terse, though:
+
+```
+mkdir myflake
+cd myflake
+nix flake init --template github:emmanuelrosa/erosanix#mkWindowsApp 
+```
+
 ## How to persist settings
 
 Early releases of `mkWindowsApp` required package maintainers to handle the persistance of files which need to be retained across multiple executions. Usually, these are configuration files, or the entire user registry (user.reg). However, newer releases of `mkWindowsApp` provide the attribute `fileMap` which lets package maintainers easily set up what files to link into the $WINEPREFIX. Here's an example of how to use the attribute:
