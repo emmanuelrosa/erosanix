@@ -430,7 +430,6 @@
         };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
-    nixosModules.electrum-personal-server = import ./modules/electrum-personal-server.nix;
     nixosModules.protonvpn = import ./modules/protonvpn.nix;
     nixosModules.btrbk = import ./modules/btrbk.nix;
     nixosModules.electrs = import ./modules/electrs.nix;
