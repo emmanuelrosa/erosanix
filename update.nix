@@ -154,13 +154,6 @@ let
     gossip = ./updaters/gossip.nix;
     sideswap = ./updaters/sideswap.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
-    electrum-personal-server = { 
-      derivationPath = ./pkgs/electrum-personal-server.nix;
-      owner = "chris-belcher";
-      repo = "electrum-personal-server";
-      tagPrefix = "eps-v";
-      versionConverter = "${pkgs.gnused}/bin/sed 's/eps-v//'";
-    };
   });
 
   sets = let 
