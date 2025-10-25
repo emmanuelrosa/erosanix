@@ -195,7 +195,7 @@
 
         black-book = callPackage ./pkgs/black-book/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wine64Packages.stableFull; 
+          wine = pkgs.wine64Packages.base; 
           zenity = pkgs.zenity;
         };
 

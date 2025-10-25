@@ -20,6 +20,9 @@ in mkWindowsAppNoCC rec {
   pname = "black-book";
   version = "unknown"; #:version:
   wineArch = "win64";
+  inhibitIdle = true;
+  enableMonoBootPrompt = false;
+  graphicsDriver = "prefer-wayland";
   dontUnpack = true;
   nativeBuildInputs = [ copyDesktopItems copyDesktopIcons ];
 
