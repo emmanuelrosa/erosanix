@@ -153,6 +153,7 @@ let
     blockstream = ./updaters/blockstream.nix;
     gossip = ./updaters/gossip.nix;
     sideswap = ./updaters/sideswap.nix;
+    apidash = ./updaters/apidash.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
   });
 

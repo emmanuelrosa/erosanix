@@ -379,6 +379,8 @@
         };
 
         harmonoid = callPackage ./pkgs/harmonoid/default.nix { };
+
+        apidash = callPackage ./pkgs/apidash/default.nix { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
