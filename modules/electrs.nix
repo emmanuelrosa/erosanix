@@ -105,9 +105,9 @@ in {
       };
 
       verbose = mkOption {
-        type = types.bool;
-        default = false;
-        description = "Increase logging verbosity.";
+        type = types.int;
+        default = 0;
+        description = "Set verbosity level";
       };
 
       ignoreMempool = mkOption {
@@ -166,7 +166,7 @@ in {
         ELECTRS_REINDEX_LAST_BLOCKS = builtins.toString cfg.reindexLastBlocks;
         ELECTRS_AUTO_REINDEX = if cfg.autoReindex then "true" else "false";
         ELECTRS_SERVER_BANNER = cfg.serverBanner;
-        ELECTRS_VERBOSE = if cfg.verbose then "true" else "false";
+        ELECTRS_VERBOSE = cfg.verbose;
       };
 
       serviceConfig = let 
