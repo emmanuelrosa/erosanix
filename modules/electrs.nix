@@ -92,10 +92,22 @@ in {
         description = "Number of last blocks to reindex (used for testing).";
       };
 
+      serverBanner = mkOption {
+        type = types.str;
+        default = "electrs";
+        description = "Welcome to electrs ${cfg.package.version} (Electrum Rust Server)!"; 
+      };
+
       autoReindex = mkOption {
         type = types.bool;
         default = true;
         description = "Automatically reindex the database if it's inconsistent or in old format.";
+      };
+
+      verbose = mkOption {
+        type = types.bool;
+        default = false;
+        description = "Increase logging verbosity.";
       };
 
       ignoreMempool = mkOption {
@@ -153,6 +165,8 @@ in {
         ELECTRS_INDEX_LOOKUP_LIMIT = builtins.toString cfg.indexLookupLimit;
         ELECTRS_REINDEX_LAST_BLOCKS = builtins.toString cfg.reindexLastBlocks;
         ELECTRS_AUTO_REINDEX = if cfg.autoReindex then "true" else "false";
+        ELECTRS_SERVER_BANNER = cfg.serverBanner;
+        ELECTRS_VERBOSE = if cfg.verbose then "true" else "false";
       };
 
       serviceConfig = let 
