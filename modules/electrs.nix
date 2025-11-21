@@ -104,10 +104,10 @@ in {
         description = "Automatically reindex the database if it's inconsistent or in old format.";
       };
 
-      verbose = mkOption {
-        type = types.int;
-        default = 0;
-        description = "Set verbosity level";
+      logging = mkOption {
+        type = types.enum [ "off" "error" "info" "debug" "warn" "trace" ];
+        default = "none";
+        description = "Set logging level";
       };
 
       ignoreMempool = mkOption {
@@ -166,7 +166,7 @@ in {
         ELECTRS_REINDEX_LAST_BLOCKS = builtins.toString cfg.reindexLastBlocks;
         ELECTRS_AUTO_REINDEX = if cfg.autoReindex then "true" else "false";
         ELECTRS_SERVER_BANNER = cfg.serverBanner;
-        ELECTRS_VERBOSE = builtins.toString cfg.verbose;
+        ELECTRS_LOG_FILTERS = cfg.logging;
       };
 
       serviceConfig = let 
