@@ -2,33 +2,22 @@
 , lib
 , fetchurl
 , autoPatchelfHook
-, makeDesktopItem
-, makeDesktopIcon
-, copyDesktopItems
-, copyDesktopIcons
-, glib
-, dbus
-, libdrm
-, freetype
-, fontconfig
-, zlib
-, libgpg-error
-, xorg
-, libxkbcommon
-, gst_all_1
-, mesa
-, pulseaudio
-, hwi
-, xcb-util-cursor
+, makeWrapper
+, qt6
+, kdePackages
 , gnupg
+, squashfsTools
+, e2fsprogs
+, hwi
+, enableHWI ? false
 }: stdenv.mkDerivation rec {
   pname = "blockstream";
-  version = "2.0.28"; #:version:#
-  archiveName = "Blockstream-linux-x86_64.tar.gz";
+  version = "2.0.30"; #:version:#
+  archiveName = "Blockstream-x86_64.AppImage";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "1cd9kwxyx31gwa53d6pml6nv6bvbpvzsiaqs66ijv2rhmv9jiv19"; #:hash:
+    sha256 = "sha256-zldUU4FoQp8w42RVH12L4yEMobU8WMZQ7y80NFKf0fw="; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -54,71 +43,47 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-E9z1ez9Tir9XCW3+gDxANe/lawnenqqldnuEzNyW0a0=";
+    sha256 = "sha256-i7M8XRlK5kS5X65Em+eFoWzIDPro+K05k63auT9fiPQ=";
   };
 
-  setSourceRoot = ''
-    mkdir source
-    mv blockstream source/
-    sourceRoot=source
+  # Based on nixpkgs/pkgs/build-support/appimage/appimage-exec.sh
+  unpackCmd = ''
+    offset=$(LC_ALL=C readelf -h "$curSrc" | awk 'NR==13{e_shoff=$5} NR==18{e_shentsize=$5} NR==19{e_shnum=$5} END{print e_shoff+e_shentsize*e_shnum}')
+    echo "Extracting squashfs filesystem at offset $offset."
+    unsquashfs -q -d "squashfs-root" -o "$offset" "$curSrc"
   '';
 
-  nativeBuildInputs = [ autoPatchelfHook copyDesktopItems copyDesktopIcons ];
+  nativeBuildInputs = [ autoPatchelfHook squashfsTools qt6.wrapQtAppsHook ];
+
+  qtWrapperArgs = [
+    "--prefix LD_LIBRARY_PATH : /run/current-system/sw/lib"
+  ];
 
   buildInputs = [
-    libdrm
-    freetype
-    fontconfig
-    zlib
-    libgpg-error
-    glib
-    dbus
-    libxkbcommon
-    xcb-util-cursor
-  ] ++ (with xorg; [
-    libX11
-    libxcb
-    xcbutilkeysyms
-    xcbutilrenderutil
-    xcbutilwm
-    xcbutilimage
-    pulseaudio
-    libXrandr
-  ]) ++ (with gst_all_1; [
-    gstreamer
-    gst-plugins-base
-    mesa
-  ]);
+    qt6.qtbase
+    qt6.qtserialport
+    qt6.qtconnectivity
+    kdePackages.qtmultimedia
+    kdePackages.qtdeclarative
+    e2fsprogs
+  ];
 
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/bin
-    mkdir -p $out/etc/udev/rules.d
-    install blockstream $out/bin/${pname}
-    cp ${hwi}/lib/python*/site-packages/hwilib/udev/55-usb-jade.rules $out/etc/udev/rules.d/
-    cp ${hwi}/lib/python*/site-packages/hwilib/udev/20-hw1.rules $out/etc/udev/rules.d/
+    mkdir -p $out
+
+    cp -r ./usr/bin $out/
+    cp -r ./usr/share $out/
+    cp -r ./usr/qml $out/
+
+    ${lib.optionalString enableHWI "mkdir -p $out/etc/udev/rules.d"}
+    ${lib.optionalString enableHWI "ln -s ${hwi}/bin/hwi $out/bin/hwi"}
+    ${lib.optionalString enableHWI "cp ${hwi}/lib/python*/site-packages/hwilib/udev/55-usb-jade.rules $out/etc/udev/rules.d/"}
+    ${lib.optionalString enableHWI "cp ${hwi}/lib/python*/site-packages/hwilib/udev/20-hw1.rules $out/etc/udev/rules.d/"}
 
     runHook postInstall
   '';
-
-  desktopItems = [
-    (makeDesktopItem {
-      name = pname;
-      exec = pname;
-      icon = pname;
-      desktopName = "Blockstream";
-      categories = ["Office" "Finance"];
-    })
-  ];
-
-  desktopIcon = makeDesktopIcon {
-    name = pname;
-    src = fetchurl {
-      url = "https://github.com/Blockstream/green_qt/raw/release_${version}/assets/icons/green.png";
-      sha256 = "sha256-xdCTp6Yw7UgKr+7JEonwAVDrkEI8KSj4pHuNstlEAHk=";
-    };
-  };
 
   meta = with lib; {
     description = "A multi-platform, feature-rich Bitcoin and Liquid wallet. Note: To use a Blockstream JADE or Ledger Nano S hardware wallet on NixOS you need to add the udev rules: `services.udev.packages = [ blockstream ]`";
