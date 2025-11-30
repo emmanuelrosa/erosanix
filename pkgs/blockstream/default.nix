@@ -12,12 +12,12 @@
 , enableHWI ? false
 }: stdenv.mkDerivation rec {
   pname = "blockstream";
-  version = "2.0.30"; #:version:#
+  version = "2.0.31"; #:version:#
   archiveName = "Blockstream-x86_64.AppImage";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "sha256-zldUU4FoQp8w42RVH12L4yEMobU8WMZQ7y80NFKf0fw="; #:hash:
+    sha256 = "sha256-7sKkfKQmc50O+V257zUhaYfKYmoGz8fg0KCY80efxP4="; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -43,7 +43,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-i7M8XRlK5kS5X65Em+eFoWzIDPro+K05k63auT9fiPQ=";
+    sha256 = "sha256-ihGKu4IQBp95Qeo5vdRTQh/N8A5i20Fl3HRsTFCd0Ns=";
   };
 
   # Based on nixpkgs/pkgs/build-support/appimage/appimage-exec.sh
