@@ -228,6 +228,8 @@
           wine = pkgs.wine64Packages.base; 
         };
 
+        dart-frog-cli = callPackage ./pkgs/dart-frog-cli { };
+
         wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
           wine = pkgs.wine64Packages.stableFull; 
