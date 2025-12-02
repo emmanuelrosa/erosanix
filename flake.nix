@@ -228,7 +228,24 @@
           wine = pkgs.wine64Packages.base; 
         };
 
+        dart-flutter = pkgs.symlinkJoin {
+          name = "dart-flutter-${pkgs.flutter.version}";
+          paths = [ "${pkgs.flutter}/bin/cache/dart-sdk" ];
+
+          meta.platforms = [
+            "x86_64-linux"
+          ];
+        };
+
         dart-frog-cli = callPackage ./pkgs/dart-frog-cli { };
+
+        serverpod-cli = callPackage ./pkgs/serverpod-cli {
+          dart-flutter = self.packages.x86_64-linux.dart-flutter;
+
+          buildDartApplication = pkgs.buildDartApplication.override {
+            dart = self.packages.x86_64-linux.dart-flutter;
+          };
+        };
 
         wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
