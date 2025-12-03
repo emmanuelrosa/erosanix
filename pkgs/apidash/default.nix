@@ -3,7 +3,9 @@
 , fetchurl
 , dpkg
 , autoPatchelfHook
+, makeWrapper
 , gtk3
+, xdg-user-dirs
 }: stdenv.mkDerivation rec {
   pname = "apidash";
   version = "0.3.0"; #:version:#
@@ -13,7 +15,7 @@
     sha256 = "sha256-bd+HOI5jhlR000KoKBkBVQxEsH+le/80OVDCpWkWTAM="; #:hash:
   };
 
-  nativeBuildInputs = [ dpkg autoPatchelfHook ];
+  nativeBuildInputs = [ dpkg autoPatchelfHook makeWrapper ];
 
   buildInputs = [
     gtk3
@@ -30,8 +32,8 @@
     cp -r usr/. $out/
     ln -s $out/share/apidash/apidash $out/bin/apidash
 
-    # patchelf --add-needed libapidash_client.so $out/opt/apidash/apidash
     patchelf --add-rpath $out/share/apidash/lib $out/share/apidash/apidash
+    wrapProgram $out/share/apidash/apidash --prefix PATH : ${lib.makeBinPath [ xdg-user-dirs ]}
 
     runHook postInstall
   '';
