@@ -10,13 +10,13 @@
 , enableHUD ? false
 , graphicsDriver ? "prefer-wayland"
 , gameDir ? "$HOME/Games/Zoeti"
-, enableVulcan ? false
+, enableVulkan ? false
 }:
 let
   wineGameDir = "drive_c/Zoeti";
   exePath = "$WINEPREFIX/${wineGameDir}/Zoeti.exe";
 in mkWindowsAppNoCC rec {
-  inherit wine enableHUD graphicsDriver enableVulcan;
+  inherit wine enableHUD graphicsDriver enableVulkan;
 
   pname = "zoeti";
   version = "unknown";
