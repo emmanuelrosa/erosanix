@@ -8,13 +8,13 @@
 }:
 
 let 
-  version = "2.9.2";
+  version = "3.1.1";
 
   src = fetchFromGitHub {
     owner = "serverpod";
     repo = "serverpod";
     tag = version;
-    hash = "sha256-H4cB/jp/AwBUH3fQ1vDKpvCWQHLcP1e7HChEbEfnXLU=";
+    hash = "sha256-eeHe1zIl+RsFkuhdDJdDxYQbz29fh1QhoJbu3t+kdFw=";
   };
 
   serverpod_home = stdenvNoCC.mkDerivation {
