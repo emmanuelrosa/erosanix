@@ -45,7 +45,7 @@ in mkWindowsAppNoCC rec {
   winAppRun = ''
     if [ -f "${exePath}" ]
     then
-      $WINE "${exePath}";
+      $WINE start /unix "${exePath}";
     else
       ${zenity}/bin/zenity --error --text "Could not find the Cassette Beasts installation at: ${gameDir}"
     fi
