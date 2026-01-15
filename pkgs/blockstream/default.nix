@@ -12,12 +12,12 @@
 , enableHWI ? false
 }: stdenv.mkDerivation rec {
   pname = "blockstream";
-  version = "2.0.31"; #:version:#
+  version = "3.0.0"; #:version:#
   archiveName = "Blockstream-x86_64.AppImage";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    sha256 = "sha256-7sKkfKQmc50O+V257zUhaYfKYmoGz8fg0KCY80efxP4="; #:hash:
+    hash = "sha256-WDidfsgHe1GPUa/BEr8k8gqHBv4oIgSsUbX5qJL6q0Y="; #:hash:#
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -43,7 +43,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-ihGKu4IQBp95Qeo5vdRTQh/N8A5i20Fl3HRsTFCd0Ns=";
+    sha256 = "sha256-syCls83LKvDegXQpoXcRGw9E/w5cJ57zyCO0AdnkIww=";
   };
 
   # Based on nixpkgs/pkgs/build-support/appimage/appimage-exec.sh
@@ -63,6 +63,7 @@
     qt6.qtbase
     qt6.qtserialport
     qt6.qtconnectivity
+    qt6.qtwebengine
     kdePackages.qtmultimedia
     kdePackages.qtdeclarative
     e2fsprogs
