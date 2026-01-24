@@ -2,12 +2,14 @@
   description = "Emmanuel's NixOS/Nix Flakes repository.";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/master";
+  inputs.tiny-audio-player.url = "github:emmanuelrosa/tiny_audio_player";
+  inputs.tiny-audio-player.inputs.nixpkgs.follows = "nixpkgs";
   inputs.flake-compat = {
     url = "github:edolstra/flake-compat";
     flake = false;
   };
 
-  outputs = { self, nixpkgs, flake-compat }: {
+  outputs = { self, nixpkgs, flake-compat, tiny-audio-player }: {
 
     templates = {
       mkWindowsApp = {
@@ -410,6 +412,8 @@
         apidash = callPackage ./pkgs/apidash/default.nix { };
 
         responsively = callPackage ./pkgs/responsively/default.nix { };
+
+        tiny_audio_player = tiny-audio-player.packages.x86_64-linux.tiny_audio_player;
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let

@@ -35,7 +35,28 @@
     "root": {
       "inputs": {
         "flake-compat": "flake-compat",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "tiny-audio-player": "tiny-audio-player"
+      }
+    },
+    "tiny-audio-player": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1769297123,
+        "narHash": "sha256-WDGFsyLwNPe6gjyyumvNScgcF/uiwkoEix4/tk/whiA=",
+        "owner": "emmanuelrosa",
+        "repo": "tiny_audio_player",
+        "rev": "97ca983861eb6f122e80997bf2b06823e0b0dcf1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "emmanuelrosa",
+        "repo": "tiny_audio_player",
+        "type": "github"
       }
     }
   },
