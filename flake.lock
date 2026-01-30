@@ -46,11 +46,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1769297123,
-        "narHash": "sha256-WDGFsyLwNPe6gjyyumvNScgcF/uiwkoEix4/tk/whiA=",
+        "lastModified": 1769797635,
+        "narHash": "sha256-ENwjbVYOks9bkBAIpfwQg5uCHrU8iG7zq/5toKmdoZk=",
         "owner": "emmanuelrosa",
         "repo": "tiny_audio_player",
-        "rev": "97ca983861eb6f122e80997bf2b06823e0b0dcf1",
+        "rev": "350c1697d0a0181d55bda191b10a75cfcb8c9c50",
         "type": "github"
       },
       "original": {
