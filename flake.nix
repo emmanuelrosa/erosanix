@@ -407,8 +407,6 @@
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
 
-        harmonoid = callPackage ./pkgs/harmonoid/default.nix { };
-
         apidash = callPackage ./pkgs/apidash/default.nix { };
 
         responsively = callPackage ./pkgs/responsively/default.nix { };
