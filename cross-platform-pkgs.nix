@@ -8,4 +8,5 @@
   uchrony-circle-slab-font = ./pkgs/uchrony-circle-slab-font/default.nix;
   kg-counting-stars-font = ./pkgs/kg-counting-stars-font/default.nix;
   bubble-dance-monogram-font = ./pkgs/bubble-dance-monogram-font/default.nix;
+  pagekite = ./pkgs/pagekite/default.nix;
 }
