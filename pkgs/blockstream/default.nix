@@ -12,12 +12,12 @@
 , enableHWI ? false
 }: stdenv.mkDerivation rec {
   pname = "blockstream";
-  version = "3.0.1"; #:version:#
+  version = "3.1.0"; #:version:#
   archiveName = "Blockstream-x86_64.AppImage";
 
   src = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/${archiveName}";
-    hash = "sha256-/h8WUtZGyv97j0tNaYOqX4uRnNWZjCtLbz3jh0e5xPc="; #:hash:#
+    hash = "sha256-zKKAYhwLCTjZXbosMNy36iPshTCoqFefGPSzu/15bBs="; #:hash:#
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
@@ -43,7 +43,7 @@
 
   manifest = fetchurl {
     url = "https://github.com/Blockstream/green_qt/releases/download/release_${version}/SHA256SUMS.asc";
-    sha256 = "sha256-Il8Qszk9EhjaxxxqtQdkFbGx3cMGn5rY4U7loB04368=";
+    sha256 = "sha256-CmDQGY01jBkHdxw+xz4U/AqXlcjnxvrNk72/DpyW+Sc=";
   };
 
   # Based on nixpkgs/pkgs/build-support/appimage/appimage-exec.sh
@@ -72,11 +72,12 @@
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out
+    mkdir -p {$out,$out/lib}
 
     cp -r ./usr/bin $out/
     cp -r ./usr/share $out/
     cp -r ./usr/qml $out/
+    cp ./usr/lib/liblwk.so $out/lib/
 
     ${lib.optionalString enableHWI "mkdir -p $out/etc/udev/rules.d"}
     ${lib.optionalString enableHWI "ln -s ${hwi}/bin/hwi $out/bin/hwi"}
