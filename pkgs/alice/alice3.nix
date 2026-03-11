@@ -12,7 +12,12 @@
 , autoPatchelfHook
 , openjdk
 , bash
-, xorg
+, libXi
+, libX11
+, libXrender
+, libXxf86vm
+, libXrandr
+, libXcursor
 , libGL
 , libGLU
 , libdrm
@@ -40,12 +45,12 @@ in stdenv.mkDerivation rec {
 
   nativeBuildInputs = [ dpkg gnutar copyDesktopItems copyDesktopIcons autoPatchelfHook stdenv.cc.cc.libgcc ];
 
-  buildInputs = [ xorg.libXi
-                  xorg.libX11
-                  xorg.libXrender
-                  xorg.libXxf86vm
-                  xorg.libXrandr
-                  xorg.libXcursor
+  buildInputs = [ libXi
+                  libX11
+                  libXrender
+                  libXxf86vm
+                  libXrandr
+                  libXcursor
                   libGL
                   libGLU
                   openjdk
