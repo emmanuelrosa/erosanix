@@ -5,7 +5,16 @@
 , makeDesktopIcon
 , copyDesktopIcons
 , autoPatchelfHook
-, xorg
+, libx11 
+, libxcursor
+, libxrandr
+, libxi
+, libxcb
+, libxau
+, libxdmcp
+, libxext
+, libxfixes
+, libxrender
 , libGL
 , openssl
 , fontconfig
@@ -18,16 +27,16 @@
   version = "0.14.0"; #:version:
 
   nativeBuildInputs = [ dpkg copyDesktopIcons autoPatchelfHook stdenv.cc.cc.libgcc ];
-  runtimeDependencies = [ xorg.libX11 
-                          xorg.libXcursor
-                          xorg.libXrandr
-                          xorg.libXi
-                          xorg.libxcb
-                          xorg.libXau
-                          xorg.libXdmcp
-                          xorg.libXext
-                          xorg.libXfixes
-                          xorg.libXrender
+  runtimeDependencies = [ libx11 
+                          libxcursor
+                          libxrandr
+                          libxi
+                          libxcb
+                          libxau
+                          libxdmcp
+                          libxext
+                          libxfixes
+                          libxrender
                           libxkbcommon
                           dbus
                           pipewire
