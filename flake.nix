@@ -102,7 +102,7 @@
 
         amazon-kindle = callPackage ./pkgs/amazon-kindle { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.full; 
+          wine = pkgs.wineWow64Packages.full; 
         };
 
         mkwindowsapp-tools = callPackage ./pkgs/mkwindowsapp-tools { wrapProgram = pkgs.wrapProgram; };
@@ -115,7 +115,7 @@
 
         line = callPackage ./pkgs/line.nix {
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.base; 
+          wine = pkgs.wineWow64Packages.base; 
         };
 
         sable = callPackage ./pkgs/sable/default.nix { 
@@ -138,7 +138,7 @@
 
         super-space-club = callPackage ./pkgs/super-space-club/default.nix { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.base; 
+          wine = pkgs.wineWow64Packages.base; 
           zenity = pkgs.zenity;
         };
 
@@ -156,7 +156,7 @@
 
         duskers = callPackage ./pkgs/duskers/default.nix { 
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
-          wine = pkgs.wineWowPackages.base;
+          wine = pkgs.wineWow64Packages.base;
           zenity = pkgs.zenity;
         };
 
@@ -199,7 +199,7 @@
 
         microcap = callPackage ./pkgs/microcap { 
           inherit (lib) mkWindowsAppNoCC copyDesktopIcons makeDesktopIcon;
-          wine = pkgs.wineWowPackages.stableFull; 
+          wine = pkgs.wineWow64Packages.stableFull; 
           wineArch = "win64";
         };
 
@@ -261,7 +261,7 @@
 
         wineshell-wineWow64 = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
-          wine = pkgs.wineWowPackages.stableFull;
+          wine = pkgs.wineWow64Packages.stableFull;
           wineArch = "win64";
           wineFlavor = "wineWow64";
         };
@@ -283,7 +283,7 @@
 
         wineshell-wineWow64-base = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
-          wine = pkgs.wineWowPackages.base;
+          wine = pkgs.wineWow64Packages.base;
           wineArch = "win64";
           wineFlavor = "wineWow64";
           enableMonoBootPrompt = false;
@@ -330,7 +330,7 @@
 
         winerun-wineWow64 = callPackage ./pkgs/winerun/default.nix {
           inherit (lib) mkWindowsApp;
-          wine = pkgs.wineWowPackages.stableFull;
+          wine = pkgs.wineWow64Packages.stableFull;
           wineArch = "win64";
           wineFlavor = "wineWow64";
         };
@@ -352,7 +352,7 @@
 
         winerun-wineWow64-base = callPackage ./pkgs/winerun/default.nix {
           inherit (lib) mkWindowsApp;
-          wine = pkgs.wineWowPackages.base;
+          wine = pkgs.wineWow64Packages.base;
           wineArch = "win64";
           wineFlavor = "wineWow64";
           enableMonoBootPrompt = false;

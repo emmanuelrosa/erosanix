@@ -60,6 +60,8 @@ Let's use Notepad++ as an example:
  
 ### How can I package a Windows application with `mkWindowsApp`?
 
+NOTICE: `wineWowPackages` (in Nixpkgs) has been renamed to `wineWow64Packages`. I recommend making this change in your existing packages to avoid building Wine for no good reason.
+
 I recommend studying the example [sumatrapdf-nix](https://github.com/emmanuelrosa/sumatrapdf-nix). It's a Nix Flake which uses `mkWindowsApp` to package SumatraPDF.
 
 You can also initialize a Nix flake using the `mkWindowsApp` template. It's quite terse, though:
