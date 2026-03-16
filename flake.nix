@@ -408,6 +408,8 @@
         apidash = callPackage ./pkgs/apidash/default.nix { };
 
         responsively = callPackage ./pkgs/responsively/default.nix { };
+
+        tiny_audio_player = callPackage ./pkgs/tiny_audio_player { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
