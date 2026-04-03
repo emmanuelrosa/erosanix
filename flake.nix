@@ -252,6 +252,11 @@
           wine = pkgs.wine64Packages.base; 
         };
 
+        boxes-lost-fragments = callPackage ./pkgs/boxes-lost-fragments/default.nix {
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
+          wine = pkgs.wine64Packages.base; 
+        };
+
         wineshell-wine64 = callPackage ./pkgs/wineshell/default.nix {
           inherit (lib) mkWindowsApp;
           wine = pkgs.wine64Packages.stableFull; 
