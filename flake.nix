@@ -179,7 +179,7 @@
 
         blockstream-green = pkgs.lib.warn "blockstream-green has been renamed to blockstream" self.packages.x86_64-linux.blockstream;
 
-        blockstream = callPackage ./pkgs/blockstream/default.nix { };
+        blockstream = pkgs.lib.warn "The blockstream package will be removed because it has proved to be unreliable." callPackage ./pkgs/blockstream/default.nix { };
 
         gossip = callPackage ./pkgs/gossip/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
