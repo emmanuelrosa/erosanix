@@ -177,8 +177,6 @@
           zenity = pkgs.zenity;
         };
 
-        blockstream = pkgs.lib.warn "The blockstream package will be removed because it has proved to be unreliable." callPackage ./pkgs/blockstream/default.nix { };
-
         gossip = callPackage ./pkgs/gossip/default.nix { 
           inherit (lib) makeDesktopIcon copyDesktopIcons;
         };
