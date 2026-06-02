@@ -6,11 +6,11 @@
 
 appimageTools.wrapType2 rec {
   pname = "responsively-app";
-  version = "1.17.1";
+  version = "1.17.1"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/responsively-org/responsively-app-releases/releases/download/v${version}/ResponsivelyApp-${version}.AppImage";
-    hash = "sha256-GiHwWSP/iQ9AOosOor6vUoKr/ztbTfFbjytEHJjNoz4=";
+    hash = "sha256-GiHwWSP/iQ9AOosOor6vUoKr/ztbTfFbjytEHJjNoz4="; #:hash:#
   };
 
   appimageContents = appimageTools.extract {

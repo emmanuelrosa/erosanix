@@ -154,6 +154,7 @@ let
     sideswap = ./updaters/sideswap.nix;
     apidash = ./updaters/apidash.nix;
     tiny_audio_player = ./updaters/tiny_audio_player.nix;
+    responsively = ./updaters/responsively.nix;
   }) // (builtins.mapAttrs (name: spec: mkSimpleGitHubUpdater spec) { 
   });
 
