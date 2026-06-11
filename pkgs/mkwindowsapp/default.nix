@@ -15,7 +15,6 @@
 , persistRegistry ? false # Disabled by default because it hurts reproduceability.
 , persistRuntimeLayer ? false
 , enableVulkan ? false # Determines the DirectX rendering backend. Defaults to opengl.
-, dxvkOptions ? { } # Determines the DXVK installation options when using `enableVulkan`. See `dxvkDefaultOptions`.
 , rendererOverride ? null # Can be wine-opengl, wine-vulkan, or dxvk-vulkan. Used to override renderer selection. Avoid using.
 , enableHUD ? false # When enabled, use $MANGOHUD as the mangohud command.
 
@@ -75,19 +74,28 @@ let
     setWineRenderer = value: ''
       $WINE reg add 'HKCU\Software\Wine\Direct3D' /v renderer /d "${value}" /f
     '';
-
-    dxvkDefaultOptions = {
-      enableDXGI = true;
-      enableD3D10 = false;
-    };
-
-    dxvkAppliedOptions = dxvkDefaultOptions // dxvkOptions;
   in {
     wine-opengl = setWineRenderer "gl";
     wine-vulkan = setWineRenderer "vulkan";
-    dxvk-vulkan = ''
-      ${setWineRenderer "gl"}
-      ${dxvk}/bin/setup_dxvk.sh install --symlink ${lib.optionalString (!dxvkAppliedOptions.enableDXGI) "--without-dxgi"} ${lib.optionalString dxvkAppliedOptions.enableD3D10 "--with-d3d10"}
+    dxvk-vulkan = '' 
+        ${setWineRenderer "gl"}
+        ${lib.optionalString (wineArch == "win64") ''
+          cp -f ${dxvk.bin}/x64/*.dll $WINEPREFIX/drive_c/windows/system32/
+        ''}
+
+        ${lib.optionalString (wineArch == "win32") ''
+          cp -f ${dxvk.bin}/x32/*.dll $WINEPREFIX/drive_c/windows/system32/
+        ''}
+
+        if [ -d $WINEPREFIX/drive_c/windows/syswow64 ]; then
+          cp -f ${dxvk.bin}/x32/*.dll $WINEPREFIX/drive_c/windows/syswow64/
+        fi
+
+        $WINE reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" /v d3d8 /d "native" /f
+        $WINE reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" /v d3d9 /d "native" /f
+        $WINE reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" /v d3d10core /d "native" /f
+        $WINE reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" /v d3d11 /d "native" /f
+        $WINE reg add "HKEY_CURRENT_USER\Software\Wine\DllOverrides" /v dxgi /d "native" /f
     '';
   }."${renderer}";
 
@@ -220,6 +228,7 @@ let
 
       if [ $WA_RUN_APP -eq 1 ]
       then
+        export DXVK_LOG_PATH="$WINEPREFIX/drive_c/windows/logs"
         ${lib.optionalString enableHUD "export MANGOHUD=\"${hudCommand}\""}
         ${winAppRun}
         ${lib.optionalString inhibitIdle "${systemd}/bin/systemd-inhibit --no-ask-password --what=idle --who=\"${attrs.pname}\" --why=\"To prevent the screen from turning off.\" --mode=block"} wineserver -w
