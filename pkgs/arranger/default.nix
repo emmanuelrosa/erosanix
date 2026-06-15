@@ -7,6 +7,7 @@
 , copyDesktopItems
 , copyDesktopIcons
 , zenity
+, enableVulkan ? false
 , graphicsDriver ? "prefer-wayland"
 , gameDir ? "$HOME/Games/Arranger"
 }:
@@ -14,7 +15,7 @@ let
   wineGameDir = "drive_c/Arranger";
   exePath = "$WINEPREFIX/${wineGameDir}/Arranger.exe";
 in mkWindowsAppNoCC rec {
-  inherit wine graphicsDriver;
+  inherit wine graphicsDriver enableVulkan;
 
   pname = "arranger";
   version = "unknown";
