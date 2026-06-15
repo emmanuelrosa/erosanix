@@ -71,7 +71,7 @@ in mkWindowsAppNoCC rec {
     name = pname;
     src = fetchurl {
         url = "https://images.squarespace-cdn.com/content/v1/636c8fa7494598562ca355af/037b6a66-82c7-4aec-9d1a-cc65a61a485c/favicon.ico?format=100w";
-        sha256 = "sha256-DNohc4S/u3gMz1swZ1cAEvHMUqDtyJJpYv5jceUL7bY=";
+        sha256 = "sha256-sv+deUVlCjWosBzPaBEAkQ+Bm53qhTcXzpe+t2j0LXE=";
     };
   };
 
