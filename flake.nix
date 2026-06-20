@@ -412,6 +412,11 @@
           wine = pkgs.wine64Packages.base; 
         };
 
+        robobeat = callPackage ./pkgs/robobeat/default.nix {
+          inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
+          wine = pkgs.wine64Packages.base; 
+        };
+
         tiny_audio_player = callPackage ./pkgs/tiny_audio_player { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
