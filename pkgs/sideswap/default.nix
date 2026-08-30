@@ -14,12 +14,12 @@
 , squashfsTools
 }: stdenv.mkDerivation rec {
   pname = "sideswap";
-  version = "1.9.0"; #:version:#
+  version = "1.9.1"; #:version:#
   appImageName = "SideSwap.AppImage";
 
   src = fetchurl {
     url = "https://github.com/sideswap-io/sideswapclient/releases/download/v${version}/${appImageName}";
-    sha256 = "1ffbs159jwgldrrivp7iqjq6jrnp2qan829hz2zyb2cijlga42q8"; #:hash:
+    sha256 = "109qidzqx7a5rdxikwxjf6l850n90yd1i76r35gi8p0pcyslb6l4"; #:hash:
 
     nativeBuildInputs = [ gnupg ];
     downloadToTemp = true;
