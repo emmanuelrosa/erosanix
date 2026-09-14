@@ -428,6 +428,7 @@
         };
 
         tiny_audio_player = callPackage ./pkgs/tiny_audio_player { };
+        peridot = callPackage ./pkgs/peridot { };
     } // (builtins.mapAttrs (name: pkg: callPackage pkg { }) (import ./cross-platform-pkgs.nix));
 
     packages.aarch64-linux = let
