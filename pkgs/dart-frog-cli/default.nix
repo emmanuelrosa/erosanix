@@ -2,18 +2,18 @@
 , fetchFromGitHub
 , buildDartApplication
 , dart
-}: buildDartApplication rec {
+}: buildDartApplication (finalAttrs: {
   pname = "dart-frog-cli";
-  version = "1.2.11";
+  version = "1.2.14";
 
   src = fetchFromGitHub {
     owner = "dart-frog-dev";
     repo = "dart_frog";
-    rev = "dart_frog_cli-v${version}";
-    hash = "sha256-zQBjk7q874KP9nPS+E6M3tGlyjot/6Nwiol1h5TViU8=";
+    rev = "dart_frog_cli-v${finalAttrs.version}";
+    hash = "sha256-B5ET/SwQzYw251Ox/RyuLM27+M//xTehke9JJSD7Gf8=";
   };
 
-  sourceRoot = "${src.name}/packages/dart_frog_cli";
+  sourceRoot = "${finalAttrs.src.name}/packages/dart_frog_cli";
   pubspecLock = lib.importJSON ./pubspec.lock.json;
   extraWrapProgramArgs = "--prefix PATH : ${dart}/bin";
 
@@ -24,5 +24,5 @@
     maintainers = with lib.maintainers; [ emmanuelrosa ];
     license = lib.licenses.mit;
   };
-}
+})
 
