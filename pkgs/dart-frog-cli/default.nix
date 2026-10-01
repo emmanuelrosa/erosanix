@@ -1,9 +1,8 @@
 { lib
 , fetchFromGitHub
 , buildDartApplication
-, dart
 }: buildDartApplication (finalAttrs: {
-  pname = "dart-frog-cli";
+  pname = "dart_frog_cli";
   version = "1.2.14";
 
   src = fetchFromGitHub {
@@ -15,7 +14,6 @@
 
   sourceRoot = "${finalAttrs.src.name}/packages/dart_frog_cli";
   pubspecLock = lib.importJSON ./pubspec.lock.json;
-  extraWrapProgramArgs = "--prefix PATH : ${dart}/bin";
 
   meta = {
     description = "The official command line interface for Dart Frog, a fast, minimalist backend framework for Dart";
