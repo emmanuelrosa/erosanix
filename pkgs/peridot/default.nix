@@ -7,13 +7,14 @@
 , gtk3
 , xdg-user-dirs
 , libsecret
+, jre_minimal
 }: stdenv.mkDerivation (finalAttrs: {
   pname = "peridot";
-  version = "1.2.0"; #:version:#
+  version = "1.3.0"; #:version:#
 
   src = fetchurl {
-    url = "https://github.com/nogringo/peridot/releases/download/v${finalAttrs.version}/peridot-${finalAttrs.version}-linux.deb";
-    hash = "sha256-N7guQyBlmvDOBxakwIPOLV2tQi5Heo2+XPzLn9r/OTY="; #:hash:#
+    url = "https://github.com/nogringo/peridot/releases/download/v${finalAttrs.version}/peridot-${finalAttrs.version}-linux-x64.deb";
+    hash = "sha256-ku4WqvzSeo84Q6xtkx2VlLONA5BgTZ/z1G7FEaGm0a4="; #:hash:#
   };
 
   unpackPhase = ''
@@ -27,21 +28,25 @@
     libsecret
   ];
 
+  autoPatchelfLibs = [
+    "${jre_minimal}/lib/server/"
+  ];
+
   installPhase = ''
     runHook preInstall
 
     mkdir -p $out/bin
     mkdir -p $out/share
-    mkdir -p $out/lib/peridot
+    mkdir -p $out/opt/peridot
 
-    cp -r usr/local/peridot/. $out/lib/peridot/
+    cp -r opt/peridot/. $out/opt/peridot/
     cp -r usr/share/. $out/share/
-    ln -s $out/lib/peridot/peridot $out/bin/peridot
+    ln -s $out/opt/peridot/peridot $out/bin/peridot
 
-    patchelf --add-rpath $out/lib/peridot/lib $out/lib/peridot/peridot
-    wrapProgram $out/lib/peridot/peridot --prefix PATH : ${lib.makeBinPath [ xdg-user-dirs ]}
-    substituteInPlace $out/share/applications/peridot.desktop \
-      --replace-fail "Exec=/usr/local/peridot/peridot" "Exec=peridot"
+    patchelf --add-rpath $out/opt/peridot/lib $out/opt/peridot/peridot
+    wrapProgram $out/opt/peridot/peridot \
+      --prefix PATH : ${lib.makeBinPath [ xdg-user-dirs ]} \
+      --set LD_LIBRARY_PATH $out/opt/peridot/lib
 
     runHook postInstall
   '';
