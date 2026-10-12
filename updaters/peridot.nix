@@ -11,5 +11,5 @@ libupdate.mkUpdateScript {
     versionConverter = "${pkgs.gnused}/bin/sed 's/v//'";
   };
 
-  getRemoteHash = libupdate.prefetchUrl "https://github.com/nogringo/peridot/releases/download/v$version/peridot-$version-linux.deb";
+  getRemoteHash = libupdate.prefetchUrl "https://github.com/nogringo/peridot/releases/download/v$version/peridot-$version-linux-x64.deb";
 }
