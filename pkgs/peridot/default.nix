@@ -10,11 +10,11 @@
 , jre_minimal
 }: stdenv.mkDerivation (finalAttrs: {
   pname = "peridot";
-  version = "1.4.0"; #:version:#
+  version = "1.5.0"; #:version:#
 
   src = fetchurl {
     url = "https://github.com/nogringo/peridot/releases/download/v${finalAttrs.version}/peridot-${finalAttrs.version}-linux-x64.deb";
-    sha256 = "0mr5l0aybczmvpsvyjijgxrbfs17fllln78ry0v0b8jgb11d8rky"; #:hash:#
+    sha256 = "1lbwh5kcc7ikvzhb65nl5afhcnr9q411arzpik0jlz1abwz6hf4f"; #:hash:#
   };
 
   unpackPhase = ''
