@@ -227,7 +227,7 @@ in {
           output.add("")
           output.add(message.body)
           var content = output.join("\n")
-          writeFile("${cfg.spoolDir}/" & filename, content)
+          writeFile("${cfg.spoolDir}/new/" & filename, content)
       '';
     in {
       owner = cfg.user;
