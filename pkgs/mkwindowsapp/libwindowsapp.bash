@@ -149,7 +149,7 @@ wa_remove_bottle () {
 
     if [ "$type" = "overlay" ]
     then
-      fusermount -u $wineprefix
+      fusermount3 -u $wineprefix
       rm -fR "$bottle_dir"
     else
       rm -fR "$bottle_dir"
