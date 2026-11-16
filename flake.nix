@@ -233,12 +233,6 @@
           ];
         };
 
-        dart_frog_cli = callPackage ./pkgs/dart-frog-cli {
-          buildDartApplication = pkgs.buildDartApplication.override {
-            dart = self.packages.x86_64-linux.dart-flutter;
-          };
-        };
-
         cassette-beasts = callPackage ./pkgs/cassette-beasts/default.nix {
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.base; 
