@@ -503,7 +503,6 @@
     nixosModules.fzf = import ./modules/fzf.nix;
     nixosModules.mkwindowsapp-gc = import ./modules/mkwindowsapp-gc.nix;
     nixosModules.sendtome = import ./modules/sendtome.nix;
-    nixosModules.onlyoffice = import ./modules/onlyoffice.nix;
     nixosModules.udiskie = import ./modules/udiskie.nix;
     nixosModules.swaynotificationcenter = import ./modules/swaync.nix;
 
