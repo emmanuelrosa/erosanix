@@ -177,10 +177,6 @@
           zenity = pkgs.zenity;
         };
 
-        gossip = pkgs.lib.trivial.warn "gossip will be removed from erosanix. Use the package from Nixpkgs instead." (pkgs.callPackage ./pkgs/gossip/default.nix { 
-          inherit (lib) makeDesktopIcon copyDesktopIcons;
-        });
-
         horizon-chase-turbo = callPackage ./pkgs/horizon-chase-turbo/default.nix {
           inherit (lib) mkWindowsAppNoCC makeDesktopIcon copyDesktopIcons;
           wine = pkgs.wine64Packages.stableFull; 

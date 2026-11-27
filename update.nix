@@ -150,7 +150,6 @@ let
     trace-font = ./updaters/trace-font.nix;
     foobar2000 = ./updaters/foobar2000.nix;
     line = ./updaters/line.nix;
-    gossip = ./updaters/gossip.nix;
     sideswap = ./updaters/sideswap.nix;
     apidash = ./updaters/apidash.nix;
     tiny_audio_player = ./updaters/tiny_audio_player.nix;
